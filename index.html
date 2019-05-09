@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<!--entry point of application
+Authors: Whole Elephant Team-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MultiElement Desktop Scheduler</title>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+<link rel='stylesheet'
+	    href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css' />
+<style>
+	.fc-time-grid .fc-slats td{height:5.5em;border-bottom:0}
+</style>
+
+
+<link rel='stylesheet'
+	    href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar-scheduler/1.9.4/scheduler.min.css' />
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://momentjs.com/downloads/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar-scheduler/1.9.4/scheduler.min.js'></script>
+<script src="index.js"></script>
+<script src="docCookies.js"></script>
+<script>
+	$(document).ready(BuildCalendar());
+</script>
+
+
+</head>
+
+
+
+<body>
+	<div class="header">MultiElement Desktop Scheduler</div>
+  
+	<div class="topnav">
+		<ul><li><a onclick="checkForAdmin();">Admin</a></li> 
+      <li><a onclick="logout()">Logout</a></li></ul>
+	</div>
+  
+  
+	<div class="row">
+		<div class="column_entry">
+			<form>   
+				<div id="welcome"></div>
+        <br>
+				<br> Currently Displayed Schedule: <hidden type="text" id="demo" name="demo" disabled> </hidden>
+        <input type="text" id="currDesktop" disabled></input>
+				<br>
+				<br>
+
+				<br> Build:
+        
+        <select id="Build" name="Builds"
+                onchange="populateDropdown(this.value);"
+                >
+        </select>
+        
+        <br> Desktop:
+        
+        <select id="Desktop" name="Desktop"> 
+
+        </select>
+        
+        <br>
+        <br>
+        
+				<button id="changeDesktop" type = "button" onclick =  "setDesktop(); submitFunction();">Change Displayed Schedule </button>
+				<br> <br> <br> <br> <br> 
+			</form>
+			<div class="rel">
+				    <form method = 'post'>
+					      Selected Time Slot Information:
+					      Date: 
+					      <input type="text" id="date" name="date">	
+					      <br> 
+					      Time: 
+					      <input type="text" id="time" name="time" >
+					      <br>
+					      Desktop:
+					      <input type="text" id="desktopForm" name="desktop">
+                <hidden id="desktop"> </hidden>
+					      <br>
+					      Reserved By:
+					      <input type="text" id="reservedBy" name="reservedBy"> 
+					      
+					      <br>
+					      
+					      <input type="hidden" id="user" name="user" value="">
+					      <button type="button" name="request"
+                        id="request"
+                        onclick="requestSlot();">
+                  Request
+                </button>
+					      <button type="button" name="release" id="release" onclick="releaseSlot();">Release</button>
+			      </form>
+			</div>
+			
+		</div>
+		
+		<div class="column_content" id='calendar'></div>
+    
+	</div>
+
+	<div class="footer">
+		<p>Team Elephants - Project Koala Saltarin 2019</p>
+    
+    <script language="javascript">
+
+      var username = docCookies.getItem("username");
+      var password = docCookies.getItem("password");
+      
+      function logout(){
+          docCookies.removeItem("username");
+          docCookies.removeItem("password");
+          window.location.href = "login.html";
+      }
+              
+      populateDropdowns(username, password); 
+      retrieveUser(username, password);
+
+    </script>
+    
+</body>
+</html>

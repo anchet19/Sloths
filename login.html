@@ -1,0 +1,54 @@
+<!DOCTYPE html5>
+<!-- HTML form for how the login is setup. 
+Authors:Eric DeAngelis, David Serrano (serranod7). -->
+
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta chartset="utf-8">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="login.css">
+    <script src = "docCookies.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <form class="box">
+      <h1>Scheduler Login</h1>
+      Username:  <input id="username" type="text" name="user" value="" placeholder="Username">
+      <br>
+      Password: <input id="password" type="password" name="password" value="" placeholder="password">
+      <br>
+      <input type="button" onclick="check(this.form)" name="submit" id="submit" value="Submit">
+      <br>
+      <a href="changepwd.php" style="color:red">Change Password </a>
+      <div id="message"></div>
+    </form>
+    
+  </body>
+  
+  <script language="javascript">
+    function check(form)/*function to check userid & password*/
+    {
+        fetch("api/validate_user.php",{
+            method: "POST",
+            headers: {
+                "Content-Type":"application/x-www-form-urlencoded",
+            },
+            body: $.param({
+                "username":document.getElementById("username").value,
+                "password":document.getElementById("password").value
+            })
+        }).then(function(response){
+            response.json().then(function(data){
+                if(data.validation == true){
+                    docCookies.setItem("username", form.user.value);
+                    docCookies.setItem("password", form.password.value);
+                    window.location.href = "index.html";
+                }else{
+                    document.getElementById("message").innerHTML = "Login attempt failed. Username or Password is incorrect";
+                }
+            })
+        });
+    }
+  </script>
+</html>
