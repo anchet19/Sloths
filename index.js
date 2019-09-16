@@ -204,7 +204,7 @@ function requestSlot() {
     //the selected timeslot is not reserved
     else {
 
-        console.log("The selected timeslot is not reserved."); //Koala
+        console.log("The selected timeslot is available...."); //Koala
 
         //takes the selected date in YYYY-MM-DD format and converts it to the format needed for the Date class
 
@@ -237,7 +237,7 @@ function requestSlot() {
             },
             success: function(result) {
                     var num = result;
-                    console.log("The user has not reached their max reservations for the week"); //Koala
+                    console.log("limitReservations.php -- success!!"); //Koala
 
                     //if limitReservations.php echoes 1, then the user has not reached their max reservations for the week
                     //request.php will be executed and the reservation will be inserted into the reservation table
@@ -256,6 +256,13 @@ function requestSlot() {
                             success: function(result) {
                                 alert(result);
                                 $('#calendar').fullCalendar("refetchEvents");
+                                console.log("request.php -- success!!"); //Koala
+                            },
+                            error: function(result) {
+                                console.log(result); //Koala
+                            },
+                            failure: function(result) {
+                                console.log(result);
                             }
                         });
                     }
@@ -320,6 +327,13 @@ function releaseSlot() {
             success: function(result) {
                 alert(result);
                 $("#calendar").fullCalendar("refetchEvents");
+                console.log("release.php -- success!!" + result); //Koala
+            },
+            error: function(result) {
+                console.log(result); //Koala
+            },
+            failure: function(result) {
+                console.log(result);
             }
         });
     }
@@ -460,8 +474,9 @@ function BuildCalendar() {
             events: {
                 url: 'api/get_reservations.php',
                 type: 'GET',
-                success: function(date) {
-                    console.log('success');
+                success: function(data) {
+                    console.log('reservations.php - success!! ' + data);
+                    $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function(data) {
                     console.log(data);
@@ -470,9 +485,9 @@ function BuildCalendar() {
                     console.log(data);
                 }
             },
-            //minTime: "06:00:00",
-            //maxTime: "24:00:00",
-            //firstHour: "06:00:00",
+            minTime: "06:00:00",
+            maxTime: "24:00:00",
+            firstHour: "06:00:00",
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             timezone: 'local',
             defaultView: 'agendaWeek',
@@ -518,7 +533,6 @@ function BuildCalendar() {
                 if (check == false) {
                     $('#calendar').fullCalendar('unselect');
                 }
-
             },
 
             eventClick: function(event, element) {
