@@ -79,7 +79,7 @@ catch(Exception $e)
             New Password:
             <input type="password" name="new_password">
             <br><br>
-            Confirm Password:
+            Confirm New Password:
             <input type="password" name="confirm_pwd">
             <br><br>
             <input type="submit" name="submit" value="Submit">
