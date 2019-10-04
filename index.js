@@ -11,6 +11,7 @@ var installationData = {};
 var userData = {};
 
 
+
 function redisplay() {
     $('#calendar').fullCalendar('rerenderEvents');
 }
@@ -184,99 +185,99 @@ function requestSlot() {
     //if the current user is the user that has the timeslot reserved, they will be alerted and will not be able to request the 
     //timeslot again
 
-    if (userData.user_num == user) {
-        $("#dialog-confirm").dialog("close"); // Koala
-        alert("You already have desktop " + desktop + " reserved at " + time + " on " + date + ".");
-    }
+    // if (userData.user_num == user) {
+    //     $("#dialog-confirm").dialog("close"); // Koala
+    //     alert("You already have desktop " + desktop + " reserved at " + time + " on " + date + ".");
+    // }
 
 
     //if user != "", then someone already has the timeslot reserved and the current user can choose to join the queue
-    else if (user != "") {
-        var check = confirm(reservedBy + " has desktop " + desktop + " reserved at " + time + " on " +
-            date + ". Would you like to join the queue?");
+    // else if (user != "") {
+    //     var check = confirm(reservedBy + " has desktop " + desktop + " reserved at " + time + " on " +
+    //         date + ". Would you like to join the queue?");
 
-        if (check == true) {
+    //     if (check == true) {
             joinQueue(userData.user_num, time, date, desktop);
-        }
-    }
+    //     }
+    // }
 
 
     //the selected timeslot is not reserved
-    else {
+    // else {
 
-        console.log("The selected timeslot is available...."); //Koala
+        // console.log("The selected timeslot is available...."); //Koala
 
         //takes the selected date in YYYY-MM-DD format and converts it to the format needed for the Date class
 
-        var selectedDate = moment(date, 'YYYY-MM-DD');
-        var select = new Date(selectedDate.format());
+        // var selectedDate = moment(date, 'YYYY-MM-DD');
+        // var select = new Date(selectedDate.format());
 
 
-        //gets the date for the Monday before and the Sunday after the selected date
+        // //gets the date for the Monday before and the Sunday after the selected date
 
-        var mon = getMondayOfCurrentWeek(select);
-        var sun = getSundayOfCurrentWeek(select);
-
-
-        //puts mon and sun dates into YYYY-MM-DD format
-
-        var formatMon = mon.toISOString().slice(0, 10);
-        var formatSun = sun.toISOString().slice(0, 10);
-
-        //checks to the see if the current user already have 3 reservations for the week in which they are requesting
-        //CYCLE IS MONDAY-SUNDAY
-
-        $.ajax({
-            type: 'post',
-            url: 'limitReservations.php',
-            data: {
-                user: userData.user_num,
-                date: date,
-                formatMon: formatMon,
-                formatSun: formatSun
-            },
-            success: function(result) {
-                    var num = result;
-                    console.log("limitReservations.php -- success!!"); //Koala
-
-                    //if limitReservations.php echoes 1, then the user has not reached their max reservations for the week
-                    //request.php will be executed and the reservation will be inserted into the reservation table
-
-                    if (num == 1) {
-                        $.ajax({
-                            type: 'post',
-                            url: 'request.php',
-                            data: {
-                                user: user,
-                                date: date,
-                                time: time,
-                                curr: userData.user_num,
-                                desktop: desktop
-                            },
-                            success: function(result) {
-                                alert(result);
-                                $('#calendar').fullCalendar("refetchEvents");
-                                console.log("request.php -- success!!"); //Koala
-                            },
-                            error: function(result) {
-                                console.log(result); //Koala
-                            },
-                            failure: function(result) {
-                                console.log(result);
-                            }
-                        });
-                    }
+        // var mon = getMondayOfCurrentWeek(select);
+        // var sun = getSundayOfCurrentWeek(select);
 
 
-                    //if limitReservations.php does not echo 1, then the user has reached their max reservations for the week
-                    //they will not be permitted to request more timeslots until they release one they currently have
-                    else {
-                        $("#dialog-confirm").dialog("close"); // Koala
-                        alert("You already have 3 timeslots reserved between " + formatMon + " and " + formatSun);
-                    }
-                } // end of success() function
-        });
-    } // end of else...selected timeslot is not reserved
+        // //puts mon and sun dates into YYYY-MM-DD format
+
+        // var formatMon = mon.toISOString().slice(0, 10);
+        // var formatSun = sun.toISOString().slice(0, 10);
+
+        // //checks to the see if the current user already have 3 reservations for the week in which they are requesting
+        // //CYCLE IS MONDAY-SUNDAY
+
+        // $.ajax({
+        //     type: 'post',
+        //     url: 'limitReservations.php',
+        //     data: {
+        //         user: userData.user_num,
+        //         date: date,
+        //         formatMon: formatMon,
+        //         formatSun: formatSun
+        //     },
+        //     success: function(result) {
+        //             var num = result;
+        //             console.log("limitReservations.php -- success!!"); //Koala
+
+        //             //if limitReservations.php echoes 1, then the user has not reached their max reservations for the week
+        //             //request.php will be executed and the reservation will be inserted into the reservation table
+
+        //             if (num == 1) {
+        //                 $.ajax({
+        //                     type: 'post',
+        //                     url: 'request.php',
+        //                     data: {
+        //                         user: user,
+        //                         date: date,
+        //                         time: time,
+        //                         curr: userData.user_num,
+        //                         desktop: desktop
+        //                     },
+        //                     success: function(result) {
+        //                         alert(result);
+        //                         $('#calendar').fullCalendar("refetchEvents");
+        //                         console.log("request.php -- success!!"); //Koala
+        //                     },
+        //                     error: function(result) {
+        //                         console.log(result); //Koala
+        //                     },
+        //                     failure: function(result) {
+        //                         console.log(result);
+        //                     }
+        //                 });
+        //             }
+
+
+        //             //if limitReservations.php does not echo 1, then the user has reached their max reservations for the week
+        //             //they will not be permitted to request more timeslots until they release one they currently have
+        //             else {
+        //                 $("#dialog-confirm").dialog("close"); // Koala
+        //                 alert("You already have 3 timeslots reserved between " + formatMon + " and " + formatSun);
+        //             }
+        //         } // end of success() function
+        // });
+    // } // end of else...selected timeslot is not reserved
 } // end of requestSlot
 
 
@@ -352,7 +353,7 @@ function submitFunction() {
     if (x != "") {
         submitted = 1;
     }
-    $('#calendar').fullCalendar('rerenderEvents');
+    redisplay();
 }
 
 
@@ -472,10 +473,10 @@ function BuildCalendar() {
 
         $('#calendar').fullCalendar({
             events: {
-                url: 'api/get_reservations.php',
+                url: 'api/get_requests.php',
                 type: 'GET',
                 success: function(data) {
-                    console.log('reservations.php - success!! ' + data);
+                    console.log('requests.php - success!! ' + data);
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function(data) {
@@ -507,7 +508,7 @@ function BuildCalendar() {
             header: {
                 left: 'prev,next,today',
                 center: 'title',
-                right: 'month,agendaWeek'
+                right: 'month,agendaWeek,agendaDay'
             },
 
             defaultDate: getTodaysDate(),
@@ -516,7 +517,7 @@ function BuildCalendar() {
                 var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
 
                 if (duration.asHours() > 3) {
-                    $('#calender').fullCalendar('unselect');
+                    $('#calendar').fullCalendar('unselect');
                     return false;
                 }
                 return true;
@@ -565,13 +566,15 @@ function BuildCalendar() {
 
                 setStartEndTime(event.start, event.end);
             },
-            eventRender: function(event, element) {
-                desktop = document.getElementById('demo').value;
-                if (desktop == '' || desktop == event.id) {
-                    return element;
-                }
-                return false;
-            },
+          eventRender: function (event, element) {
+            desktop = document.getElementById('demo').value;
+            console.log(desktop);
+            if (desktop == '' || desktop == event.id) {
+
+              return element;
+            }
+            return false;
+          },
         });
 
     });
