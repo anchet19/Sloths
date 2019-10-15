@@ -10,10 +10,8 @@ var time;
 var installationData = {};
 var userData = {};
 
-
-
 function redisplay() {
-    $('#calendar').fullCalendar('rerenderEvents');
+    $('#calendar').fullCalendar('refetchEvents');
 }
 
 //checks to see if a desktop has been selected in the dropdown form on index.html
@@ -108,7 +106,7 @@ function retrieveUser(username, password) {
         response.json().then(function(data) {
             if (data.validation !== false) {
                 welcome = document.getElementById("welcome");
-                welcome.innerHTML = "Hello " + data.first_name + "!";
+                // welcome.innerHTML = "Hello " + data.first_name + "!";
                 userData = data;
             } else {
                 window.location.href = "login.html";
@@ -170,6 +168,22 @@ function setDesktop() {
     $("#calendar").fullCalendar("rerenderEvents");
 }
 
+
+
+
+//if a user selects a timeslot and clicks the Request button, this function will execute
+//author: Cassandra Bailey
+
+function requestSlot() {
+    var time = $('#time').val();
+    var date = $('#date').val();
+    var desktop = $('#desktop').val();
+    
+    joinQueue(userData.user_num, time, date, desktop);
+
+} // end of requestSlot
+
+
 function requestSlot() { //if a user selects a timeslot and clicks the Request button, this function will execute
   var user = $('#user').val();
   var time = $('#time').val();
@@ -178,6 +192,7 @@ function requestSlot() { //if a user selects a timeslot and clicks the Request b
   var reservedBy = $('#reservedBy').val();
   joinQueue(userData.user_num, time, date, desktop);
 }
+
 
 //code from http://lifelongprogrammer.blogspot.com/2014/06/js-get-first-last-day-of-current-week-month.html
 
@@ -211,8 +226,8 @@ function releaseSlot() {
         alert("You cannot release a timeslot which you don't have reserved.");
     }
 
-    //if the current user has the timeslot reserved, release.php will be executed and the reservation will be removed from
-    //the reservation table in the database
+    //if the current user has the timeslot requested, release.php will be executed and the request
+    // will be removed from the queue table in the database
     else {
         $.ajax({
             type: 'post',
@@ -326,9 +341,12 @@ function getTodaysDate() {
     today = yyyy + '-' + mm + '-' + dd;
 
     return today;
-}
+};
 
-
+function getRelativeEndpoint() {
+  return $('#calendar').fullCalendar('getDate') < $('#calendar').fullCalendar.view.activeStart 
+    ? 'api/get_reservations.php' : 'api/get_requests';
+};
 
 
 
@@ -336,6 +354,8 @@ function BuildCalendar() {
 
     $(document).ready(function() {
 
+        // Tooltip for event hover
+        
         //BEGIN : Koala modifications
         $("#dialog-confirm").dialog({
             resizable: false,
@@ -368,111 +388,155 @@ function BuildCalendar() {
         //END : Koala modifications
 
 
-
         $('#calendar').fullCalendar({
-            events: {
-                url: 'api/get_requests.php',
-                type: 'GET',
-                success: function(data) {
-                    console.log('requests.php - success!! ' + data);
-                    $('#calendar').fullCalendar('rerenderEvents');
-                },
-                error: function(data) {
-                    console.log(data);
-                },
-                failure: function(data) {
-                    console.log(data);
-                }
+          eventSources: [{
+            url: 'api/get_requests',
+            type: 'GET',
+
+            success: function(data) {
+                console.log('requests.php - success!! ' + data);
+                $('#calendar').fullCalendar('rerenderEvents');
             },
-            minTime: "06:00:00",
-            maxTime: "24:00:00",
-            firstHour: "06:00:00",
-            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-            timezone: 'local',
-            defaultView: 'agendaWeek',
-            //aspectRatio: 1.8,
-            resourceGroupField: 'desktop',
-            navLinks: true, // can click day/week names to navigate views
-            unselectAuto: false,
-            selectable: true,
-            selectHelper: true,
-            editable: true,
-            eventLimit: true, // allow "more" link when too many events
-            allDaySlot: false,
-            slotDuration: "03:00:00",
-            contentHeight: 'auto',
-            eventDurationEditable: false, //prevents event from being resize
-
-            header: {
-                left: 'prev,next,today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+            error: function(data) {
+                console.log(data);
             },
-
-            defaultDate: getTodaysDate(),
-
-            selectAllow: function(selectInfo) {
-                var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
-
-                if (duration.asHours() > 3) {
-                    $('#calendar').fullCalendar('unselect');
-                    return false;
-                }
-                return true;
+            failure: function(data) {
+                console.log(data);
+            }
+          },
+          {
+            url: 'api/get_reservations',
+            type: 'GET',
+            color: 'gold',
+            textColor: 'black',
+            className: ["reservation"],
+            success: function (data) {
+              console.log('requests.php - success!! ' + data);
+              $('#calendar').fullCalendar('rerenderEvents');
             },
-
-            unselect: function(event) {
-                console.log(event);
+            error: function (data) {
+              console.log(data);
             },
+            failure: function (data) {
+              console.log(data);
+            }
+          }],
+          minTime: "06:00:00",
+          maxTime: "24:00:00",
+          firstHour: "06:00:00",
+          schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+          timezone: 'local',
+          defaultView: 'agendaWeek',
+          //aspectRatio: 1.8,
+          resourceGroupField: 'desktop',
+          navLinks: true, // can click day/week names to navigate views
+          unselectAuto: false,
+          selectable: true,
+          selectHelper: true,
+          editable: false,
+          eventLimit: true, // allow "more" link when too many events
+          allDaySlot: false,
+          slotDuration: "03:00:00",
+          contentHeight: 'auto',
+          eventDurationEditable: false, //prevents event from being resize
+          agendaEventMinHeight: "10px",
+          firstDay: 1,
+          // validRange: () => {
+          // Limits Calendar view to only see through the following week if user is not an admin
+          //   if(userData.admin != 1)
+          //     return {
+          //       end: moment().endOf('week').add(8, 'days').format("YYYY-MM-DD")
+          //     }
+          //   return null
+          // },
+          header: {
+              left: 'prev,next,today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay'
+          },
 
-            select: function(start, end) {
-                end = start + 1.08e+7; // enforces the 3hr blocks. (milliseconds)
-                $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-                var check = checkForInfoDisplay(start, end);
-                if (check == false) {
-                    $('#calendar').fullCalendar('unselect');
-                }
-            },
+          defaultDate: getTodaysDate(),
 
-            eventClick: function(event, element) {
+          selectAllow: function(selectInfo) {
+              var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
 
-                //BEGIN : Koala modifications 
-                $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-                $('#calendar').fullCalendar('updateEvent', event);
-                //END : Koala modifications
+              if (duration.asHours() > 3) {
+                  $('#calendar').fullCalendar('unselect');
+                  return false;
+              }
+              return true;
+          },
 
-                document.getElementById('reservedBy').value = event.name;
-                document.getElementById('date').value = event.date;
-                document.getElementById('time').value = event.time;
-                document.getElementById('desktop').value = event.id;
+          unselect: function(event) {
+              // console.log(event);
+          },
 
-                installationData.forEach(function(row) {
-                    if (row.dtopID == event.id) {
+          select: function(start, end, _, view ) {
+            const startOfNextWeek = moment().startOf('week').add(7,'days');
+            const endOfNextWeek = moment().endOf('week').add(8, 'days');
+            const activeStart = moment(view.start);
+            const activeEnd = moment(view.end);
+            console.log(activeStart.toDate() + "----" + startOfNextWeek.toDate() + "\n" + activeEnd.toDate() +"----" + endOfNextWeek.toDate());
 
-                        document.getElementById("desktopForm").value = row.dtopName;
-                    }
-                });
-                document.getElementById('user').value = event.user;
-                $('#calendar').fullCalendar('updateEvent', event);
-            },
+            if (userData.admin == 1 || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
+              end = start + 1.08e+7; // enforces the 3hr blocks. (milliseconds)
+              $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+              var check = checkForInfoDisplay(start, end);
+              if (check == false) {
+                  $('#calendar').fullCalendar('unselect');
+              }
+           }
+          },
 
-            eventOverlap: function(stillEvent, movingEvent) {
-                return stillEvent.allDay && movingEvent.allDay;
-            },
+          eventClick: function(event, element) {
+              //BEGIN : Koala modifications 
+              $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+              // $('#calendar').fullCalendar('updateEvent', event);
+              //END : Koala modifications
 
-            eventDrop: function(event, delta, revertFunc) {
+              document.getElementById('reservedBy').value = event.name;
+              document.getElementById('date').value = event.date;
+              document.getElementById('time').value = event.time;
+              document.getElementById('desktop').value = event.id;
+            // const names = event.names.split(',');
+            console.log(event.usernames.includes(userData.username));                        //Debuging 
+            console.log(event.className[0]);
+              installationData.forEach(function(row) {
+                  if (row.dtopID == event.id) {
 
-                setStartEndTime(event.start, event.end);
-            },
+                      document.getElementById("desktopForm").value = row.dtopName;
+                  }
+              });
+              document.getElementById('user').value = event.user;
+              $('#calendar').fullCalendar('updateEvent', event);
+          },
+
+          eventOverlap: function(stillEvent, movingEvent) {
+              return stillEvent.allDay && movingEvent.allDay;
+          },
+
+          eventDrop: function(event, delta, revertFunc) {
+              setStartEndTime(event.start, event.end);
+          },
           eventRender: function (event, element) {
             desktop = document.getElementById('demo').value;
-            console.log(desktop);
+            // Only render events relative to the current desktop view filter
             if (desktop == '' || desktop == event.id) {
-
-              return element;
+              // TO-DO: POPUP ON EVENT HOVER 
+              element.css("font-size", "1.2em");
+              return element
             }
             return false;
           },
+          // eventAfterRender: function(event, element, view) {
+          //   const color = event.usernames.includes(userData.username) ? "blue" : "yellow";
+          //   element.css("background-color", color)
+          // },
+
+          eventMouseEnter: ({event, el}) => {
+
+            // el.tooltop({boundary: 'window', title: event.className + ' info:', })
+          }
         });
 
     });

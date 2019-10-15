@@ -3,545 +3,692 @@
  clicked
 authors: David Serrano(serranod7), William Geary
 -->
-<html>  
-  <head>
-    <title>Admin Panel </title>
-    <link rel="stylesheet" type="text/css" href="adminPage.css">
-    <script src="docCookies.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="index.js"></script>
-  </head>
-  <style>
-    
-    body{
-      margin-top: 25px;
-   padding:0;
-      font-weight:800;
-      font-family:sans-serif;
+<html>
+
+<head>
+  <title>Admin Panel </title>
+  <script src="docCookies.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="index.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="adminPage.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</head>
+<style>
+  body {
+    margin-top: 25px;
+    padding: 0;
+    font-weight: 800;
+    font-family: sans-serif;
+  }
+
+  form {
+    margin-top: 25px;
+    text-align: center;
+    color: black;
+  }
+</style>
+
+<body>
+
+  <!--specifies a header for the administrator page -->
+  <div class="header" id="header">Administrator Page </div>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link btn" href="index.html">Calendar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn" onclick="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row mt-2">
+      <!--div container for the side menu -->
+      <div class="col-md-3 ">
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header bg-dark" id="headingOne">
+              <h5 class="mb-0"></h5>
+              <button id="menu-button" class="btn btn-sm btn-block" data-toggle="collapse" data-target="#collapseOne"
+                aria-controls="collapseOne">
+                Manage Users
+              </button>
+              </h5>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="card-body center">
+                <a class="dropdown-item " href="viewusers.php">View Users</a>
+                <a class="dropdown-item btn" onclick="makeVisible('insertUser')">Insert User</a>
+                <a class="dropdown-item btn" onclick="makeVisible('updateUser')">Update User</a>
+                <a class="dropdown-item btn" onclick="makeVisible('deleteUser')">Remove User</a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header bg-dark" id="headingTwo">
+              <h5 class="mb-0">
+                <button id="menu-button" class="btn btn-sm btn-block" data-toggle="collapse" data-target="#collapseTwo"
+                  aria-controls="collapseTwo">
+                  Manage Desktops
+                </button>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+              <div class="card-body center">
+                <a class="dropdown-item" href="viewdesktops.php">View Desktops</a>
+                <a class="dropdown-item btn" onclick="makeVisible('insertDesktop')">Insert Desktop</a>
+                <a class="dropdown-item btn" onclick="makeVisible('deleteDesktop')">Delete Desktop</a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header bg-dark" id="headingThree">
+              <h5 class="mb-0">
+                <button id="menu-button" class="btn btn-sm btn-block" data-toggle="collapse"
+                  data-target="#collapseThree" aria-controls="collapseThree">
+                  Manage Builds
+                </button>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+              <div class="card-body center">
+                <a class="dropdown-item" href="viewbuilds.php">View Builds</a>
+                <a class="dropdown-item btn" onclick="makeVisible('insertBuild')">Insert Build</a>
+                <a class="dropdown-item btn" onclick="makeVisible('deleteBuild')">Delete Build</a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header bg-dark" id="headingFour">
+              <h5 class="mb-0">
+                <button id="menu-button" class="btn btn-sm btn-block" data-toggle="collapse" data-target="#collapseFour"
+                  aria-controls="collapseFour">
+                  Manage Installations
+                </button>
+              </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+              <div class="card-body ">
+                <a class="dropdown-item btn" href="viewinstallations.php">View Installations</a>
+                <a class="dropdown-item btn" onclick="makeVisible('insertInstallation')">Insert Installation</a>
+                <a class="dropdown-item btn" onclick="makeVisible('deleteInstallation')">Delete Installation</a>
+
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header bg-dark" id="headingFive">
+              <h5 class="mb-0">
+                <button id="menu-button" class="btn btn-sm btn-block" data-toggle="collapse" data-target="#collapseFive"
+                  aria-controls="collapseFive">
+                  Manage Reservations
+                </button>
+              </h5>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+              <div class="card-body center">
+                <a class="dropdown-item " href="viewreservations.php">View Reservations</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Container for the Form Display-->
+      <div class="col-md-6 offset-md-1 border border-dark">
+        <div id="initialFormView" style="display: block"></div>
+        <!--specifies which Build an admin would like to delete -->
+        <div display="none" id="deleteBuild" style="display: none">
+          <form>
+            Build: <select id="deleteBuildSelect" name="build"></select>
+            <br> <br>
+            <button type="button" onclick="doDeleteBuild(this.form)">Delete Build</button>
+          </form>
+        </div>
+        <!--specifies which User the admin would like to delete  -->
+        <div id="deleteUser" style="display: none">
+          <form>
+            User: <select id="deleteUserSelect" name="user"></select>
+            <br> <br>
+            <button type="button" onclick="doDeleteUser(this.form)">Delete User</button>
+          </form>
+        </div>
+        <!--specifies which desktop the admin would like to delete -->
+        <div id="deleteDesktop" style="display: none">
+          <form>
+            Desktop: <select id="deleteDesktopSelect" name="Desktop"></select>
+            <br> <br>
+            <button type="button" onclick="doDeleteDesktop(this.form)">Delete Desktop</button>
+          </form>
+        </div>
+        <!--specifies which intsallation an admin would like to delete -->
+        <div id="deleteInstallation" style="display: none">
+          <form>
+            Build: <select id="deleteInstallationSelectB" name="build"></select>
+            <br> <br>
+            Desktop: <select id="deleteInstallationSelectD" name="desktop"></select>
+            <br> <br>
+            <button type="button" onclick="doDeleteInstallation(this.form)">Delete Installation</button>
+          </form>
+        </div>
+
+        <div id="insertBuild" style="display: none">
+          <form>
+            Build Name: <input type="text" id="build" name="build"></input>
+            <br> <br>
+            <button type="button" onclick="doInsertBuild(this.form)">Insert Build</button>
+          </form>
+        </div>
+
+        <div id="insertDesktop" style="display: none">
+          <form>
+            Desktop Name: <input type="text" id="desktop" name="desktop"></input>
+            <br> <br>
+            <button type="button" onclick="doInsertDesktop(this.form)">Insert Desktop</button>
+          </form>
+        </div>
+
+        <div id="insertUser" style="display: none">
+          <form>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input class="form-control" type="text" name="username" id="username" />
+            </div>
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input class="form-control type=" text" name="firstName" id="firstName" />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input class="form-control" type="text" name="lastName" id="lastName" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input class="form-control" type="text" name="email" id="email" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input class="form-control" type="password" name="password" id="password" />
+            </div>
+            <div class="form-group">
+              <label for="newAdmin">Admin</label>
+              <select class="form-control" id="newAdmin">
+                <option value="1">Admin</option>
+                <option value="0">Not Admin</option>
+              </select>
+            </div>
+            <button type="button" onclick="doInsertUser(this.form)">Add User</button>
+          </form>
+        </div>
+
+        <div class="col-md-4 col-md-offset-1" id="insertInstallation" style="display: none">
+          <form>
+            <div class="form-group">
+              <label for="insertBuildSelect">Select Build</label>
+              <select id="insertBuildSelect" class="form-control" type="text" name="build">
+                <option selected>Build Select</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="insertDesktopSelect">Select Desktop</label>
+              <select id="insertDesktopSelect" class="form-control" name="desktop">
+                <option selected>Build Select</option>
+              </select>
+            </div>
+            <button class="btn btn-pirmary" type="button" onclick="doInsertInstallation(this.form)">Insert
+              Installation</button>
+          </form>
+
+        </div>
+
+        <div id="updateUser" style="display: none">
+          <form>
+            User: <select id="updateUserSelect"> </select>
+            <br><br>
+            Admin: <select id="oldAdmin">
+              <option value="1">Admin</option>
+              <option value="0">Not Admin</option>
+            </select>
+            <br><br>
+            <button type="button" onclick="doUpdateUser(this.form)">Update User</button>
+            <form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <!-- Put the callback to the schedule function in onClick -->
+        <button type="reset" id="submit-schedule" onclick="createSchedule()" class="btn btn-primary btn-block">Submit Schedule</button>
+      </div>
+    </div>
+  </div>
+  <script language="javascript">
+    var lastVisible = "initialFormView";
+    var username = docCookies.getItem("username");
+    var password = docCookies.getItem("password");
+
+    retrieveUser(username, password);
+
+    // Markups
+    const DeleteBuildMarkup = `
+        <div display="none" id="deleteBuild" style="display: block">
+          <form>
+            Build: <select id="deleteBuildSelect" name="build"></select>
+            <br> <br>
+            <button type="button" onclick="doDeleteBuild(this.form)">Delete Build</button>
+          </form>
+        </div>
+      `
+
+    //changes the visibility state of a form
+
+    function makeVisible(id) {
+      document.getElementById(lastVisible).style.display = "none";
+      document.getElementById(id).style.display = "block";
+      lastVisible = id;
     }
-   
-    form {
-      margin-top: 25px;
-      text-align: center;
-      color: black;
+
+    //fetches and populates all of the dropdowns asyncronhously
+
+    function fetchDropdownValues() {
+      fetch('api/get_builds.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password
+        })
+
+      }).then(function (response) {
+        response.json().then(function (data) {
+          buildSelect = document.getElementById("deleteBuildSelect");
+          buildSelect.innerHTML = '';
+
+          installationSelectB = document.getElementById("deleteInstallationSelectB");
+          installationSelectB.innerHTML = '';
+
+          insertBuildSelect = document.getElementById("insertBuildSelect");
+          insertBuildSelect.innerHTML = '';
+
+
+          let option;
+          data.forEach(function (row) {
+            option = document.createElement('option');
+            option.text = row.name;
+            option.value = row.b_num;
+            buildSelect.add(option);
+
+            option = document.createElement('option');
+            option.text = row.name;
+            option.value = row.b_num;
+            installationSelectB.add(option);
+
+
+            option = document.createElement('option');
+            option.text = row.name;
+            option.value = row.b_num;
+            insertBuildSelect.add(option);
+
+          });
+
+        });
+      });
+      fetch('api/get_desktops.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password
+        })
+
+      }).then(function (response) {
+        response.json().then(function (data) {
+          desktopSelect = document.getElementById("deleteDesktopSelect");
+          desktopSelect.innerHTML = '';
+
+          installationSelectD = document.getElementById("deleteInstallationSelectD");
+          installationSelectD.innerHTML = '';
+
+          insertDesktopSelect = document.getElementById("insertDesktopSelect");
+          insertDesktopSelect.innerHTML = '';
+
+          let option;
+          data.forEach(function (row) {
+            option = document.createElement('option');
+            option.text = row.name;
+            option.value = row.dtop_id;
+            desktopSelect.add(option);
+
+            option = document.createElement('option');
+            option.text = row.name;
+            option.value = row.dtop_id;
+            installationSelectD.add(option);
+
+            option = document.createElement('option');
+            option.text = row.name;
+            option.value = row.dtop_id;
+            insertDesktopSelect.add(option);
+
+
+          });
+
+        });
+      });
+      fetch('api/get_users.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password
+        })
+
+      }).then(function (response) {
+        response.json().then(function (data) {
+          userSelect = document.getElementById("deleteUserSelect");
+          userSelect.innerHTML = '';
+
+          userSelect2 = document.getElementById("updateUserSelect");
+          userSelect2.innerHTML = '';
+
+          let option;
+          data.forEach(function (row) {
+            option = document.createElement('option');
+            option.text = row.username;
+            option.value = row.user_num;
+            userSelect.add(option);
+
+            option = document.createElement('option');
+            option.text = row.username;
+            option.value = row.user_num;
+            userSelect2.add(option);
+          });
+
+        });
+      });
+
     }
-   
-  </style>
-  
-  <body>
-  
-      <!--specifies a header for the administrator page -->
-    <div id="header">
-      <center><h3> Administrator Page </h3></center>
-    </div>
-    <!--div container for the side menu -->        
-    <div id="sidemenu">
-      <ul>
+    fetchDropdownValues();
 
-        <a onclick="makeVisible('deleteBuild')">Delete Build</a> <br> <br>
-        <a onclick="makeVisible('deleteDesktop')">Delete Desktop</a> <br> <br>
-        <a onclick="makeVisible('deleteUser')">Delete User</a> <br> <br>
-        <a onclick="makeVisible('deleteInstallation')">Delete Installation</a> <br> <br>
-        <a onclick="makeVisible('insertBuild')">Insert Build</a> <br> <br>
-        <a onclick="makeVisible('insertDesktop')">Insert Desktop</a> <br> <br>
-        <a onclick="makeVisible('insertInstallation')">Insert Installation</a> <br> <br>
-        <a onclick="makeVisible('insertUser')">Insert User</a> <br> <br>
-        <a onclick="makeVisible('updateUser')">Update User</a> <br> <br>
-        <a href="viewbuilds.php">View Builds</a> <br> <br>
-        <a href="viewdesktops.php">View Desktops</a> <br> <br>
-        <a href="viewinstallations.php">View Installations</a> <br> <br>
-        <a href="viewreservations.php">View Reservations</a> <br> <br>
-        <a href="viewusers.php">View Users</a> <br> <br>
-        
-      </ul>	
-    </div>
-       <!--specifies which Build an admin would like to delete -->
-    <div id="deleteBuild" style="display: block">
-      <form>
-        Build: <select id="deleteBuildSelect" name="build"></select>
-        <br> <br>
-        <button type="button" onclick="doDeleteBuild(this.form)">Delete Build</button>
-      </form>
-    </div>
-       <!--specifies which User the admin would like to delete  -->
-    <div id="deleteUser" style="display: none">
-      <form>
-        User: <select id="deleteUserSelect" name="user"></select>
-        <br> <br>
-        <button type="button" onclick="doDeleteUser(this.form)">Delete User</button>
-      </form>
-    </div>
-       <!--specifies which desktop the admin would like to delete -->
-    <div id="deleteDesktop" style="display: none">
-      <form>
-        Desktop: <select id="deleteDesktopSelect" name="Desktop"></select>
-        <br> <br>
-        <button  type="button" onclick="doDeleteDesktop(this.form)">Delete Desktop</button>
-      </form>
-    </div>
-       <!--specifies which intsallation an admin would like to delete --> 
-    <div id="deleteInstallation" style="display: none">
-      <form>
-        Build: <select id="deleteInstallationSelectB" name="build"></select>
-        <br> <br>
-        Desktop: <select id="deleteInstallationSelectD" name="desktop"></select>
-        <br> <br>
-        <button  type="button"  onclick="doDeleteInstallation(this.form)">Delete Installation</button>
-      </form>
-    </div>
-    
-    <div id="insertBuild" style="display: none">
-      <form>
-        Build Name: <input type="text" id="build" name="build"></input>
-        <br> <br>
-        <button type="button" onclick="doInsertBuild(this.form)">Insert Build</button>
-      </form>
-    </div>
-    
-    <div id="insertDesktop" style="display: none">
-      <form>
-        Desktop Name: <input type="text" id="desktop" name="desktop"></input>
-        <br> <br>
-        <button type="button" onclick="doInsertDesktop(this.form)">Insert Desktop</button>
-      </form>
-    </div>
+    //function uses rest api to send a delete build request to backend.
+    function doDeleteBuild(form) {
+      fetch('api/delete_build.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "build": form.deleteBuildSelect.value
+        })
 
-    <div id="insertUser" style="display: none">
-      <form>
-        
-        Username: <input type = "text" name = "username" id="username"/>
-        <br> <br>
-        First Name: <input type = "text" name = "firstName"
-                           id="firstName"/>
-        <br> <br>
-        LastName: <input type = "text" name = "lastName" id="lastName"/>
-        <br> <br>
-        Email Address: <input type = "text" name = "email" id="email"/>
-        <br> <br>
-        Password: <input type = "password" name = "password"
-                         id="password"/>
-        <br> <br>
-        Admin: <select id="newAdmin">
-          <option value="1">Admin</option>
-          <option value="0">Not Admin</option>
-        </select>
-        <br><br>
-        
-        <button type="button" onclick="doInsertUser(this.form)">Insert User</button>
-      </form>
-    </div>
+      }).then(function (response) {
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("Build Deleted");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
 
-    <div id="insertInstallation" style="display: none">
-      <form>
-        Build: <select type="text" id="insertBuildSelect" name="build"></select>
-        <br> <br>
-        Desktop: <select id="insertDesktopSelect" name="desktop"></select>
-        <br> <br>
-        <button type="button" onclick="doInsertInstallation(this.form)">Insert Installation</button>
-      </form>
-    </div>
-    
-    <div id="updateUser" style="display: none">
-      <form>
-      User: <select id="updateUserSelect"> </select>
-      <br><br>
-       Admin: <select id="oldAdmin">
-          <option value="1">Admin</option>
-          <option value="0">Not Admin</option>
-      </select>
-      <br><br>
-      <button type="button" onclick="doUpdateUser(this.form)">Update User</button>
-      <form>
-    </div>
-    
-   
-    <script language="javascript"> 
-      var lastVisible = "deleteBuild";
-      var username = docCookies.getItem("username");
-      var password = docCookies.getItem("password");
+        });
+      });
+    }
 
-      retrieveUser(username, password);
+    //function uses rest api to send a delete desktop request to backend.
+    function doDeleteDesktop(form) {
+      fetch('api/delete_desktop.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "desktop": form.deleteDesktopSelect.value
+        })
 
-      //changes the visibility state of a form
-      
-      function makeVisible(id){
-          document.getElementById(lastVisible).style.display = "none";
-          document.getElementById(id).style.display = "block";
-          lastVisible = id;
-      }
+      }).then(function (response) {
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("Desktop Deleted");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
 
-      //fetches and populates all of the dropdowns asyncronhously
-      
-      function fetchDropdownValues(){
-          fetch('api/get_builds.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  buildSelect = document.getElementById("deleteBuildSelect");
-                  buildSelect.innerHTML = '';
-                  
-                   installationSelectB = document.getElementById("deleteInstallationSelectB");
-                  installationSelectB.innerHTML = '';
+        });
+      });
+    }
+    //function uses rest api to send a delete user request to backend.
+    function doDeleteUser(form) {
+      fetch('api/delete_user.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "user": form.deleteUserSelect.value
+        })
 
-                  insertBuildSelect = document.getElementById("insertBuildSelect");
-                  insertBuildSelect.innerHTML = '';
+      }).then(function (response) {
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("User Deleted");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
 
-                  
-                  let option;
-                  data.forEach(function(row){
-                      option = document.createElement('option');
-                      option.text = row.name;
-                      option.value = row.b_num;
-                      buildSelect.add(option);
-                      
-                      option = document.createElement('option');
-                      option.text = row.name;
-                      option.value = row.b_num;
-                      installationSelectB.add(option);
+        });
+      });
+    }
 
-                      
-                      option = document.createElement('option');
-                      option.text = row.name;
-                      option.value = row.b_num;
-                      insertBuildSelect.add(option);
+    //function uses rest api to send a delete installation request to backend.
 
-                  });
-                  
-              });
-          });
-          fetch('api/get_desktops.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  desktopSelect = document.getElementById("deleteDesktopSelect");
-                  desktopSelect.innerHTML = '';
-                  
-                   installationSelectD = document.getElementById("deleteInstallationSelectD");
-                  installationSelectD.innerHTML = '';
+    function doDeleteInstallation(form) {
+      fetch('api/delete_installation.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "build": form.deleteInstallationSelectB.value,
+          "desktop": form.deleteInstallationSelectD.value
+        })
 
-                  insertDesktopSelect = document.getElementById("insertDesktopSelect");
-                  insertDesktopSelect.innerHTML = '';
-                  
-                  let option;
-                  data.forEach(function(row){
-                      option = document.createElement('option');
-                      option.text = row.name;
-                      option.value = row.dtop_id;
-                      desktopSelect.add(option);
-                      
-                      option = document.createElement('option');
-                      option.text = row.name;
-                      option.value = row.dtop_id;
-                      installationSelectD.add(option);
-                      
-                      option = document.createElement('option');
-                      option.text = row.name;
-                      option.value = row.dtop_id;
-                      insertDesktopSelect.add(option);
+      }).then(function (response) {
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("Installation Deleted");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
 
-                      
-                  });
-                  
-              });
-          });
-          fetch('api/get_users.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  userSelect = document.getElementById("deleteUserSelect");
-                  userSelect.innerHTML = '';
+        });
+      });
+    }
 
-                  userSelect2 = document.getElementById("updateUserSelect");
-                  userSelect2.innerHTML = '';
-                  
-                  let option;
-                  data.forEach(function(row){
-                      option = document.createElement('option');
-                      option.text = row.username;
-                      option.value = row.user_num;
-                      userSelect.add(option);
-                      
-                      option = document.createElement('option');
-                      option.text = row.username;
-                      option.value = row.user_num;
-                      userSelect2.add(option);
-                  });
-                  
-              });
-          }); 
-                  
-      }
-      fetchDropdownValues();
+    //function uses rest api to send a insert build request to backend.
 
-      //function uses rest api to send a delete build request to backend.
-      function doDeleteBuild(form){
-          fetch('api/delete_build.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "build":form.deleteBuildSelect.value
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("Build Deleted");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-      }
+    function doInsertBuild(form) {
+      fetch('api/insert_build.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "build": form.build.value
+        })
 
-      //function uses rest api to send a delete desktop request to backend.
-      function doDeleteDesktop(form){
-          fetch('api/delete_desktop.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "desktop":form.deleteDesktopSelect.value
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("Desktop Deleted");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-      }
-      //function uses rest api to send a delete user request to backend.
-      function doDeleteUser(form){
-          fetch('api/delete_user.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "user":form.deleteUserSelect.value
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("User Deleted");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-      }
+      }).then(function (response) {
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("Build Inserted");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
 
-      //function uses rest api to send a delete installation request to backend.
-      
-      function doDeleteInstallation(form){
-          fetch('api/delete_installation.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "build":form.deleteInstallationSelectB.value,
-                  "desktop":form.deleteInstallationSelectD.value
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("Installation Deleted");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-      }
+        });
+      });
+    }
 
-      //function uses rest api to send a insert build request to backend.
-      
-      function doInsertBuild(form){
-          fetch('api/insert_build.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "build":form.build.value
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("Build Inserted");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-      }
+    //function uses rest api to send a insert desktop request to backend.
+    function doInsertDesktop(form) {
+      fetch('api/insert_desktop.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "desktop": form.desktop.value
+        })
 
-      //function uses rest api to send a insert desktop request to backend.
-      function doInsertDesktop(form){
-          fetch('api/insert_desktop.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "desktop":form.desktop.value
-              })
-              
-          }).then(function(response){
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("Desktop Inserted");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-      }
-      //function uses rest api to send a insert installation request to backend.
-      function doInsertInstallation(form){
-          fetch('api/insert_installation.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "desktop":form.insertDesktopSelect.value,
-                  "build":form.insertBuildSelect.value
-              })
-              
-          }).then(function(response){
-              
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("Installation Inserted");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-      }
-       //function uses rest api to send a insert user request to backend.
-      function doInsertUser(form){
-          fetch('api/insert_user.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "newUsername":form.username.value,
-                  "newPassword":form.password.value,
-                  "firstName":form.firstName.value,
-                  "lastName":form.lastName.value,
-                  "email":form.email.value,
-                  "admin":form.newAdmin.value
-              })
-              
-          }).then(function(response){
-              
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("User Inserted");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-      }
-      //function uses rest api to send a update user request to backend.
-      function doUpdateUser(form){
-          fetch('api/update_user.php',{
-              method: "POST",
-              headers:{
-                  "Content-Type":"application/x-www-form-urlencoded",
-              },
-              body: $.param({
-                  "username":username,
-                  "password":password,
-                  "user":form.updateUserSelect.value,
-                  "admin":form.oldAdmin.value
-              })
-              
-          }).then(function(response){
-              
-              response.json().then(function(data){
-                  if (data.result){
-                      alert("User Updated");
-                      fetchDropdownValues();
-                  }else{
-                      alert("Something Went Wrong");
-                  }
-                   
-              });
-          });
-       }
-      
-    </script>
-    
-  </body>
+      }).then(function (response) {
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("Desktop Inserted");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
+
+        });
+      });
+    }
+    //function uses rest api to send a insert installation request to backend.
+    function doInsertInstallation(form) {
+      fetch('api/insert_installation.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "desktop": form.insertDesktopSelect.value,
+          "build": form.insertBuildSelect.value
+        })
+
+      }).then(function (response) {
+
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("Installation Inserted");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
+
+        });
+      });
+    }
+    //function uses rest api to send a insert user request to backend.
+    function doInsertUser(form) {
+      fetch('api/insert_user.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "newUsername": form.username.value,
+          "newPassword": form.password.value,
+          "firstName": form.firstName.value,
+          "lastName": form.lastName.value,
+          "email": form.email.value,
+          "admin": form.newAdmin.value
+        })
+
+      }).then(function (response) {
+
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("User Inserted");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
+
+        });
+      });
+    }
+    //function uses rest api to send a update user request to backend.
+    function doUpdateUser(form) {
+      fetch('api/update_user.php', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: $.param({
+          "username": username,
+          "password": password,
+          "user": form.updateUserSelect.value,
+          "admin": form.oldAdmin.value
+        })
+
+      }).then(function (response) {
+
+        response.json().then(function (data) {
+          if (data.result) {
+            alert("User Updated");
+            fetchDropdownValues();
+          } else {
+            alert("Something Went Wrong");
+          }
+
+        });
+      });
+    }
+
+    // Runs the sql procedure to create the weekly schedule and then redirects to the calendar page
+    function createSchedule() {
+      fetch("api/finalize_schedule.php", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((response) => {
+          location = "index.html"
+      })
+    }
+  </script>
+
+</body>
+
 </html>
-
