@@ -170,6 +170,7 @@ function setDesktop() {
 
 
 
+
 //if a user selects a timeslot and clicks the Request button, this function will execute
 //author: Cassandra Bailey
 
@@ -181,6 +182,16 @@ function requestSlot() {
     joinQueue(userData.user_num, time, date, desktop);
 
 } // end of requestSlot
+
+
+function requestSlot() { //if a user selects a timeslot and clicks the Request button, this function will execute
+  var user = $('#user').val();
+  var time = $('#time').val();
+  var date = $('#date').val();
+  var desktop = $('#desktop').val();
+  var reservedBy = $('#reservedBy').val();
+  joinQueue(userData.user_num, time, date, desktop);
+}
 
 
 //code from http://lifelongprogrammer.blogspot.com/2014/06/js-get-first-last-day-of-current-week-month.html
