@@ -1,7 +1,9 @@
 <?php
-#returns the current reservations in json
+#returns the current requests in json
 #format that full calendar requires
-#Author: David Serrano (serranod7)
+#Author: Chris Ancheta
+#Modified 2019-10-04
+
 header("Content-Type: application/json");
 
 if(!include('../connect.php')){
@@ -12,41 +14,59 @@ $dbh = ConnectDB();
 
 try {
 
-  // $slot_id = $_GET['slot_id'];
-  // $dtop_id = $_GET['dtop_id'];
+  # Query the database grouping timeslots of the same time and date together to count
+  # how many there are for display.
+  # 
+  $sql = "SELECT queue.slot_id AS slotID,\n"
 
-  $sql = "SELECT COUNT(queue.qid) AS count, ";
-  $sql .= "queue.slot_id AS slotID, ";
-  $sql .= "timeslot.date AS reserveDate, ";
-  $sql .= "timeslot.start_time AS reserveTime, ";
-  $sql .= "desktop.name AS dtopName, ";
-  $sql .= "queue.dtop_id AS dtop_num, ";
-  $sql .= "queue.user_num AS userID, ";
-  $sql .= "user.username AS username, ";
-  $sql .= "user.first_name AS firstName, ";
-  $sql .= "user.last_name AS lastName ";
-  $sql .= "FROM queue ";
-  $sql .= "INNER JOIN user ON ";
-  $sql .= "queue.user_num = user.user_num ";
-  $sql .= "INNER JOIN desktop ON ";
-  $sql .= "queue.dtop_id = desktop.dtop_id ";
-  $sql .= "INNER JOIN timeslot ON ";
-  $sql .= "queue.slot_id = timeslot.slot_id ";
-  $sql .= "GROUP BY slotID";
+    . "timeslot.date AS reserveDate,\n"
+
+    . "timeslot.start_time AS reserveTime,\n"
+
+    . "desktop.name AS dtopName,\n"
+
+    . "queue.dtop_id AS dtop_num,\n"
+
+    . "queue.user_num AS userID,\n"
+
+    . "GROUP_CONCAT(user.first_name, \" \", user.last_name) AS names,\n"
+
+    . "GROUP_CONCAT(user.username) users,\n"
+
+    . "COUNT(queue.slot_id) slotcount\n"
+
+    . "FROM queue\n"
+
+    . "INNER JOIN user ON\n"
+
+    . "queue.user_num = user.user_num\n"
+
+    . "INNER JOIN desktop ON\n"
+
+    . "queue.dtop_id = desktop.dtop_id\n"
+
+    . "INNER JOIN timeslot ON\n"
+
+    . "queue.slot_id = timeslot.slot_id\n"
+
+    . "GROUP BY slotID, dtop_num";
   
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
 
+  # Transforms the queried data into a JSON string to be used as a fullcalendar Event Object
   $out = '';
   foreach($stmt->fetchAll() as $row){
             $out .= '{"id":"'.$row['dtop_num'].'",';
-            $out .= '"title":"Requests: '.$row['count'].'",';
+            $out .= '"title":"Requests: '.$row['slotcount'].'",';
             $out .= '"start":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-04:00'.'",';
             $out .= '"end":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-1:00'.'",';
             $out .= '"user":"'.$row['userID'].'",';
+            $out .= '"names":"'.$row['names'].'",';
+            $out .= '"usernames":"'.$row['users'].'",';
             $out .= '"date":"'.$row['reserveDate'].'",';
             $out .= '"time":"'.$row['reserveTime'].'",';
-            $out .= '"name":"'.$row['firstName'].' '.$row['lastName'].'"},';
+            $out .= '"className":"request"},';
             
   }
 

@@ -276,7 +276,7 @@ authors: David Serrano(serranod7), William Geary
     <div class="row">
       <div class="col-md-3">
         <!-- Put the callback to the schedule function in onClick -->
-        <button id="submit-schedule" onClick="" class="btn btn-primary btn-block">Submit Schedule</button>
+        <button type="reset" id="submit-schedule" onclick="createSchedule()" class="btn btn-primary btn-block">Submit Schedule</button>
       </div>
     </div>
   </div>
@@ -676,6 +676,17 @@ authors: David Serrano(serranod7), William Geary
       });
     }
 
+    // Runs the sql procedure to create the weekly schedule and then redirects to the calendar page
+    function createSchedule() {
+      fetch("api/finalize_schedule.php", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((response) => {
+          location = "index.html"
+      })
+    }
   </script>
 
 </body>
