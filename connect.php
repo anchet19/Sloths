@@ -8,8 +8,8 @@ function ConnectDB() {
 
    /*** mysql server info ***/
     $hostname = '127.0.0.1';  // Local host, i.e. running on elvis
-    $username = 'admin';           // Your MySQL Username goes here
-    $password = 'password';           // Your MySQL Password goes here
+    $username = 'root';           // Your MySQL Username goes here
+    $password = '';           // Your MySQL Password goes here
     $dbname   = 'baileyc5';           // For elvis, your MySQL Username is repeated here
 
    try {
