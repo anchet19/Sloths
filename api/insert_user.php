@@ -19,6 +19,7 @@ try{
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
         $email = $_POST['email'];
+        $admin = $_POST['admin'];
         
 
     #checks to make sure email entered is in email format        
@@ -53,10 +54,10 @@ try{
                 else{
                     $sql = "INSERT INTO user ";
                     $sql .= "(username, first_name, last_name,
-      email, password)";
+      email, password, admin)";
                     $sql .= " VALUES ";
                     $sql .= "('$newUsername', '$firstName',
-      '$lastName', '$email', '$hashed_pwd')";
+      '$lastName', '$email', '$hashed_pwd', '$admin')";
                     
                     $stmt = $dbh->prepare($sql);
                     $stmt->execute();   
