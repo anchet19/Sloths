@@ -19,8 +19,7 @@
 <html>
 <head>
    <title>View Builds</title>
-   <link rel="stylesheet" type="text/css"
-href="displayTables.css">
+   <link rel="stylesheet" type="text/css" href="displayTables.css">
 </head>
 
 <body>
@@ -60,6 +59,5 @@ href="displayTables.css">
          catch(Exception $e){}
       ?>
    </table>
-
 </body>
 </html>

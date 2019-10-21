@@ -88,7 +88,6 @@
 
 
                 $row  = "You have joined the queue for desktop " . $desktop . " at " . $time . " on " . $date;
-                $row .= ". Number of people in front of you: " . $numInLine;
                 echo $row;
 	}
 	else{

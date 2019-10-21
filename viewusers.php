@@ -24,14 +24,15 @@
    <title>View Users</title>							
    <link rel="stylesheet" type="text/css" href="displayTables.css">		
 </head>										
-<body>										
+<body>									
    <table>									
       <tr>
          <?php
 	    try{								
                $sql = "SELECT column_name ";					
                $sql .= "FROM information_schema.columns ";			
-               $sql .= "WHERE table_name = 'user'";				
+               $sql .= "WHERE table_name = 'user'";
+               $sql .= "AND TABLE_SCHEMA='baileyc5' and column_name != 'password'";				
                $stmt = $dbh->prepare($sql);					
                $stmt->execute();						
 
@@ -44,27 +45,28 @@
       </tr>
       <?php
          try{
-	    $sql = "SELECT user_num,first_name,last_name,username,email,password,admin ";		
+	    $sql = "SELECT user_num,first_name,last_name,username,email,admin,user_points ";		
 	    $sql .= "FROM user ";								
 												
 	    $stmt = $dbh->prepare($sql);							
 	    $stmt->execute();									
 												
 	    foreach($stmt->fetchAll() as $user) {						
-	       $row =  " <tr><td>" . $user['user_num'];						
-	       $row .= "</td><td>" . $user['first_name'];					
-	       $row .= "</td><td>" . $user['last_name'];					
-	       $row .= "</td><td>" . $user['username'];						
-	       $row .= "</td><td>" . $user['email'];						
-	        $row .= "</td><td>" . $user['password'];
-					$row .= "</td><td>" . $user['admin'];
-	       $row .= "</td></tr>"; //testing
+        $row =  " <tr><td>" . $user['user_num'];						
+        $row .= "</td><td>" . $user['first_name'];					
+        $row .= "</td><td>" . $user['last_name'];					
+        $row .= "</td><td>" . $user['username'];						
+        $row .= "</td><td>" . $user['email'];						
+        //$row .= "</td><td>" . $user['password'];
+        $row .= "</td><td>" . $user['admin'];
+        $row .= "</td><td>" . $user['user_points'];
+        $row .= "</td></tr>"; //testing
 	       echo $row; 									
                }
 	    $stmt = null;									
             }
 	 catch(Exception $e){}
       ?>
-   </table>											
+   </table>										
 </body>												
 </html>												

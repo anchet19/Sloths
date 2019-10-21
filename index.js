@@ -11,7 +11,7 @@ var installationData = {};
 var userData = {};
 
 function redisplay() {
-    $('#calendar').fullCalendar('refetchEvents');
+  $('#calendar').fullCalendar('refetchEvents');
 }
 
 //checks to see if a desktop has been selected in the dropdown form on index.html
@@ -135,7 +135,8 @@ function joinQueue() {
             desktop: desktop
         },
         success: function(response) {
-            alert(response);
+          redisplay();
+          alert(response);
         }
     });
 }
@@ -183,19 +184,7 @@ function requestSlot() {
 
 } // end of requestSlot
 
-
-function requestSlot() { //if a user selects a timeslot and clicks the Request button, this function will execute
-  var user = $('#user').val();
-  var time = $('#time').val();
-  var date = $('#date').val();
-  var desktop = $('#desktop').val();
-  var reservedBy = $('#reservedBy').val();
-  joinQueue(userData.user_num, time, date, desktop);
-}
-
-
 //code from http://lifelongprogrammer.blogspot.com/2014/06/js-get-first-last-day-of-current-week-month.html
-
 function getMondayOfCurrentWeek(d) {
     var day = d.getDay();
     return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0 ? -6 : 1) - day);
@@ -203,7 +192,6 @@ function getMondayOfCurrentWeek(d) {
 
 
 //code from http://lifelongprogrammer.blogspot.com/2014/06/js-get-first-last-day-of-current-week-month.html
-
 function getSundayOfCurrentWeek(d) {
     var day = d.getDay();
     return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0 ? 0 : 7) - day);
@@ -212,7 +200,6 @@ function getSundayOfCurrentWeek(d) {
 
 //if a user selects a timeslot and clicks the Release button, this function will execute
 //author: Cassandra Bailey
-
 function releaseSlot() {
     var time = $('#time').val();
     var date = $('#date').val();
@@ -233,21 +220,21 @@ function releaseSlot() {
             type: 'post',
             url: 'release.php',
             data: {
-                curr: userData.user_num,
-                time: time,
-                date: date,
-                desktop: desktop
+              curr: userData.user_num,
+              time: time,
+              date: date,
+              desktop: desktop
             },
             success: function(result) {
-                alert(result);
-                $("#calendar").fullCalendar("refetchEvents");
-                console.log("release.php -- success!!" + result); //Koala
+              redisplay();
+              alert(result);
+              console.log("release.php -- success!!" + result); //Koala
             },
             error: function(result) {
-                console.log(result); //Koala
+              console.log(result); //Koala
             },
             failure: function(result) {
-                console.log(result);
+              console.log(result);
             }
         });
     }
@@ -368,9 +355,8 @@ function BuildCalendar() {
                     text: "Request",
                     icon: "ui-icon-plus",
                     click: function() {
-                        requestSlot();
-                        redisplay();
-                        $(this).dialog("close");
+                      requestSlot();
+                      $(this).dialog("close");                      
                     }
                 },
                 {
@@ -378,9 +364,8 @@ function BuildCalendar() {
                     text: "Release",
                     icon: "ui-icon-minus",
                     click: function() {
-                        releaseSlot();
-                        redisplay();
-                        $(this).dialog("close");
+                      releaseSlot();
+                      $(this).dialog("close");
                     }
                 }
             ]
@@ -392,7 +377,7 @@ function BuildCalendar() {
           eventSources: [{
             url: 'api/get_requests',
             type: 'GET',
-
+            textColor: 'black',
             success: function(data) {
                 console.log('requests.php - success!! ' + data);
                 $('#calendar').fullCalendar('rerenderEvents');
@@ -421,7 +406,7 @@ function BuildCalendar() {
               console.log(data);
             }
           }],
-          minTime: "06:00:00",
+          minTime: "00:00:00",
           maxTime: "24:00:00",
           firstHour: "06:00:00",
           schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
@@ -432,7 +417,7 @@ function BuildCalendar() {
           navLinks: true, // can click day/week names to navigate views
           unselectAuto: false,
           selectable: true,
-          selectHelper: true,
+          selectHelper: false,
           editable: false,
           eventLimit: true, // allow "more" link when too many events
           allDaySlot: false,
@@ -454,17 +439,16 @@ function BuildCalendar() {
               center: 'title',
               right: 'month,agendaWeek,agendaDay'
           },
-
           defaultDate: getTodaysDate(),
 
           selectAllow: function(selectInfo) {
-              var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
+            var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
 
-              if (duration.asHours() > 3) {
-                  $('#calendar').fullCalendar('unselect');
-                  return false;
-              }
-              return true;
+            if (duration.asHours() > 3) {
+                $('#calendar').fullCalendar('unselect');
+                return false;
+            }
+            return true;
           },
 
           unselect: function(event) {
@@ -476,9 +460,11 @@ function BuildCalendar() {
             const endOfNextWeek = moment().endOf('week').add(8, 'days');
             const activeStart = moment(view.start);
             const activeEnd = moment(view.end);
-            console.log(activeStart.toDate() + "----" + startOfNextWeek.toDate() + "\n" + activeEnd.toDate() +"----" + endOfNextWeek.toDate());
-
-            if (userData.admin == 1 || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
+            // console.log(activeStart.toDate() + "----" + startOfNextWeek.toDate() + "\n" + activeEnd.toDate() +"----" + endOfNextWeek.toDate());
+            console.log(start.toDate())
+            // Calendar slots are non-responsive if the current date range is outside of the normal request
+            // period unless the current user is an admin.
+            if ((userData.admin == 1 && activeStart >= startOfNextWeek) || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
               end = start + 1.08e+7; // enforces the 3hr blocks. (milliseconds)
               $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
               var check = checkForInfoDisplay(start, end);
@@ -494,13 +480,11 @@ function BuildCalendar() {
               // $('#calendar').fullCalendar('updateEvent', event);
               //END : Koala modifications
 
-              document.getElementById('reservedBy').value = event.name;
+              document.getElementById('reservedBy').value = event.title;
               document.getElementById('date').value = event.date;
               document.getElementById('time').value = event.time;
               document.getElementById('desktop').value = event.id;
-            // const names = event.names.split(',');
-            console.log(event.usernames.includes(userData.username));                        //Debuging 
-            console.log(event.className[0]);
+              console.log(event.username);
               installationData.forEach(function(row) {
                   if (row.dtopID == event.id) {
 
@@ -508,7 +492,7 @@ function BuildCalendar() {
                   }
               });
               document.getElementById('user').value = event.user;
-              $('#calendar').fullCalendar('updateEvent', event);
+              // $('#calendar').fullCalendar('updateEvent', event); // Bug!! Causing display overwrite on events 
           },
 
           eventOverlap: function(stillEvent, movingEvent) {
@@ -519,14 +503,26 @@ function BuildCalendar() {
               setStartEndTime(event.start, event.end);
           },
           eventRender: function (event, element) {
-            desktop = document.getElementById('demo').value;
-            // Only render events relative to the current desktop view filter
-            if (desktop == '' || desktop == event.id) {
-              // TO-DO: POPUP ON EVENT HOVER 
-              element.css("font-size", "1.2em");
-              return element
+            element.css("font-size", "1.1em");
+            // Color the events differently if it belongs to the current user
+            if(event.className[0] === 'request') {
+              if (event.usernames.includes(userData.username)) {
+                element.css("background-color", "orange")
+                element.css("border-color", "orange")
+              }
+            } else {
+              if(event.username === userData.username) {
+                element.css("background-color", "green")
+                element.css("border-color", "green")
+              }
             }
-            return false;
+            desktop = document.getElementById('demo').value;
+            if (desktop){
+              return element;
+            } else {
+              return desktop === event.id ? element : false;
+            }
+              // TO-DO: POPUP ON EVENT HOVER 
           },
           // eventAfterRender: function(event, element, view) {
           //   const color = event.usernames.includes(userData.username) ? "blue" : "yellow";

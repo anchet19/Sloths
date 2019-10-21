@@ -43,7 +43,7 @@ try{
             $out .= '"user":"'.$row['userID'].'",';
             $out .= '"date":"'.$row['reserveDate'].'",';
             $out .= '"time":"'.$row['reserveTime'].'",';
-            $out .= '"name":"'.$row['firstName'].' '.$row['lastName'].'"},';
+            $out .= '"username":"'.$row['username'].'"},';
             
         }
             
