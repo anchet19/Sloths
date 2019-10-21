@@ -3,3 +3,10 @@
   color: whitesmoke;
   outline: none;
 }
+
+form {
+  font-size: 1.5em;
+  margin-top: 25px;
+  text-align: center;
+  color: black;
+}
