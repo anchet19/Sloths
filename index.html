@@ -46,7 +46,7 @@ Authors: Team Elephants, Team Sloths-->
 
     <div class="topnav">
         <ul>
-            <li><a onclick="checkForAdmin();">Admin</a></li>
+            <li id="admin-button"><a onclick="checkForAdmin();">Admin</a></li>
             <li><a onclick="logout()">Logout</a></li>
         </ul>
     </div>
@@ -113,7 +113,6 @@ Authors: Team Elephants, Team Sloths-->
         <script language="javascript">
             var username = docCookies.getItem("username");
             var password = docCookies.getItem("password");
-
             function logout() {
                 docCookies.removeItem("username");
                 docCookies.removeItem("password");
