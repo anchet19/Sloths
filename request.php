@@ -39,7 +39,7 @@ try{
 	#IOW: this checks to see if the current user has a different desktop reserved at the time they are requesting
 	#if they do, they are not permitted to reserve this slot until they release the reservation in the same timeslot
 
-        $sql2  = "SELECT dtop_id FROM reservation WHERE user_num = '$curr' AND slot_id = '$row[0]'";
+        $sql2  = "SELECT dtop_id FROM queue WHERE user_num = '$curr' AND slot_id = '$row[0]'";
         $stmt = $dbh->prepare($sql2);
         $stmt->execute();
 
@@ -47,14 +47,14 @@ try{
         $stmt = null;
 
         if($reservedDesk[0] != null){
-                echo "You already have desktop " . $reservedDesk[0] . " reserved at this time.";
+                echo "You already have desktop " . $reservedDesk[0] . " requested at this time.";
         }
         else{
 
-		#inserts a row into the reservation table with the user_num, dtop_id, and slot_id
+		#inserts a row into the queue table with the user_num, dtop_id, and slot_id
 		#IOW: reserves the desktop at the specified timeslot for the current user
 
-                $sql3  = "INSERT INTO reservation (dtop_id, slot_id, user_num) VALUES ('$desktop', '$row[0]', '$curr')";
+                $sql3  = "INSERT INTO queue (dtop_id, slot_id, user_num) VALUES ('$desktop', '$row[0]', '$curr')";
                 $stmt = $dbh->prepare($sql3);
                 $success = $stmt->execute();
             
