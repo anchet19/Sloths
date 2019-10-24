@@ -151,7 +151,7 @@ function checkForAdmin() {
     var admin = userData.admin;
 
     if (admin == 1) {
-        window.location.href = "adminPage.html";
+        window.location.href = "adminPage.php";
     } else {
         alert("You don't have permission to access this page.");
     }
