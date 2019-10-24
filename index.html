@@ -6,7 +6,7 @@ Authors: Team Elephants, Team Sloths-->
 
 <head>
     <meta charset="utf-8">
-    <title>MultiElement Desktop Scheduler</title>
+    <title>ASRC Desktop Scheduler</title>
     <link rel="stylesheet" type="text/css" href="mystyle.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css' />
     <style>
@@ -42,12 +42,12 @@ Authors: Team Elephants, Team Sloths-->
 
 
 <body>
-    <div class="header">MultiElement Desktop Scheduler</div>
-
+    <div class="header">ASRC Desktop Scheduler</div>
+    
     <div class="topnav">
         <ul>
             <li id="admin-button"><a onclick="checkForAdmin();">Admin</a></li>
-            <li><a onclick="logout()">Logout</a></li>
+            <li><a class="logout" onclick="logout()">Logout</a></li>
         </ul>
     </div>
 
@@ -104,12 +104,10 @@ Authors: Team Elephants, Team Sloths-->
         </div>
 
         <div class="column_content" id='calendar'></div>
-
     </div>
 
     <div class="footer">
-        <p>Team Elephants, Team Sloths</p>
-
+        <p>Team Elephants 2019, Team Sloths 2019</p>
         <script language="javascript">
             var username = docCookies.getItem("username");
             var password = docCookies.getItem("password");

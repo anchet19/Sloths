@@ -1,6 +1,6 @@
 /*
 author: Nacer Abreu
-edits by: Eric DeAngelis and William Geary
+edits by: Eric DeAngelis and William Geary, Kyle Kaminski
 */
 
 body {
@@ -8,13 +8,18 @@ body {
   padding: 0;
   font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
   font-size: 14px;
+  background-color: white;
 }
 
 .header {
-  background-color: #f1f1f1;
+  font-family: sans-serif;
+  background:#2e398f;
   text-align: center;
   font-weight: bold;
-  font-size: 32px;
+  color: #ccc;
+  font-size: 48px;
+  padding: 5px;
+  cursor: default;
 }
 
 /* Style the top navigation bar */
@@ -22,6 +27,12 @@ body {
 .topnav {
   overflow: hidden;
   background-color: #44a049;
+  font-weight: bold;
+}
+
+.logout {
+  color: red;
+  font-style: italic;
 }
 
 div.column_entry {
@@ -95,7 +106,8 @@ li a:hover {
 
 #calendar {
   max-width: 900px;
-  /*margin: 0 auto;*/
+  color: #2e398f;
+  font-size: 12px;
 }
 
 * {
@@ -107,9 +119,10 @@ select,
 textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #2e398f;
+  border-radius: 5px;
   resize: vertical;
+  cursor: pointer;
 }
 
 label {
@@ -125,15 +138,15 @@ label {
 
 button {
   font-size: 15px;
-  background-color: #4caf50;
+  background-color: #2e398f;
   color: white;
   padding: 12px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   float: right;
 }
 
 button:hover {
-  background-color: #44a049;
+  background-color: #6470cb;
 }
