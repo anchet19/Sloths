@@ -4,6 +4,44 @@ var password = docCookies.getItem("password");
 
 retrieveUser(username, password);
 
+/**
+ * Waits for the page to be ready and then sets a new event listener for
+ * the desktopMetricsForm submission, preventing a redirect.
+ */
+$(document).ready(function () {
+  const desktopMetricsForm = document.getElementById("desktopMetricsForm");
+  desktopMetricsForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    handleDesktopMetricsSubmit();
+  })
+})
+
+/**
+ * Handles the desktopMetricsForm submit event.
+ * 
+ */
+function handleDesktopMetricsSubmit(){
+  // Get the form
+  const desktopMetricsForm = document.getElementById("desktopMetricsForm");
+  // Format the form data -- Content-Type: application/x-www-form-urlencoded
+  const formattedFormData = new FormData(desktopMetricsForm);
+  desktopMetricsPostData(formattedFormData);
+}
+
+/**
+ * Fetch the Desktop metrics HTML markup using the javascript Fetch API
+ * and update the DOM
+ * @param {FormData} formattedFormData The data from the form
+ */
+async function desktopMetricsPostData(formattedFormData) {
+  const response = await fetch('api/get_desktop_metrics.php', {
+    method: 'POST',
+    body: formattedFormData
+  });
+  const data = await response.text();
+  document.getElementById("desktopMetricsTable").innerHTML = data;
+}
+
 // Markups
 const DeleteBuildMarkup = `
         <div display="none" id="deleteBuild" style="display: block">

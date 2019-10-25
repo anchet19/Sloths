@@ -1,9 +1,9 @@
-<!-- UI with forms that the administrator can use
- each form is displayed when its corresponding link is 
- clicked
-authors: David Serrano(serranod7), William Geary
-modified: Chris Ancheta, 2019-10-18
--->
+<?php 
+// UI with forms that the administrator can use
+// each form is displayed when its corresponding link is clicked
+// authors: David Serrano(serranod7), William Geary
+// modified: Chris Ancheta, 2019-10-18
+?>
 <html>
 
 <head>
@@ -355,22 +355,23 @@ modified: Chris Ancheta, 2019-10-18
         </div>
 
         <div id="desktopMetrics" style="display: none">
-          <form method="get" action="api/get_desktop_metrics.php" name="desktopMetricsForm" id="desktopMetricsForm">
+          <form method="post" action="api/get_desktop_metrics.php" name="desktopMetricsForm" id="desktopMetricsForm">
             <div class="form-row justify-content-center">
               <div class="col">
                 <div class="form-group">
                   <label class="form-label" for="start">Start date:</label>
-                  <input class="form-control" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
+                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
                   <label class="form-label" for="end">End date:</label>
-                  <input class="form-control" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                  <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
                 </div>
               </div>
               <div class="col">
-                  <input class="btn btn-success" type="submit" value="Submit">
+                <label>&nbsp;</label> <!-- Alligns button with form input fields -->
+                <input class="btn btn-sm btn-success form-control" type="submit" name="submit" value="Submit">
               </div>
             </div>
           </form>
@@ -387,7 +388,6 @@ modified: Chris Ancheta, 2019-10-18
         docCookies.removeItem("password");
         window.location.href = "login.html";
     };
-    func
   </script>
 
 </body>
