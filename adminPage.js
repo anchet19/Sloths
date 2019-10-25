@@ -4,6 +4,10 @@ var password = docCookies.getItem("password");
 
 retrieveUser(username, password);
 
+/**
+ * Waits for the page to be ready and then sets a new event listener for
+ * the desktopMetricsForm submission, preventing a redirect.
+ */
 $(document).ready(function () {
   const desktopMetricsForm = document.getElementById("desktopMetricsForm");
   desktopMetricsForm.addEventListener('submit', function (event) {
@@ -12,41 +16,31 @@ $(document).ready(function () {
   })
 })
 
+/**
+ * Handles the desktopMetricsForm submit event.
+ * 
+ */
 function handleDesktopMetricsSubmit(){
+  // Get the form
   const desktopMetricsForm = document.getElementById("desktopMetricsForm");
+  // Format the form data -- Content-Type: application/x-www-form-urlencoded
   const formattedFormData = new FormData(desktopMetricsForm);
   desktopMetricsPostData(formattedFormData);
 }
 
+/**
+ * Fetch the Desktop metrics HTML markup using the javascript Fetch API
+ * and update the DOM
+ * @param {FormData} formattedFormData The data from the form
+ */
 async function desktopMetricsPostData(formattedFormData) {
-  for(var pair of formattedFormData.entries()){
-    console.log(pair);
-  }
   const response = await fetch('api/get_desktop_metrics.php', {
     method: 'POST',
     body: formattedFormData
   });
   const data = await response.text();
   document.getElementById("desktopMetricsTable").innerHTML = data;
-  console.log(data);
 }
-
-
-
-
-// .onsubmit = (startDate, endDate) => {
-//   const inner = fetch('api/get_desktop_metrics.php', {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//     body: $.param({
-//       "startDate": startDate,
-//       "endDate": endDate,
-//     })
-//   });
-//   document.getElementById("desktopMetricsTable").innerHTML = inner;
-// }
 
 // Markups
 const DeleteBuildMarkup = `
