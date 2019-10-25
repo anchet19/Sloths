@@ -354,7 +354,7 @@
           </div>
         </div>
 
-        <div id="desktopMetrics" style="display: block">
+        <div id="desktopMetrics" style="display: none">
           <form method="post" action="api/get_desktop_metrics.php" name="desktopMetricsForm" id="desktopMetricsForm">
             <div class="form-row justify-content-center">
               <div class="col">
