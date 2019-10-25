@@ -4,6 +4,50 @@ var password = docCookies.getItem("password");
 
 retrieveUser(username, password);
 
+$(document).ready(function () {
+  const desktopMetricsForm = document.getElementById("desktopMetricsForm");
+  desktopMetricsForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    handleDesktopMetricsSubmit();
+  })
+})
+
+function handleDesktopMetricsSubmit(){
+  const desktopMetricsForm = document.getElementById("desktopMetricsForm");
+  const formattedFormData = new FormData(desktopMetricsForm);
+  desktopMetricsPostData(formattedFormData);
+}
+
+async function desktopMetricsPostData(formattedFormData) {
+  for(var pair of formattedFormData.entries()){
+    console.log(pair);
+  }
+  const response = await fetch('api/get_desktop_metrics.php', {
+    method: 'POST',
+    body: formattedFormData
+  });
+  const data = await response.text();
+  document.getElementById("desktopMetricsTable").innerHTML = data;
+  console.log(data);
+}
+
+
+
+
+// .onsubmit = (startDate, endDate) => {
+//   const inner = fetch('api/get_desktop_metrics.php', {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/x-www-form-urlencoded",
+//     },
+//     body: $.param({
+//       "startDate": startDate,
+//       "endDate": endDate,
+//     })
+//   });
+//   document.getElementById("desktopMetricsTable").innerHTML = inner;
+// }
+
 // Markups
 const DeleteBuildMarkup = `
         <div display="none" id="deleteBuild" style="display: block">
