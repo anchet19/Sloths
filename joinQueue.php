@@ -15,7 +15,7 @@
 <?php */
 
 
-	$actualWait = 0;
+	$actualWait = 0; #hardcoded to skirt outdated use
 	$curr = $_POST['curr'];
 	$date = $_POST['date'];
 	$time = $_POST['time'];
@@ -36,19 +36,25 @@
 	#if null, the user is not currently in the queue and is able to join
 	#if not null, the user is already in the queue for the desktop in that timeslot and cannot join the queue again	
 
-	$sql =  "SELECT wait_position FROM queue WHERE dtop_id = '$desktop' ";
+	/* $sql =  "SELECT wait_position FROM queue WHERE dtop_id = '$desktop' ";
 	$sql .= "AND slot_id = '$slot[0]' AND user_num = '$curr'";
+	$stmt = $dbh->prepare($sql);
+	$stmt->execute();
+	$currPos = $stmt->fetch();
+	$stmt = null; */
+
+	$sql = "SELECT count(*) as count from queue where slot_id = '$slot[0]' AND user_num = '$curr'";
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute();
 	$currPos = $stmt->fetch();
 	$stmt = null;
 
-	if($currPos[0] == null){
+	if($currPos[0] == 0){
 		
 		
 		#inserts the reservation in the queue				
 
-                $sql  = "INSERT INTO queue (dtop_id, slot_id, wait_position, user_num,request_time) ";
+                $sql  = "INSERT INTO queue (dtop_id, slot_id, wait_position, user_num, request_time) ";
                 $sql .= "VALUES ('$desktop', '$slot[0]', '$actualWait', '$curr',(select now()))";
                 $stmt = $dbh->prepare($sql);
 				$stmt->execute();
@@ -63,6 +69,7 @@
                 echo $row;
 	}
 	else{
-		echo "You are already in the queue for desktop " . $desktop . " at " . $time . " on " . $date;
+		#echo "You are already in the queue for desktop " . $desktop . " at " . $time . " on " . $date;
+		echo "A request for this timeslot already exists for this user.";
 	}
 ?>
