@@ -1,9 +1,9 @@
-<?php 
-// UI with forms that the administrator can use
-// each form is displayed when its corresponding link is clicked
-// authors: David Serrano(serranod7), William Geary
-// modified: Chris Ancheta, 2019-10-18
-?>
+<!-- UI with forms that the administrator can use
+ each form is displayed when its corresponding link is 
+ clicked
+authors: David Serrano(serranod7), William Geary
+modified: Chris Ancheta, 2019-10-18
+-->
 <html>
 
 <head>
@@ -360,18 +360,17 @@
               <div class="col">
                 <div class="form-group">
                   <label class="form-label" for="start">Start date:</label>
-                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
+                  <input class="form-control" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
                   <label class="form-label" for="end">End date:</label>
-                  <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                  <input class="form-control" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
                 </div>
               </div>
               <div class="col">
-                <label>&nbsp;</label> <!-- Alligns button with form input fields -->
-                <input class="btn btn-sm btn-success form-control" type="submit" name="submit" value="Submit">
+                  <input class="btn btn-success" type="submit" value="Submit">
               </div>
             </div>
           </form>
@@ -388,6 +387,7 @@
         docCookies.removeItem("password");
         window.location.href = "login.html";
     };
+   
   </script>
 
 </body>

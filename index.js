@@ -279,7 +279,7 @@ function checkForInfoDisplay(start, end) {
         document.getElementById("date").value = '' + date.toString(); //sets the value of a date in the info display form.
 
         //change the  time format
-        var h = a.getHours();
+        var h = a.getHours()+5;
         var min = a.getMinutes();
         var sec = a.getSeconds();
         if (h < 10) {
@@ -410,7 +410,7 @@ function BuildCalendar() {
           maxTime: "24:00:00",
           firstHour: "06:00:00",
           schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-          timezone: 'local',
+          timezone: false,
           defaultView: 'agendaWeek',
           //aspectRatio: 1.8,
           resourceGroupField: 'desktop',
@@ -517,11 +517,9 @@ function BuildCalendar() {
               }
             }
             desktop = document.getElementById('demo').value;
-            if (desktop){
-              return element;
-            } else {
+            
               return desktop === event.id ? element : false;
-            }
+            
               // TO-DO: POPUP ON EVENT HOVER 
           },
           // eventAfterRender: function(event, element, view) {
