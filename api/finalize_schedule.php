@@ -9,7 +9,7 @@
 #Author: Alex Cross     Last Modification: 10/31/19
 
 header("Content-Type: application/json");
-if(!include('../connect.php'))
+if(!include('../Utils/connect.php'))
 {
     die('error retrieving connect.php');
 }
@@ -29,7 +29,7 @@ $daysIdle = 7;
 $idleDeduction = -3;
 
 # Load custom configuration if available
-if($xml=simplexml_load_file("../configuration.xml")){
+if($xml=simplexml_load_file("../Utils/configuration.xml")){
     $primeMod = $xml->primemod;
     $nonPrimeMod = $xml->nonprime;
     $consolation = $xml->consolation; #see XML for variable descriptions
@@ -121,7 +121,7 @@ $dbh2 = ConnectDB();
   $stmt2->execute();
 
   #******** DO NOT DELETE - COMMENTED OUT SO IT DOESNT SPAM EMAILS DURING TESTING ********
-/*  if($xml=simplexml_load_file("../configuration.xml"))
+/*  if($xml=simplexml_load_file("../Utils/configuration.xml"))
  {
    foreach($stmt2->fetchAll() as $row)
     {

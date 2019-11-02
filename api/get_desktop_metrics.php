@@ -6,7 +6,7 @@
    } */
 header("Content-Type: text/html; charset=UTF-8");
 
-  if(!include('../connect.php')){
+  if(!include('../Utils/connect.php')){
       die('error retrieving connect.php');
   }
 

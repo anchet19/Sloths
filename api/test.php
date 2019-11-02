@@ -31,7 +31,7 @@ $idleDeduction = -3;
 
 # Load custom configuration if available
 
-if($xml=simplexml_load_file("../configuration.xml")){
+if($xml=simplexml_load_file("../Utils/configuration.xml")){
     $primeMod = $xml->primemod;
     $nonPrimeMod = $xml->nonprime;
     $consolation = $xml->consolation;
@@ -52,7 +52,7 @@ if($xml=simplexml_load_file("../configuration.xml")){
 
 
 header("Content-Type: application/json");
-if(!include('../connect.php'))
+if(!include('../Utils/connect.php'))
 {
     die('error retrieving connect.php');
 }
@@ -145,7 +145,7 @@ for($j=0;$j<1000;$j++){
   $stmt = $dbh2->prepare($email);
   $stmt->execute();
 
-/* if($xml=simplexml_load_file("../configuration.xml")){
+/* if($xml=simplexml_load_file("../Utils/configuration.xml")){
    foreach($stmt->fetchAll() as $row)
   {
     $email = $row['email'];

@@ -3,7 +3,7 @@
 # are already a user. To change the passowrd, the user must provide the username,password,and new password.
 # Authors:Eric DeAngelis,Riddhi Patel, Kyle Kaminski
 
-if  (!include('connect.php')) {
+if  (!include('../Utils/connect.php')) {
     die('error finding connect file');
 }
 $dbh = ConnectDB();
