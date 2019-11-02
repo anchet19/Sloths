@@ -7,7 +7,7 @@
 
 
 
-include_once("../connect.php");
+include_once("../Utils/connect.php");
 include_once("./validate_func.php");
 include_once("./get_user_func.php");
 

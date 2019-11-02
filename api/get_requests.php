@@ -6,7 +6,7 @@
 
 header("Content-Type: application/json");
 
-if(!include('../connect.php')){
+if(!include('../Utils/connect.php')){
     die('error retrieving connect.php');
 }
 $dbh = ConnectDB();
