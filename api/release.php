@@ -8,7 +8,6 @@
 session_start();
 // Connect to the database
 
-if (!include('../Utils/connect.php')) {
 if (!include('connect.php')) {
     die('error finding connect file');
 }

@@ -1,13 +1,3 @@
-<?php
-#inserts a row into the queue table with the user_num, slot_id, dtop_id, and the current wait position in the queue
-#author: Cassandra Bailey
-#modified: Alex Cross
-        if  (!include('connect.php')) {
-                die('error finding connect file');
-        }
-        $dbh = ConnectDB();
-/* ?>
-<?php */
 
 <?php
 
@@ -30,8 +20,6 @@
 	$date = $_POST['date'];
 	$time = $_POST['time'];
 	$desktop = $_POST['desktop'];
-	
-	#gets the slot_id for the date and start_time provided
 
 	
 	#gets the slot_id for the date and start_time provided
@@ -43,9 +31,6 @@
 	$slot = $stmt->fetch();
 	$stmt = null;
 	
-	#gets the wait_position for the user, timeslot, and desktop provided
-	#if null, the user is not currently in the queue and is able to join
-	#if not null, the user is already in the queue for the desktop in that timeslot and cannot join the queue again	
 
 	#gets the wait_position for the user, timeslot, and desktop provided
 	#if null, the user is not currently in the queue and is able to join
@@ -87,5 +72,4 @@
 		#echo "You are already in the queue for desktop " . $desktop . " at " . $time . " on " . $date;
 		echo "A request for this timeslot already exists for this user.";
 	}
-?>
 ?>
