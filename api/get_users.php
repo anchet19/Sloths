@@ -4,7 +4,7 @@
 #gets the list of users from the database
 #returns to client in json formar
 
-include_once("../connect.php");
+include_once("../Utils/connect.php");
 include_once("./validate_func.php");
 include_once("./get_user_func.php");
 

@@ -29,7 +29,11 @@ function checkForDesktop(form) {
 //then the data is used to link the build and desktop dropdowns.
 //Author: David Serrano (serranod7)
 function populateDropdowns(username, password) {
+
+    fetch('../api/get_installations.php', {
+
     fetch('api/get_installations.php', {
+
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -93,7 +97,11 @@ function populateDropdown(b_num) {
 //Retrieves user data using rest api
 //Author: David Serrano (serranod7)
 function retrieveUser(username, password) {
+
+    fetch('../api/get_user.php', {
+
     fetch('api/get_user.php', {
+
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -109,7 +117,11 @@ function retrieveUser(username, password) {
                 // welcome.innerHTML = "Hello " + data.first_name + "!";
                 userData = data;
             } else {
+
+                window.location.href = "../Views/login.html";
+
                 window.location.href = "login.html";
+
             }
         });
     });
@@ -127,7 +139,11 @@ function joinQueue() {
 
     $.ajax({
         type: 'post',
+
+        url: '../api/joinQueue.php',
+
         url: 'joinQueue.php',
+
         data: {
             curr: userData.user_num,
             time: time,
@@ -151,6 +167,7 @@ function checkForAdmin() {
     var admin = userData.admin;
 
     if (admin == 1) {
+        window.location.href = "../Views/adminPage.php";
         window.location.href = "adminPage.php";
     } else {
         alert("You don't have permission to access this page.");
@@ -218,6 +235,7 @@ function releaseSlot() {
     else {
         $.ajax({
             type: 'post',
+            url: '../api/release.php',
             url: 'release.php',
             data: {
               curr: userData.user_num,
@@ -279,6 +297,7 @@ function checkForInfoDisplay(start, end) {
         document.getElementById("date").value = '' + date.toString(); //sets the value of a date in the info display form.
 
         //change the  time format
+        var h = a.getHours() + 5;
         var h = a.getHours()+5;
         var min = a.getMinutes();
         var sec = a.getSeconds();
@@ -332,6 +351,7 @@ function getTodaysDate() {
 
 function getRelativeEndpoint() {
   return $('#calendar').fullCalendar('getDate') < $('#calendar').fullCalendar.view.activeStart 
+    ? '../api/get_reservations.php' : '../api/get_requests';
     ? 'api/get_reservations.php' : 'api/get_requests';
 };
 
@@ -375,6 +395,7 @@ function BuildCalendar() {
 
         $('#calendar').fullCalendar({
           eventSources: [{
+            url: '../api/get_requests',
             url: 'api/get_requests',
             type: 'GET',
             textColor: 'black',
@@ -390,6 +411,7 @@ function BuildCalendar() {
             }
           },
           {
+            url: '../api/get_reservations',
             url: 'api/get_reservations',
             type: 'GET',
             color: 'gold',
@@ -412,6 +434,7 @@ function BuildCalendar() {
           schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
           timezone: false,
           defaultView: 'agendaWeek',
+          // aspectRatio: 1.8,
           //aspectRatio: 1.8,
           resourceGroupField: 'desktop',
           navLinks: true, // can click day/week names to navigate views
@@ -518,6 +541,15 @@ function BuildCalendar() {
             }
             desktop = document.getElementById('demo').value;
             
+            return desktop === event.id ? element : false;
+
+          },
+          resourceRender: function (resourceObj, $th) {
+            $th.append('???')
+          },
+          eventMouseEnter: ({event, el}) => {
+            $
+            // To-Do: Tooltip on event hover. Either here or in eventRender -- undecided
               return desktop === event.id ? element : false;
             
               // TO-DO: POPUP ON EVENT HOVER 

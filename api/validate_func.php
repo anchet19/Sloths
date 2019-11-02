@@ -3,7 +3,7 @@
 #Backend file to validate user information
 #Author: David Serrano (serranod7)
 
-if(!include_once('../connect.php'))
+if(!include_once('../Utils/connect.php'))
 {
     die('error finding connect file');
 }

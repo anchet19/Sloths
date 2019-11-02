@@ -10,3 +10,7 @@ form {
   text-align: center;
   color: black;
 }
+
+.container {
+  margin: 0;
+}
