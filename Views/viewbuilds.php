@@ -8,7 +8,6 @@
 
 
         session_start();					//calls open and read session and saves handlers
-        if  (!include('../Utils/connect.php')) {				//checks to see if connected to the database
         if  (!include('connect.php')) {				//checks to see if connected to the database
                 die('error finding connect file');		//error message if the system is not connected
         }
@@ -20,7 +19,6 @@
 <html>
 <head>
    <title>View Builds</title>
-   <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">
    <link rel="stylesheet" type="text/css" href="displayTables.css">
 </head>
 

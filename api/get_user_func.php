@@ -6,7 +6,7 @@
 if(!include_once('./validate_func.php')){
     die('error finding validate_func file');
 }
-if(!include_once('../Utils/connect.php')){
+if(!include_once('../connect.php')){
     die('error finding connect file');
 }
 

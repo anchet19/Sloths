@@ -71,4 +71,3 @@ var docCookies = {
     return aKeys;
   }
 };
-};

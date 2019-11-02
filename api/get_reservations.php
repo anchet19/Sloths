@@ -4,7 +4,7 @@
 #Author: David Serrano (serranod7)
 header("Content-Type: application/json");
 
-if(!include('../Utils/connect.php')){
+if(!include('../connect.php')){
     die('error retrieving connect.php');
 }
 $dbh = ConnectDB();
