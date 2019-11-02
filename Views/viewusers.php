@@ -8,6 +8,7 @@
 
         session_start();				//calls open&read session save handlers
         if  (!include('../Utils/connect.php')) {			//checks to see if system is connected to database
+        if  (!include('connect.php')) {			//checks to see if system is connected to database
                 die('error finding connect file');	//error message if not found
         }
 
@@ -23,6 +24,7 @@
 <head>										
    <title>View Users</title>							
    <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">		
+   <link rel="stylesheet" type="text/css" href="displayTables.css">		
 </head>										
 <body>									
    <table>									

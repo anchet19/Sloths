@@ -96,14 +96,14 @@ DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `feedback` (
-  `feedback_id` int(11) NOT NULL,
+  `feedback_id` int(11) NOT NULL AUTO_INCREMENT,
   `reserve_id` int(11) DEFAULT NULL,
   `outcome` enum('success','software issue','hardware issue','other') DEFAULT NULL,
   `comment` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`feedback_id`),
   KEY `fk_reservation_idx` (`reserve_id`),
   CONSTRAINT `fk_reservation` FOREIGN KEY (`reserve_id`) REFERENCES `reservation` (`reserve_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +159,7 @@ CREATE TABLE `leftover` (
   `wait_position` int(11) DEFAULT NULL,
   `user_num` int(11) NOT NULL,
   `request_time` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +192,7 @@ CREATE TABLE `queue` (
   CONSTRAINT `queue_ibfk_1` FOREIGN KEY (`dtop_id`) REFERENCES `desktop` (`dtop_id`),
   CONSTRAINT `queue_ibfk_2` FOREIGN KEY (`slot_id`) REFERENCES `timeslot` (`slot_id`),
   CONSTRAINT `queue_ibfk_3` FOREIGN KEY (`user_num`) REFERENCES `user` (`user_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +223,7 @@ CREATE TABLE `reservation` (
   CONSTRAINT `fk_dtop2` FOREIGN KEY (`dtop_id`) REFERENCES `desktop` (`dtop_id`),
   CONSTRAINT `fk_slot` FOREIGN KEY (`slot_id`) REFERENCES `timeslot` (`slot_id`),
   CONSTRAINT `fk_user` FOREIGN KEY (`user_num`) REFERENCES `user` (`user_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47877 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +232,6 @@ CREATE TABLE `reservation` (
 
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
-INSERT INTO `reservation` VALUES (3,30,1237,8),(4,32,1243,8),(5,30,1238,8);
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,7 +297,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (13,'Jacky','Patel','patelr1','riddhipatel26@yahoo.com','$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq',1,100,NULL,0,NULL),(14,'William','Geary','gearyw68','grearyw68@students.rowan.edu','$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S',NULL,100,NULL,0,NULL),(16,'bob','bob','bob','bob','$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2',1,100,NULL,0,NULL),(18,'Riddhi','Patel','patelr0','riddhip01@yahoo.com','$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86',NULL,100,NULL,0,NULL),(20,'Shrek','Ogre','shrek1','shrek@swamp.com','$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO',1,100,NULL,0,NULL),(24,'Cassandra','Bailey','itscasserole','cass@gmail.com','$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na',NULL,100,NULL,0,NULL),(28,'Russia','Commander','russiagirl','russiagirl@yahoo.com','$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO',1,100,NULL,0,NULL),(29,'Rishi','Parikh','parish30','rishiparikh@gmail.com','$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q',NULL,100,NULL,0,NULL),(30,'bill','bill','bill','bill@bill.bill','$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.',1,109,'2019-10-24 11:43:05',2,NULL),(31,'David','Serrano','frenchfrylord','serranod7@students.rowan.edu','$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02',NULL,94,'2018-10-16 16:48:02',0,NULL),(32,'Alex','Cross','across','crossa95@students.rowan.edu','$2y$10$zURLq4BxZZrkLWZJxTU94.yYipwMua2OMXDCS6E7r/2a.wNh4J3y2',NULL,101,'2019-10-24 11:32:30',0,NULL);
+INSERT INTO `user` VALUES (13,'Jacky','Patel','patelr1','riddhipatel26@yahoo.com','$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq',1,100,NULL,0,NULL),(14,'William','Geary','gearyw68','grearyw68@students.rowan.edu','$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S',NULL,100,NULL,0,NULL),(16,'bob','bob','bob','bob','$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2',1,100,'2019-09-29 11:16:02',0,NULL),(18,'Riddhi','Patel','patelr0','riddhip01@yahoo.com','$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86',NULL,100,'2020-09-29 11:16:02',0,NULL),(20,'Shrek','Ogre','shrek1','shrek@swamp.com','$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO',1,100,NULL,0,NULL),(24,'Cassandra','Bailey','itscasserole','cass@gmail.com','$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na',NULL,100,NULL,0,NULL),(28,'Russia','Commander','russiagirl','russiagirl@yahoo.com','$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO',1,100,NULL,0,NULL),(29,'Rishi','Parikh','parish30','rishiparikh@gmail.com','$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q',NULL,100,NULL,0,NULL),(30,'bill','bill','bill','bill@bill.bill','$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.',1,100,'2019-10-30 16:13:18',0,NULL),(31,'David','Serrano','frenchfrylord','serranod7@students.rowan.edu','$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02',NULL,100,'2018-10-16 16:48:02',0,NULL),(32,'Alex','Cross','across','crossa95@students.rowan.edu','$2y$10$zURLq4BxZZrkLWZJxTU94.yYipwMua2OMXDCS6E7r/2a.wNh4J3y2',NULL,100,'2019-10-30 16:14:20',0,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -359,9 +358,42 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clear`()
 begin
 	truncate queue;
-    truncate reservation;
+    call clear_reservations;
     truncate leftover;
 end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `clear_reservations` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clear_reservations`()
+BEGIN
+	DECLARE finished integer default 0;
+    DECLARE temp_id int(11) default 0;
+	DECLARE user_cursor cursor for select reserve_id from reservation;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
+    
+    open user_cursor;
+    
+    loopLabel : loop
+		fetch user_cursor into temp_id;
+        IF finished = 1 THEN 
+            LEAVE loopLabel;
+        END IF;
+        DELETE FROM reservation where reserve_id = temp_id;
+	END LOOP loopLabel;
+        close user_cursor;
+END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -379,10 +411,15 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `findMinPoints`(IN dtop INT(11), IN slot INT(11))
 BEGIN
-	select user_points as points, dtop_id, slot_id
+    select @minpoints := min(user_points) as m from queue join user using (user_num)
+    where dtop_id = dtop and slot_id = slot;
+    
+    select @count := count(*) from queue join user using (user_num)
+    where dtop_id = dtop and slot_id = slot and user_points = @minpoints;
+    
+	select dtop_id, slot_id, @minpoints, @count
 	from queue join user using (user_num)
-    where dtop_id = dtop and slot_id = slot
-    order by points asc limit 1;
+    where dtop_id = dtop and slot_id = slot and user_points = @minpoints limit 1;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -436,7 +473,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getQueue`()
 BEGIN
-	select * from queue
+	select distinct dtop_id, slot_id from queue
 	join user using (user_num)
 	ORDER BY slot_id;
 END ;;
@@ -562,49 +599,39 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mtrTest`(IN userpoints Int(3), IN dtop INT(11), IN slotnum INT(11), IN primeMod INT,
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mtrTest`(IN userNum Int(11), IN dtop INT(11), IN slotnum INT(11), IN primeMod INT,
  IN nonPrimeMod INT, IN consolationMod INT)
 BEGIN
 	
    
 	INSERT INTO baileyc5.reservation(user_num,slot_id,dtop_id)
-    SELECT user_num, slot_id, dtop_id
-    FROM queue join user using (user_num)
-    where dtop_id = dtop and user_points = userpoints and slot_id = slotnum
-    order by user_points asc limit 1;
-    
-    
-    SELECT @userid := user_num  
-    FROM queue join user using (user_num)
-    where dtop_id = dtop and user_points = userpoints and slot_id = slotnum
-    order by user_points asc limit 1;
-    
+    SELECT userNum, slotnum, dtop;    
     
 	SELECT start_time
     into @starttime
 	from user
     join reservation using (user_num)
     join timeslot using (slot_id)
-    WHERE user_num = @userid and dtop_id = dtop and slot_id = slotnum;
+    WHERE user_num = userNum and dtop_id = dtop and slot_id = slotnum;
     
     IF 	   @starttime between '09:00:00' 
 		   and '15:00:00'
 	THEN
 		UPDATE user
         SET user_points = user_points + primeMod
-        where user_num = @userid;		
+        where user_num = userNum;		
 	ELSE
 		 UPDATE user
 		 SET user_points = user_points + nonPrimeMod
-         where user_num = @userid;
+         where user_num = userNum;
 	END IF;     
     
     DELETE FROM queue     
-    WHERE dtop_id = dtop and user_num = @userid and slot_id = slotnum;
+    WHERE dtop_id = dtop and user_num = userNum and slot_id = slotnum;
     
     UPDATE user    
     join queue using (user_num)
-    SET user_points = user_points + consolation
+    SET user_points = user_points + consolationMod
     where dtop_id = dtop and slot_id = slotnum;
     
     Insert into leftover
@@ -614,9 +641,6 @@ BEGIN
     DELETE FROM queue
     WHERE dtop_id = dtop AND slot_id = slotnum;
     
-   -- call fix_points;
-   
-   -- call check_last_requests;
 
 END ;;
 DELIMITER ;
@@ -637,8 +661,40 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `multitest`()
 begin
 	call clear();
+    call reset_points();
     call testrun();
 end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `POSTDesktopMetrics` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTDesktopMetrics`(IN startDate date, IN endDate date)
+BEGIN
+select f_name as name, hours_fulfilled as time_used,
+sum(hours_fulfilled + IFNULL(hours_unfulfilled, 0)) as time_requested
+from (select * from ((select desktop.name as f_name, count(*)*3 as hours_fulfilled from reservation
+        inner join desktop on reservation.dtop_id = desktop.dtop_id
+       inner join timeslot on reservation.slot_id = timeslot.slot_id
+where timeslot.date between startDate and endDate
+group by desktop.name) as reserved
+left join (select desktop.name as uf_name, count(*)*3 as hours_unfulfilled from leftover
+        inner join desktop on leftover.dtop_id = desktop.dtop_id
+       inner join timeslot on leftover.slot_id = timeslot.slot_id
+where timeslot.date between startDate and endDate
+group by desktop.name) as requests on reserved.f_name = requests.uf_name)) as desktop_metrics
+group by name;
+END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -736,8 +792,19 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `testrun`()
 begin
 
-INSERT INTO queue
-VALUES (null, 8, 1150, null, 14, (select now()));
+INSERT INTO queue (dtop_id, slot_id, user_num, request_time)
+VALUES (8, 1274, 32, (select now()));
+INSERT INTO queue (dtop_id, slot_id, user_num, request_time)
+VALUES (8, 1274, 30, (select now()));
+-- comment these out
+-- INSERT INTO queue (dtop_id, slot_id, user_num, request_time)
+-- VALUES (8, 1274, 13, (select now()));
+-- INSERT INTO queue (dtop_id, slot_id, user_num, request_time)
+-- VALUES (8, 1274, 14, (select now()));
+-- INSERT INTO queue (dtop_id, slot_id, user_num, request_time)
+-- VALUES (8, 1274, 16, (select now()));
+-- INSERT INTO queue (dtop_id, slot_id, user_num, request_time)
+-- VALUES (8, 1274, 28, (select now()));
     
 end ;;
 DELIMITER ;
@@ -755,4 +822,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-24 12:20:26
+-- Dump completed on 2019-10-31 11:04:26
