@@ -34,7 +34,7 @@ function handleDesktopMetricsSubmit(){
  * @param {FormData} formattedFormData The data from the form
  */
 async function desktopMetricsPostData(formattedFormData) {
-  const response = await fetch('api/get_desktop_metrics.php', {
+  const response = await fetch('../api/get_desktop_metrics.php', {
     method: 'POST',
     body: formattedFormData
   });
@@ -64,7 +64,7 @@ function makeVisible(id) {
 //fetches and populates all of the dropdowns asyncronhously
 
 function fetchDropdownValues() {
-  fetch('api/get_builds.php', {
+  fetch('../api/get_builds.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -108,7 +108,7 @@ function fetchDropdownValues() {
 
     });
   });
-  fetch('api/get_desktops.php', {
+  fetch('../api/get_desktops.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -151,7 +151,7 @@ function fetchDropdownValues() {
 
     });
   });
-  fetch('api/get_users.php', {
+  fetch('../api/get_users.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -190,7 +190,7 @@ fetchDropdownValues();
 
 //function uses rest api to send a delete build request to backend.
 function doDeleteBuild(form) {
-  fetch('api/delete_build.php', {
+  fetch('../api/delete_build.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -216,7 +216,7 @@ function doDeleteBuild(form) {
 
 //function uses rest api to send a delete desktop request to backend.
 function doDeleteDesktop(form) {
-  fetch('api/delete_desktop.php', {
+  fetch('../api/delete_desktop.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -241,7 +241,7 @@ function doDeleteDesktop(form) {
 }
 //function uses rest api to send a delete user request to backend.
 function doDeleteUser(form) {
-  fetch('api/delete_user.php', {
+  fetch('../api/delete_user.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -268,7 +268,7 @@ function doDeleteUser(form) {
 //function uses rest api to send a delete installation request to backend.
 
 function doDeleteInstallation(form) {
-  fetch('api/delete_installation.php', {
+  fetch('../api/delete_installation.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -296,7 +296,7 @@ function doDeleteInstallation(form) {
 //function uses rest api to send a insert build request to backend.
 
 function doInsertBuild(form) {
-  fetch('api/insert_build.php', {
+  fetch('../api/insert_build.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -322,7 +322,7 @@ function doInsertBuild(form) {
 
 //function uses rest api to send a insert desktop request to backend.
 function doInsertDesktop(form) {
-  fetch('api/insert_desktop.php', {
+  fetch('../api/insert_desktop.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -347,7 +347,7 @@ function doInsertDesktop(form) {
 }
 //function uses rest api to send a insert installation request to backend.
 function doInsertInstallation(form) {
-  fetch('api/insert_installation.php', {
+  fetch('../api/insert_installation.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -374,7 +374,7 @@ function doInsertInstallation(form) {
 }
 //function uses rest api to send a insert user request to backend.
 function doInsertUser(form) {
-  fetch('api/insert_user.php', {
+  fetch('../api/insert_user.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -405,7 +405,7 @@ function doInsertUser(form) {
 }
 //function uses rest api to send a update user request to backend.
 function doUpdateUser(form) {
-  fetch('api/update_user.php', {
+  fetch('../api/update_user.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -433,12 +433,12 @@ function doUpdateUser(form) {
 
 // Runs the sql procedure to create the weekly schedule and then redirects to the calendar page
 function createSchedule() {
-  fetch("api/finalize_schedule.php", {
+  fetch("../api/finalize_schedule.php", {
     method: "GET",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   }).then((response) => {
-    location = "index.html"
+    location = "../Views/index.html"
   })
 }

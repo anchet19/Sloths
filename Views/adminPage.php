@@ -8,13 +8,13 @@
 
 <head>
   <title>Admin Panel </title>
-  <script src="docCookies.js"></script>
+  <script src="../Utils/docCookies.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="index.js"></script>
-  <script src="adminPage.js"></script>
+  <script src="../Controllers/index.js"></script>
+  <script src="../Controllers/adminPage.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="adminPage.css">
+  <link rel="stylesheet" href="../Styles/adminPage.css">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
@@ -49,9 +49,9 @@
   </nav>
 
   <div class="container">
-    <div class="row mt-2">
+    <div class="row no-gutters mt-2">
       <!--div container for the side menu -->
-      <div class="col-md-3 ">
+      <div class="col-md-3">
         <div id="accordion">
           <div class="card">
             <div class="card-header bg-dark" id="headingOne">
@@ -164,7 +164,7 @@
       </div>
 
       <!-- Container for the Form Display-->
-      <div class="col-md-6 offset-md-1 border border-dark">
+      <div class="col-md-8 offset-md-1 border border-dark">
         <!-- Empty for initial display-->
         <div id="initialFormView" style="display: block"></div>
         <!--specifies which Build an admin would like to delete -->
@@ -355,21 +355,21 @@
         </div>
 
         <div id="desktopMetrics" style="display: none">
-          <form method="post" action="api/get_desktop_metrics.php" name="desktopMetricsForm" id="desktopMetricsForm">
+          <form method="post" action="../api/get_desktop_metrics.php" name="desktopMetricsForm" id="desktopMetricsForm">
             <div class="form-row justify-content-center">
-              <div class="col">
+              <div class="col offset-md-1">
                 <div class="form-group">
                   <label class="form-label" for="start">Start date:</label>
                   <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
                 </div>
               </div>
-              <div class="col">
+              <div class="col offset-md-1">
                 <div class="form-group">
                   <label class="form-label" for="end">End date:</label>
                   <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
                 </div>
               </div>
-              <div class="col">
+              <div class="col offset-md-1">
                 <label>&nbsp;</label> <!-- Alligns button with form input fields -->
                 <input class="btn btn-sm btn-success form-control" type="submit" name="submit" value="Submit">
               </div>

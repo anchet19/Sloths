@@ -5,7 +5,7 @@
 #author: Cassandra Bailey
 
 
-        if  (!include('connect.php')) {
+        if  (!include('../Utils/connect.php')) {
                 die('error finding connect file');
         }
 
