@@ -1,0 +1,39 @@
+/* Author: Kyle Kaminski */
+
+
+.legend {
+  font-size: 24px;
+  font-weight: bold;
+  width: 200px;
+  cursor: default;
+}
+
+.URequested {
+  background-color: #00CC00;
+  border-radius: 25px;
+  padding: 15px;
+}
+  
+.UFinalized {
+  background-color: #007700;
+  border-radius: 25px;
+  padding: 15px;
+}
+  
+.ORequested {
+  background-color: #CC0000;
+  border-radius: 25px;
+  padding: 15px;
+}
+  
+.OFinalized {
+  background-color: #770000;
+  border-radius: 25px;
+  padding: 15px;
+}
+  
+.open {
+  background-color: white;
+  border-radius: 25px;
+  padding: 15px;
+}
