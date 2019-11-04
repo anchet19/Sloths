@@ -21,7 +21,7 @@ try{
         if(validate($username, $password)){
             $userData = getUser($username, $password);
             
-            if($userData['admin'] == 1){
+            if($userData['admin'] == 2){
                 $sql = "INSERT INTO installation ";
                 $sql .= "(dtop_id, b_num) ";
                 $sql .= "VALUES ";

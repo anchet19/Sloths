@@ -26,7 +26,7 @@ try{
         if(validate($username, $password) && filter_var($email, FILTER_VALIDATE_EMAIL)){
             $userData = getUser($username, $password);
             
-            if($userData['admin'] == 1){
+            if($userData['admin'] == 2){
                 //hash password
                 $hashed_pwd = password_hash($newPassword, PASSWORD_DEFAULT);
    
