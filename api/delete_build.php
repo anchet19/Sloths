@@ -21,7 +21,7 @@ try{
         if(validate($username, $password)){
             $userData = getUser($username, $password);
             
-            if($userData['admin'] == 1){
+            if($userData['admin'] == 2){
                 $sql = "DELETE FROM installation WHERE b_num = $b_num";
                 
                 $stmt = $dbh->prepare($sql);

@@ -296,10 +296,11 @@
                   <input class="form-control" type="password" name="password" id="password" placeholder="Password"/>
                 </div>
                 <div class="form-group">
-                  <label for="newAdmin">Admin</label>
+                  <label for="newAdmin">Authorization Level</label>
                   <select class="form-control" id="newAdmin">
-                    <option value="1">Admin</option>
-                    <option value="0">Not Admin</option>
+                    <option value="0">User</option>
+                    <option value="1">Manager</option>
+                    <option value="2">Admin</option>         
                   </select>
                 </div>
                 <button class="btn btn-block btn-success" onsubmit="" onclick="doInsertUser(this.form)">Add User</button>
@@ -344,8 +345,9 @@
                 <div class="form-group">
                   <label for="oldAdmin">Select Desktop</label>
                   <select id="oldAdmin" class="form-control" name="admin">
-                    <option value="1">Admin</option>
-                    <option value="0">Not Admin</option>
+                    <option value="0">User</option>
+                    <option value="1">Manager</option>
+                    <option value="2">Admin</option>                
                   </select>
                 </div>
                 <button class="btn btn-success" type="button" onclick="doUpdateUser(this.form)">Update User</button>
