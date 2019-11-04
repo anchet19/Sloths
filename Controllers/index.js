@@ -148,13 +148,18 @@ function joinQueue() {
 //author: Cassandra Bailey
 
 function checkForAdmin() {
-    var admin = userData.admin;
+  const auth = userData.admin;
 
-    if (admin == 1) {
-        window.location.href = "../Views/adminPage.php";
-    } else {
-        alert("You don't have permission to access this page.");
-    }
+  if (auth == 2) {
+    window.location.href = "../Views/adminPage.php";
+  }
+  // Uncomment once Manager page is created
+  // else if(auth == 1){
+  //   window.location.href = "../Views/managerPage.php";
+  // }
+   else {
+    alert("You don't have permission to access this page.");
+  }
 }
 
 
@@ -455,7 +460,7 @@ function BuildCalendar() {
             console.log(start.toDate())
             // Calendar slots are non-responsive if the current date range is outside of the normal request
             // period unless the current user is an admin.
-            if ((userData.admin == 1 && activeStart >= startOfNextWeek) || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
+            if ((userData.admin == 2 && activeStart >= startOfNextWeek) || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
               end = start + 1.08e+7; // enforces the 3hr blocks. (milliseconds)
               $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
               var check = checkForInfoDisplay(start, end);
