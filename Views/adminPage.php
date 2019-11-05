@@ -343,7 +343,7 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="oldAdmin">Select Desktop</label>
+                  <label for="oldAdmin">Authorization Level</label>
                   <select id="oldAdmin" class="form-control" name="admin">
                     <option value="0">User</option>
                     <option value="1">Manager</option>
