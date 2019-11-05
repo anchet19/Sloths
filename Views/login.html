@@ -46,7 +46,7 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
       />
       <br />
       <br />
-      <!-- <a href="changepwd.php" class="change" > Change Password </a> -->
+      <a href="changepwd.php" class="change"> Forgot Your Password? </a>
       <!-- UNCOMMENT if we want to use this again. -->
       <br />
       <br />
@@ -70,13 +70,18 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
         })
       }).then(function(response) {
         response.json().then(function(data) {
+          if (data.message) {
+            document.getElementById("message").innerHTML = data.message;
+            return false;
+          }
           if (data.validation == true) {
             docCookies.setItem("username", form.user.value);
             docCookies.setItem("password", form.password.value);
             window.location.href = "index.html";
           } else {
             document.getElementById("message").innerHTML =
-              "Login attempt failed. Username or Password is incorrect";
+              "Login attempt failed. Username or Password is incorrect.";
+            return false;
           }
         });
       });
