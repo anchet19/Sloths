@@ -1,6 +1,7 @@
 <!DOCTYPE html5>
 <!-- HTML form for how the login is setup. 
-Authors:Eric DeAngelis, David Serrano (serranod7). -->
+Authors:Eric DeAngelis, David Serrano (serranod7). 
+modified: Chris Ancheta, Kyle Kaminski -->
 
 
 <html lang="en" dir="ltr">
@@ -14,10 +15,10 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
     <!-- CSS specifically for this page. -->
     <link rel="stylesheet" href="login.css">
     
-    <script src = "docCookies.js"></script>
+    <script src = "../Utils/docCookies.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
-  <body class="background" background="Images/Background.png">
+  <body class="background" background="../Images/Background.png">
     <form class="box">
       <!-- <img src="Images\asrc_logo.jpg" class="img" alt="ASRC"> --> <!-- Image without link -->
       <a href="https://www.asrcfederal.com/"><img src="Images\asrc_logo.jpg" title="ASRC" class="img" alt="ASRC"></a>
@@ -40,28 +41,36 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
     </form>
   </body>
   
-  <script language="javascript">
-    function check(form) { /*function to check userid & password*/
-        fetch("api/validate_user.php",{
-            method: "POST",
-            headers: {
-                "Content-Type":"application/x-www-form-urlencoded",
-            },
-            body: $.param({
-                "username":document.getElementById("username").value,
-                "password":document.getElementById("password").value
-            })
-        }).then(function(response){
-            response.json().then(function(data){
-                if(data.validation == true){
-                    docCookies.setItem("username", form.user.value);
-                    docCookies.setItem("password", form.password.value);
-                    window.location.href = "index.html";
-                }else{
-                    document.getElementById("message").innerHTML = "Login attempt failed. Username or Password is incorrect";
-                }
-            })
+    <script language="javascript">
+    function check(form) {
+      /*function to check userid & password*/
+      fetch("../api/validate_user.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: $.param({
+          username: document.getElementById("username").value,
+          password: document.getElementById("password").value
+        })
+      }).then(function(response) {
+        response.json().then(function(data) {
+          if (data.message) {
+            document.getElementById("message").innerHTML = data.message;
+            return false;
+          }
+          if (data.validation == true) {
+            docCookies.setItem("username", form.user.value);
+            docCookies.setItem("password", form.password.value);
+            window.location.href = "index.html";
+          } else {
+            document.getElementById("message").innerHTML =
+              "Login attempt failed. Username or Password is incorrect.";
+            return false;
+          }
         });
+      });
     }
   </script>
 </html>
+
