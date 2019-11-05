@@ -502,13 +502,13 @@ function BuildCalendar() {
             // Color the events differently if it belongs to the current user
             if(event.className[0] === 'request') {
               if (event.usernames.includes(userData.username)) {
-                element.css("background-color", "orange")
-                element.css("border-color", "orange")
+                element.css("background-color", "#80FF8040")
+                element.css("border-color", "#00000040")
               }
             } else {
               if(event.username === userData.username) {
-                element.css("background-color", "green")
-                element.css("border-color", "green")
+                element.css("background-color", "#00CC00")
+                element.css("border-color", "#000000")
               }
             }
             desktop = document.getElementById('demo').value;

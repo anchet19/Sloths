@@ -14,7 +14,10 @@
   <script src="../Controllers/adminPage.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="../Styles/adminPage.css">
+      <!-- Highest level of CSS, applies to all pages of the software. -->
+    <link rel="stylesheet" href="../Styles/desktop.css">
+    <!-- CSS specifically for this page. -->
+    <link rel="stylesheet" href="../Styles/adminPage.css">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
@@ -29,24 +32,16 @@
  
 </style>
 
-<body>
+<body class="background" background="../Images/Background.png">
   <!--specifies a header for the administrator page -->
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">Calendar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer" onclick="logout()">Logout</a>
-        </li>
-      </ul>
+  <body class="background" background="../Images/Background.png">
+    <div class="header">Admin Page</div>
+    <div class="topnav">
+        <ul>
+          <li><a class="calendar-button" href="index.html">Calendar</a></li>
+          <li><a class="logout" onclick="logout()">Logout</a></li>
+        </ul>
     </div>
-  </nav>
 
   <div class="container">
     <div class="row no-gutters mt-2">
@@ -277,11 +272,11 @@
               <form>
                 <div class="form-group">
                   <label for="firstName">First Name</label>
-                  <input class="form-control type=" text" name="firstName" id="firstName" placeholder="First Name" />
+                  <input class="form-control" type="text-sm"  name="firstName" id="firstName" placeholder="First Name" />
                 </div>
                 <div class="form-group">
                   <label for="lastName">Last Name</label>
-                  <input class="form-control" type="text" name="lastName" id="lastName" placeholder="Last Name" />
+                  <input class="form-control" type="text-sm"  name="lastName" id="lastName" placeholder="Last Name" />
                 </div>
                 <div class="form-group">
                   <label for="email">Email</label>
@@ -289,7 +284,7 @@
                 </div>
                 <div class="form-group">
                   <label for="username">Username</label>
-                  <input class="form-control" type="text" name="username" id="username" placeholder="Username" />
+                  <input class="form-control" type="text-sm" name="username" id="username" placeholder="Username" />
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
@@ -297,7 +292,7 @@
                 </div>
                 <div class="form-group">
                   <label for="newAdmin">Authorization Level</label>
-                  <select class="form-control" id="newAdmin">
+                  <select class="form-control-sm" id="newAdmin">
                     <option value="0">User</option>
                     <option value="1">Manager</option>
                     <option value="2">Admin</option>         

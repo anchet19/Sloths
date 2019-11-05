@@ -3,45 +3,66 @@
 Authors:Eric DeAngelis, David Serrano (serranod7). 
 modified: Chris Ancheta, Kyle Kaminski -->
 
-
 <html lang="en" dir="ltr">
   <head>
-    <meta chartset="utf-8">
+    <meta chartset="utf-8" />
     <title>ASRC Desktop Scheduler Login</title>
 
     <!-- Highest level of CSS, applies to all pages of the software. -->
-    <link rel="stylesheet" href="desktop.css">
+    <link rel="stylesheet" href="../Styles/desktop.css" />
 
     <!-- CSS specifically for this page. -->
-    <link rel="stylesheet" href="login.css">
-    
-    <script src = "../Utils/docCookies.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Styles/login.css" />
+
+    <script src="../Utils/docCookies.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body class="background" background="../Images/Background.png">
     <form class="box">
-      <!-- <img src="Images\asrc_logo.jpg" class="img" alt="ASRC"> --> <!-- Image without link -->
-      <a href="https://www.asrcfederal.com/"><img src="Images\asrc_logo.jpg" title="ASRC" class="img" alt="ASRC"></a>
-      <h1>ASRC Desktop Scheduler Login </h1>
+      <!-- <img src="Images\asrc_logo.jpg" class="img" alt="ASRC"> -->
+      <!-- Image without link -->
+      <a href="https://www.asrcfederal.com/"
+        ><img src="../Images/asrc_logo.jpg" title="ASRC" class="img" alt="ASRC"
+      /></a>
+      <h1>ASRC Desktop Scheduler Login</h1>
       <font>Username:</font>
-      <input id="username" type="text" name="user" value="" placeholder="Username">
-      <br>
+      <input
+        id="username"
+        type="text"
+        name="user"
+        value=""
+        placeholder="Username"
+      />
+      <br />
       <font>Password:</font>
-      <input id="password" type="password" name="password" value="" placeholder="Password">
-      <br>
-      <br>
-      <input type="button" onclick="check(this.form)" name="submit" id="submit" value="Submit">
-      <br>
-      <br>
-      <!-- <a href="changepwd.php" class="change" > Change Password </a> --> <!-- UNCOMMENT if we want to use this again. -->
-      <br>
-      <br>
-      <!-- <a href="index.html" class="change" > Guest Login (TEST ONLY) </a> --> <!-- Remove me in final release. -->
+      <input
+        id="password"
+        type="password"
+        name="password"
+        value=""
+        placeholder="Password"
+      />
+      <br />
+      <br />
+      <input
+        type="button"
+        onclick="check(this.form)"
+        name="submit"
+        id="submit"
+        value="Submit"
+      />
+      <br />
+      <br />
+      <!-- <a href="changepwd.php" class="change" > Change Password </a> -->
+      <!-- UNCOMMENT if we want to use this again. -->
+      <br />
+      <br />
+      <!-- <a href="index.html" class="change" > Guest Login (TEST ONLY) </a> -->
+      <!-- Remove me in final release. -->
       <div id="message"></div>
     </form>
   </body>
-  
-    <script language="javascript">
+  <script language="javascript">
     function check(form) {
       /*function to check userid & password*/
       fetch("../api/validate_user.php", {
@@ -62,7 +83,7 @@ modified: Chris Ancheta, Kyle Kaminski -->
           if (data.validation == true) {
             docCookies.setItem("username", form.user.value);
             docCookies.setItem("password", form.password.value);
-            window.location.href = "index.html";
+            window.location.href = "./index.html";
           } else {
             document.getElementById("message").innerHTML =
               "Login attempt failed. Username or Password is incorrect.";
@@ -73,4 +94,3 @@ modified: Chris Ancheta, Kyle Kaminski -->
     }
   </script>
 </html>
-

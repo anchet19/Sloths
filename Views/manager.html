@@ -3,61 +3,82 @@
 <!-- Author: Kyle Kaminski -->
 
 <html lang="en">
-
-<head>
+  <head>
     <!-- Highest level of CSS, applies to all pages of the software. -->
-    <link rel="stylesheet" href="desktop.css">
+    <link rel="stylesheet" href="../Styles/desktop.css" />
 
     <!-- CSS specifically for this page. -->
-    <link rel="stylesheet" type="text/css" href="manager.css">
-    
-    <title>Help Page</title>
-</head>
+    <link rel="stylesheet" type="text/css" href="../Styles/manager.css" />
 
-<body class="background" background="Images/Background.png">
+    <title>Help Page</title>
+  </head>
+
+  <body class="background" background="../Images/Background.png">
     <div class="header">Help Page</div>
     <div class="topnav">
-        <ul class="top">
-            <li><a href="index.html">Calendar</a></li>
-            <li><a class="logout" onclick="logout()">Logout</a></li>
-        </ul>
+      <ul class="top">
+        <li><a href="index.html">Calendar</a></li>
+        <li><a class="logout" onclick="logout()">Logout</a></li>
+      </ul>
     </div>
     <div class="FAQ">
-        <ul class="response">
-            <li class="question">What is the purpose of this software?</li>
-            <li class="answer">
-                This software handles the process of scheduling time slots automatically so the administrator does not need to do it by hand.
-            </li>
-        </ul>
-        <ul class="response">
-            <li class="question">Who is this software for?</li>
-            <li class="answer">This software is for the employees of ASRC Federal.</li>
-        </ul>
-        <ul class="response">
-                <li class="question">What are the roles for this software?</li>
-                <li class="answer">This software supports the roles of administrator, manager, and user.</li>
-        </ul>
-        <ul class="response">
-                <li class="question">What do the colors mean on the Calendar page?</li>
-                <li class="answer">Please take a look at the Legend page for more information.</li>
-        </ul>
-        <ul class="response">
-                <li class="question">What happens if I request a time slot at the time time as another employee?</li>
-                <li class="answer">No problem! When the administrator finalizes the schedule, our fairness algorithm calculates which employee gets the time slot.</li>
-        </ul>
-        <ul class="response">
-                <li class="question">I did not get the time slot I requested and it was given to another employee (or employees) that also requested it. Is there a "secret" to always get a slot?</li>
-                <li class="answer">
-                    Not precisely. We try to make it as fair as possible for all employees.
-                    Every user has a "score" that changes depending on that respective user's choices when selecting time slots.
-                    This score is used as a "tiebreaker" when multiple users request a time slot.
-                    Don't worry, if you did not get a slot you requested, this increases your chance to win a tiebreaker next time.
-                </li>
-        </ul>
-        <ul class="response">
-                <li class="question">What version is this software?</li>
-                <li class="answer">At the time this software is presented to ASRC Federal in December, the software is at version 1.0.</li>
-        </ul>
+      <ul class="response">
+        <li class="question">What is the purpose of this software?</li>
+        <li class="answer">
+          This software handles the process of scheduling time slots
+          automatically so the administrator does not need to do it by hand.
+        </li>
+      </ul>
+      <ul class="response">
+        <li class="question">Who is this software for?</li>
+        <li class="answer">
+          This software is for the employees of ASRC Federal.
+        </li>
+      </ul>
+      <ul class="response">
+        <li class="question">What are the roles for this software?</li>
+        <li class="answer">
+          This software supports the roles of administrator, manager, and user.
+        </li>
+      </ul>
+      <ul class="response">
+        <li class="question">What do the colors mean on the Calendar page?</li>
+        <li class="answer">
+          Please take a look at the Legend page for more information.
+        </li>
+      </ul>
+      <ul class="response">
+        <li class="question">
+          What happens if I request a time slot at the time time as another
+          employee?
+        </li>
+        <li class="answer">
+          No problem! When the administrator finalizes the schedule, our
+          fairness algorithm calculates which employee gets the time slot.
+        </li>
+      </ul>
+      <ul class="response">
+        <li class="question">
+          I did not get the time slot I requested and it was given to another
+          employee (or employees) that also requested it. Is there a "secret" to
+          always get a slot?
+        </li>
+        <li class="answer">
+          Not precisely. We try to make it as fair as possible for all
+          employees. Every user has a "score" that changes depending on that
+          respective user's choices when selecting time slots. This score is
+          used as a "tiebreaker" when multiple users request a time slot. Don't
+          worry, if you did not get a slot you requested, this increases your
+          chance to win a tiebreaker next time.
+        </li>
+      </ul>
+      <ul class="response">
+        <li class="question">What version is this software?</li>
+        <li class="answer">
+          At the time this software is presented to ASRC Federal in December,
+          the software is at version 1.0.
+        </li>
+      </ul>
     </div>
-</body>
+  </body>
 </html>
