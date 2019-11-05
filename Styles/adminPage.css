@@ -8,9 +8,10 @@ form {
   font-size: 1.2em;
   margin-top: 25px;
   text-align: center;
-  color: black;
+  color: #2e398f;
 }
 
-.container {
-  margin: 0;
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
 }

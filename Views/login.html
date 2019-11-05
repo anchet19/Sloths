@@ -1,16 +1,23 @@
 <!DOCTYPE html5>
 <!-- HTML form for how the login is setup. 
-Authors:Eric DeAngelis, David Serrano (serranod7). -->
+Authors:Eric DeAngelis, David Serrano (serranod7). 
+modified: Chris Ancheta, Kyle Kaminski -->
 
 <html lang="en" dir="ltr">
   <head>
     <meta chartset="utf-8" />
     <title>ASRC Desktop Scheduler Login</title>
+
+    <!-- Highest level of CSS, applies to all pages of the software. -->
+    <link rel="stylesheet" href="../Styles/desktop.css" />
+
+    <!-- CSS specifically for this page. -->
     <link rel="stylesheet" href="../Styles/login.css" />
+
     <script src="../Utils/docCookies.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
-  <body>
+  <body class="background" background="../Images/Background.png">
     <form class="box">
       <!-- <img src="Images\asrc_logo.jpg" class="img" alt="ASRC"> -->
       <!-- Image without link -->
@@ -18,7 +25,7 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
         ><img src="../Images/asrc_logo.jpg" title="ASRC" class="img" alt="ASRC"
       /></a>
       <h1>ASRC Desktop Scheduler Login</h1>
-      Username:
+      <font>Username:</font>
       <input
         id="username"
         type="text"
@@ -27,7 +34,7 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
         placeholder="Username"
       />
       <br />
-      Password:
+      <font>Password:</font>
       <input
         id="password"
         type="password"
@@ -46,7 +53,7 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
       />
       <br />
       <br />
-      <a href="changepwd.php" class="change"> Forgot Your Password? </a>
+      <!-- <a href="changepwd.php" class="change" > Change Password </a> -->
       <!-- UNCOMMENT if we want to use this again. -->
       <br />
       <br />
@@ -57,6 +64,7 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
   </body>
 
   <script language="javascript">
+    // import { docCookies } from "../Utils/docCookies.js";
     function check(form) {
       /*function to check userid & password*/
       fetch("../api/validate_user.php", {
@@ -77,7 +85,7 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
           if (data.validation == true) {
             docCookies.setItem("username", form.user.value);
             docCookies.setItem("password", form.password.value);
-            window.location.href = "index.html";
+            window.location.href = "./index.html";
           } else {
             document.getElementById("message").innerHTML =
               "Login attempt failed. Username or Password is incorrect.";
