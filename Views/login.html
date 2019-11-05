@@ -1,62 +1,47 @@
 <!DOCTYPE html5>
 <!-- HTML form for how the login is setup. 
-Authors:Eric DeAngelis, David Serrano (serranod7). -->
+Authors:Eric DeAngelis, David Serrano (serranod7). 
+modified: Chris Ancheta, Kyle Kaminski -->
+
 
 <html lang="en" dir="ltr">
   <head>
-    <meta chartset="utf-8" />
+    <meta chartset="utf-8">
     <title>ASRC Desktop Scheduler Login</title>
-    <link rel="stylesheet" href="../Styles/login.css" />
-    <script src="../Utils/docCookies.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Highest level of CSS, applies to all pages of the software. -->
+    <link rel="stylesheet" href="desktop.css">
+
+    <!-- CSS specifically for this page. -->
+    <link rel="stylesheet" href="login.css">
+    
+    <script src = "../Utils/docCookies.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
-  <body>
+  <body class="background" background="../Images/Background.png">
     <form class="box">
-      <!-- <img src="Images\asrc_logo.jpg" class="img" alt="ASRC"> -->
-      <!-- Image without link -->
-      <a href="https://www.asrcfederal.com/"
-        ><img src="../Images/asrc_logo.jpg" title="ASRC" class="img" alt="ASRC"
-      /></a>
-      <h1>ASRC Desktop Scheduler Login</h1>
-      Username:
-      <input
-        id="username"
-        type="text"
-        name="user"
-        value=""
-        placeholder="Username"
-      />
-      <br />
-      Password:
-      <input
-        id="password"
-        type="password"
-        name="password"
-        value=""
-        placeholder="Password"
-      />
-      <br />
-      <br />
-      <input
-        type="button"
-        onclick="check(this.form)"
-        name="submit"
-        id="submit"
-        value="Submit"
-      />
-      <br />
-      <br />
-      <a href="changepwd.php" class="change"> Forgot Your Password? </a>
-      <!-- UNCOMMENT if we want to use this again. -->
-      <br />
-      <br />
-      <!-- <a href="index.html" class="change" > Guest Login (TEST ONLY) </a> -->
-      <!-- Remove me in final release. -->
+      <!-- <img src="Images\asrc_logo.jpg" class="img" alt="ASRC"> --> <!-- Image without link -->
+      <a href="https://www.asrcfederal.com/"><img src="Images\asrc_logo.jpg" title="ASRC" class="img" alt="ASRC"></a>
+      <h1>ASRC Desktop Scheduler Login </h1>
+      <font>Username:</font>
+      <input id="username" type="text" name="user" value="" placeholder="Username">
+      <br>
+      <font>Password:</font>
+      <input id="password" type="password" name="password" value="" placeholder="Password">
+      <br>
+      <br>
+      <input type="button" onclick="check(this.form)" name="submit" id="submit" value="Submit">
+      <br>
+      <br>
+      <!-- <a href="changepwd.php" class="change" > Change Password </a> --> <!-- UNCOMMENT if we want to use this again. -->
+      <br>
+      <br>
+      <!-- <a href="index.html" class="change" > Guest Login (TEST ONLY) </a> --> <!-- Remove me in final release. -->
       <div id="message"></div>
     </form>
   </body>
-
-  <script language="javascript">
+  
+    <script language="javascript">
     function check(form) {
       /*function to check userid & password*/
       fetch("../api/validate_user.php", {
@@ -88,3 +73,4 @@ Authors:Eric DeAngelis, David Serrano (serranod7). -->
     }
   </script>
 </html>
+
