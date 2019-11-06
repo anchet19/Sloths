@@ -2,6 +2,7 @@
 
 /* Style of the entire FAQ section of this page. */
 .FAQ {
+  background-color: #FFFFFF !important;
   border: #2e398f solid;
   border-width: 10px;
 } 
@@ -16,10 +17,9 @@
 
 .question {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 32px;
 }
 
 .answer {
-  font-style: italic;
   font-size: 18px;
 }
