@@ -1,0 +1,23 @@
+/* #menu-button {
+    background-color: rgba(0, 0, 0, 0);
+    color: whitesmoke;
+    outline: none;
+  }
+  
+  form {
+    font-size: 1.2em;
+    margin-top: 25px;
+    text-align: center;
+    color: #2e398f;
+  }
+  
+  label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  } */
+  /* CSS above is taken from admin.css */
+
+  /* Delete this when we start working on this page. */
+.WIP {
+  font-size: 48px !important;
+}
