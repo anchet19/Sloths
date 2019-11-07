@@ -206,10 +206,11 @@ function getSundayOfCurrentWeek(d) {
 //if a user selects a timeslot and clicks the Release button, this function will execute
 //author: Cassandra Bailey
 function releaseSlot() {
-    var time = $('#time').val();
-    var date = $('#date').val();
-    var desktop = $('#desktop').val();
-    var user = $('#user').val();
+    const time = $('#time').val();
+    const date = $('#date').val();
+    const desktop = $('#desktop').val();
+    const user = $('#user').val();
+    const reservedBy = $('#reservedBy').val();
 
     //if the current user does not have the selected timeslot reserved, they are not permitted to release it
 
@@ -217,7 +218,11 @@ function releaseSlot() {
         $("#dialog-confirm").dialog("close"); // Koala
         alert("You cannot release a timeslot which you don't have reserved.");
     }
+    // TO-DO: Create script to release a reservation based on if the reservation belongs
+    // to the current user and if the start time of the reservation has not yet passed.
+    else if (reservedBy !== ''){
 
+    }
     //if the current user has the timeslot requested, release.php will be executed and the request
     // will be removed from the queue table in the database
     else {
@@ -471,12 +476,13 @@ function BuildCalendar() {
           },
 
           eventClick: function(event, element) {
+            // if(event.username === userData.username){
               //BEGIN : Koala modifications 
               $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
               // $('#calendar').fullCalendar('updateEvent', event);
               //END : Koala modifications
-
-              document.getElementById('reservedBy').value = event.title;
+            // }
+              document.getElementById('reservedBy').value = event.username ? event.title : '';
               document.getElementById('date').value = event.date;
               document.getElementById('time').value = event.time;
               document.getElementById('desktop').value = event.id;
