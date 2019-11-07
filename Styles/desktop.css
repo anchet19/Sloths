@@ -47,10 +47,10 @@
     border: outset;
     border-color: #2e398f;
   }
-  
   li a:hover {
     background-color: #2e398f;
     border: inset;
+    color: white !important;
     border-color: #273076;
   }
   
@@ -61,7 +61,6 @@
     padding: 14px 16px;
     text-decoration: none;
   }
-  
   .topnav button:hover {
     background-color: #111;
   }
@@ -73,6 +72,9 @@
       color: red !important;
       font-weight: bold;
       float: right;
+  }
+  .logout:hover {
+    color: red !important;
   }
 
   button {
@@ -136,3 +138,16 @@
     text-align: center;
     padding: 5px;
   }
+
+  /* Warning message that the current content is WIP. */
+    /* Temp CSS code, delete when working on this page. */
+.WIP {
+  color: #ccc;
+  font-size: inherit;
+  font-weight: bold;
+  background: #2e398f;
+  width: 50%;
+  padding: 25px;
+  border: 15px dashed;
+  border-color: yellow;
+}
