@@ -19,7 +19,7 @@ try{
             
             if($userData['admin'] == 2){
                 $sql = "SELECT user_num,first_name,last_name,username,email ";
-                $sql .= "FROM user ";
+                $sql .= "FROM user ORDER BY username ";
    
                 $stmt = $dbh->prepare($sql);
                 $stmt->execute();
