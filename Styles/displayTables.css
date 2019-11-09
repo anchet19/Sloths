@@ -1,22 +1,59 @@
 /*design specifications for viewusers.php, viewreservations.php, viewinstallations.php, viewbuilds.php, viewdesktops.php
-author: Cassandra Bailey*/
+authors: Cassandra Bailey, Kyle Kaminski*/
 
-
+/* The entire table that is displayed. */
 table {
-  border-collapse: collapse;
+  /* Removes lines in between entries. */
+  /* border-collapse: collapse; */
   width: 100%;
+  border: 5px solid #2e398f;
 }
 
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even){background-color: #f2f2f2}
-
+/* Table headers. */
 th {
+  text-align: left;
+  padding: 5px;
+  font-weight: bold;
   background-color: #2e398f;
   color: white;
 }
 
+/* Table entries. */
+td, tr {
+  border-top: 2px solid #2e398f;
+  color: black;
+  text-align: left;
+  padding: 10px;
+  font-size: 18px;
+}
 
+/* Table entries 1, 3, 5, ... */
+tr:nth-child(even){
+  background-color: rgba(46, 57, 143, 0.100);
+}
+
+/* Table entries 2, 4, 6, ... */
+tr:nth-child(odd){
+  background-color: rgba(46, 57, 143, 0.300);
+}
+
+/*Header and topnav CSS */
+
+/* Backdrop image */
+.background {
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+
+.header {
+  font-family: verdana;
+  text-shadow: 2px 2px grey;
+  background:#273076;
+  text-align: center;
+  font-weight: bold;
+  color: #ccc;
+  font-size: 48px;
+  cursor: default;
+  padding: 10px;
+}
