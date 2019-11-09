@@ -20,7 +20,7 @@ try{
     if(isset($_POST['username']) && isset($_POST['password'])){
 
         if(validate($_POST['username'], $_POST['password'])){
-    
+            $username = $_POST['username'];
             $dbh = ConnectDB();
 	          $sql = "SELECT installation.install_id AS installID, "; 
 	          $sql .= "installation.dtop_id AS dtopID, ";
@@ -31,7 +31,9 @@ try{
 	          $sql .= "INNER JOIN desktop ON ";
 	          $sql .= "installation.dtop_id=desktop.dtop_id ";
 	          $sql .= "INNER JOIN build ON "; 
-	          $sql .= "installation.b_num=build.b_num ";
+              $sql .= "installation.b_num=build.b_num ";
+              $sql .= "INNER JOIN privilege on desktop.dtop_id = privilege.dtop_id ";
+              $sql .= "WHERE privilege.user_num = (SELECT user_num FROM user WHERE username = '$username') ";
 	          $sql .= "ORDER BY desktop.name";
             
             $stmt = $dbh->prepare($sql);
@@ -40,10 +42,10 @@ try{
             echo json_encode($stmt->fetchAll());
         }
         else{
-            echo '{"validation":false}';
+            echo '{"validation1":false}';
         }
     }else{
-        echo '{"validation":false}';
+        echo '{"validation2":false}';
     }
 }catch(\Error $e){
     echo $e->getMessage();
