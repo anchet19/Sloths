@@ -16,26 +16,14 @@ if(!include_once('../Utils/connect.php'))
     die('error finding connect file');
 }
 
-
-try{
-    if(isset($_POST['username']) && isset($_POST['password'])){
-
-        if(validate($_POST['username'], $_POST['password'])){
-    
-            $dbh = ConnectDB();
-	          $sql = "SELECT * FROM desktop "; 
-            
-            $stmt = $dbh->prepare($sql);
-            $stmt->execute();
-            
-            echo json_encode($stmt->fetchAll());
-        }
-        else{
-            echo '{"validation":false}';
-        }
-    }else{
-        echo '{"validation":false}';
-    }
+try {
+  $dbh = ConnectDB();
+  $sql = "SELECT * FROM desktop "; 
+  
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+  
+  echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 }catch(\Error $e){
     echo $e->getMessage();
 };

@@ -13,9 +13,7 @@ if (!include('../Utils/connect.php')) {
 }
 
 $dbh = ConnectDB();
-?>
 
-<?php
 	$curr = $_POST['curr'];
 	$time = $_POST['time'];
 	$date = $_POST['date'];

@@ -30,7 +30,7 @@ body {
 
 .box input[type="text"],
 .box input[type="password"],
-input[type="email"] {
+.box input[type="email"] {
   background: white;
   text-align: center;
   border: 2px solid #273076;
@@ -42,8 +42,7 @@ input[type="email"] {
   cursor: text;
 }
 
-.box input[type="button"],
-input[type="submit"] {
+.box input[type="submit"] {
   border: outset;
   color: white;
   border-color: #273076;

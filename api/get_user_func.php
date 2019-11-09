@@ -10,19 +10,14 @@ if(!include_once('../Utils/connect.php')){
     die('error finding connect file');
 }
 
-function getUser($username, $password){
-    if (validate($username, $password)){
-        $dbh = ConnectDB();
-        $sql = "SELECT user_num, first_name, last_name, ";
-        $sql .= "username, email, admin FROM user ";
-        $sql .= "WHERE username='$username'";
-        $stmt = $dbh->prepare($sql);
-        $stmt->execute();
-        
-        return $stmt->fetch();
-    }else{
-        return false;
-    }   
+function getUser($username){
+  $dbh = ConnectDB();
+  $sql = "SELECT user_num, first_name, last_name, ";
+  $sql .= "username, email, admin FROM user ";
+  $sql .= "WHERE username='$username'";
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+  return json_encode($stmt->fetch(PDO::FETCH_ASSOC));
 }
 
 ?>

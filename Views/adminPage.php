@@ -3,6 +3,8 @@
 // each form is displayed when its corresponding link is clicked
 // authors: David Serrano(serranod7), William Geary
 // modified: Chris Ancheta, 2019-10-18
+
+session_start();
 ?>
 <html>
 
@@ -38,7 +40,7 @@
     <div class="header">Admin Page</div>
     <div class="topnav">
         <ul>
-          <li><a class="calendar-button" href="index.html">Calendar</a></li>
+          <li><a class="calendar-button" href="index">Calendar</a></li>
           <li><a class="logout" onclick="logout()">Logout</a></li>
         </ul>
     </div>
@@ -59,9 +61,10 @@
             </div>
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="card-body center">
-                <a class="dropdown-item " href="viewusers.php">View Users</a>
+                <a class="dropdown-item btn" href="viewusers.php">View Users</a>
                 <a class="dropdown-item btn" onclick="makeVisible('insertUser')" data-toggle="collapse" href="#collapseOne">Insert User</a>
                 <a class="dropdown-item btn" onclick="makeVisible('updateUser')" data-toggle="collapse" href="#collapseOne">Update User</a>
+                <a class="dropdown-item btn" onclick="makeVisible('changeUserPassword')" data-toggle="collapse" href="#collapseOne">Change User Password</a>
                 <a class="dropdown-item btn" onclick="makeVisible('deleteUser')" data-toggle="collapse" href="#collapseOne">Delete User</a>
               </div>
             </div>
@@ -77,7 +80,7 @@
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
               <div class="card-body center">
-                <a class="dropdown-item" href="viewdesktops.php">View Desktops</a>
+                <a class="dropdown-item btn" href="viewdesktops.php">View Desktops</a>
                 <a class="dropdown-item btn" onclick="makeVisible('insertDesktop')" data-toggle="collapse" href="#collapseTwo">Insert Desktop</a>
                 <a class="dropdown-item btn" onclick="makeVisible('deleteDesktop')" data-toggle="collapse" href="#collapseTwo">Delete Desktop</a>
               </div>
@@ -94,7 +97,7 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
               <div class="card-body center">
-                <a class="dropdown-item" href="viewbuilds.php">View Builds</a>
+                <a class="dropdown-item btn" href="viewbuilds.php">View Builds</a>
                 <a class="dropdown-item btn" onclick="makeVisible('insertBuild')" data-toggle="collapse" href="#collapseThree">Insert Build</a>
                 <a class="dropdown-item btn" onclick="makeVisible('deleteBuild')" data-toggle="collapse" href="#collapseThree">Delete Build</a>
               </div>
@@ -129,7 +132,7 @@
             </div>
             <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
               <div class="card-body center">
-                <a class="dropdown-item " href="viewreservations.php">View Reservations</a>
+                <a class="dropdown-item btn" href="viewreservations.php">View Reservations</a>
               </div>
             </div>
           </div>
@@ -351,6 +354,28 @@
           </div>
         </div>
 
+        <div id="changeUserPassword" style="display: none">
+          <div class="row justify-content-center">
+            <div class="col-md-4">
+              <form action="adminPage.php" onsubmit="">
+                <div class="form-group">
+                  <label for="changePasswordSelect">Select User</label>
+                  <select id="changePasswordSelect" class="form-control" placeholder="Select User" type="text" name="user">
+                    <option selected>User Select</option>
+                  </select>
+                </div>
+                <div class="form-group" >
+                  <label for="newPassword">New Password</label>
+                  <input id="newPassword" class="form-control" name="newPassword" />
+                  <label for="newPassword">Confirm Password</label>
+                  <input id="newPassword_confirm" class="form-control" name="newPassword" />
+                </div>
+                <input class="btn btn-success" name="admin_change_password" type="submit" />
+              </form>
+            </div>
+          </div>
+        </div>
+
         <div id="desktopMetrics" style="display: none">
           <form method="post" action="../api/get_desktop_metrics.php" name="desktopMetricsForm" id="desktopMetricsForm">
             <div class="form-row justify-content-center">
@@ -380,10 +405,11 @@
     
   </div>
   <script language="javascript">
+    sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
     function logout() {
         docCookies.removeItem("username");
         docCookies.removeItem("password");
-        window.location.href = "login.html";
+        window.location.href = "login";
     };
   </script>
 

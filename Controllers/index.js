@@ -28,17 +28,12 @@ function checkForDesktop(form) {
 //retrieves installation data using rest request.
 //then the data is used to link the build and desktop dropdowns.
 //Author: David Serrano (serranod7)
-function populateDropdowns(username, password) {
+function populateDropdowns() {
     fetch('../api/get_installations.php', {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: $.param({
-            "username": username,
-            "password": password
-        })
-
     }).then(function(response) {
         response.json().then(function(data) {
             installationData = data;
@@ -92,21 +87,20 @@ function populateDropdown(b_num) {
 
 //Retrieves user data using rest api
 //Author: David Serrano (serranod7)
-function retrieveUser(username, password) {
+function retrieveUser(username) {
     fetch('../api/get_user.php', {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
         body: $.param({
-            "username": username,
-            "password": password
+            "username": username
         })
     }).then(function(response) {
         response.json().then(function(data) {
             if (data.validation !== false) {
                 welcome = document.getElementById("welcome");
-                // welcome.innerHTML = "Hello " + data.first_name + "!";
+                welcome.innerHTML = "Hello " + data.first_name + "!";
                 userData = data;
             } else {
                 window.location.href = "../Views/login.html";
@@ -389,7 +383,7 @@ function BuildCalendar() {
             type: 'GET',
             textColor: 'black',
             success: function(data) {
-                console.log('requests.php - success!! ' + data);
+                console.log('requests loaded');
                 $('#calendar').fullCalendar('rerenderEvents');
             },
             error: function(data) {
@@ -406,7 +400,7 @@ function BuildCalendar() {
             textColor: 'black',
             className: ["reservation"],
             success: function (data) {
-              console.log('requests.php - success!! ' + data);
+              console.log('reservations loaded');
               $('#calendar').fullCalendar('rerenderEvents');
             },
             error: function (data) {
@@ -416,7 +410,7 @@ function BuildCalendar() {
               console.log(data);
             }
           }],
-          minTime: "00:00:00",
+          minTime: "06:00:00",
           maxTime: "24:00:00",
           firstHour: "06:00:00",
           schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',

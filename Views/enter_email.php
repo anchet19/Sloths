@@ -9,7 +9,6 @@
   </head>
   <body class="background" background="../Images/Background.png">
     <div class="container">
-      <div>
         <form class="box" action="enter_email.php" method="post">
           <h1>Reset Password</h1>
           <a href="https://www.asrcfederal.com/">
@@ -24,7 +23,6 @@
           <br>
           <input type="submit" name="reset-password" value="Submit" />
         </form>
-      </div>
     </div>
   </body>
 </html>

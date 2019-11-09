@@ -40,13 +40,4 @@ function validate($username, $password){
     return false;
   }
 }
-
-function getAttempts($username) {
-  $dbh = ConnectDB();
-  $sql = "SELECT login_attempts FROM user WHERE username = '$username'";
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute();
-  $result = $stmt->fetch();
-  return $result[0];
-}
 ?>
