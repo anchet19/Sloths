@@ -7,7 +7,7 @@ label {
   background-color: #00000000;
   color: white;
   outline: none;
-  border: none !important;
+  border: none;
 }
 
 /* The color of the headers for each tab. */
