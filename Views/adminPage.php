@@ -14,11 +14,17 @@
   <script src="../Controllers/adminPage.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-      <!-- Highest level of CSS, applies to all pages of the software. -->
+    
+    <!-- Highest level of CSS, applies to all pages of the software. -->
     <link rel="stylesheet" href="../Styles/desktop.css">
+    
     <!-- CSS specifically for this page. -->
     <link rel="stylesheet" href="../Styles/adminPage.css">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  
+    <!-- CSS specifically for this drawing in-page tables. -->
+    <link rel="stylesheet" href="../Styles/displayTables.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -368,7 +374,7 @@
               </div>
               <div class="col offset-md-1">
                 <label>&nbsp;</label> <!-- Alligns button with form input fields -->
-                <input class="btn btn-sm btn-success form-control" type="submit" name="submit" value="Submit">
+                <input class="btn btn-sm form-control btn-success " type="submit" name="submit" value="Submit">
               </div>
             </div>
           </form>
