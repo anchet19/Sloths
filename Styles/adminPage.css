@@ -47,22 +47,25 @@ form {
   padding: 20px !important;
   border: 2px solid #2e398f !important;
   font-family: verdana !important;
-  cursor: text !important;
+  cursor: text;
   /* min-width: 300px; */
 }
 
 /* Override the properties of the "Insert" button on forms. */
 .btn-success {
-  border: 2px solid white !important;
+  border: 2px solid #2e398f !important;
   background-color: #00C000 !important;
-  font-size: 16px;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  max-width: 200px;
 }
 
 /* Override the properties of the "Delete" button on forms. */
 .btn-danger {
-  border: 2px solid white !important;
+  border: 2px solid #2e398f !important;
   background-color: #C00000 !important;
   font-size: 16px;
+  max-width: 200px;
 }
 
 /* Properties of the "Update" button on forms. */
