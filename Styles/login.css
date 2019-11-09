@@ -1,11 +1,11 @@
 /* Css for the login prompt, Author:Eric DeAngelis */
 
-/* Override the top level CSS since login 
-info should be center of the page. */
 body {
-        margin:0 !important;
-        padding:0 !important;
-        overflow: hidden !important;
+        margin:0;
+        padding:0;
+        font-family:sans-serif;
+        background:#2e398f;
+        overflow: hidden;
 }
 
 .img {
@@ -13,45 +13,85 @@ body {
         height: 300px;
 }
 
-/* Adds more attributes on top of the top level CSS. */
+.a {
+        width: 500px;
+        height: 300px;
+}
+
 .box {
+        width:700px;
+        padding:700px;
         position: absolute;
         top:50%;
         left:50%;
         transform:translate(-50%,-50%);
         text-align:center;
+        color:white;
 }
 
 .box h1 {
-        color:#2e398f;
+        color:white;
         font-weight: bold;
-        font-size: 36px;
 }
 
 .box input[type = "text"],.box input[type = "password"] {
+        border:0;
         background:white;
-        text-align: center;
-        border:2px solid #273076;
+        display:block:
+        margin:20px auto;
+        text-align:center;
+        border:2px solid #3498db;
         padding:14px 10px;
         width:200px;
         outline:none;
         color: black;
-        border-radius: 24px;
-        cursor: text;
+        border-radius:24px;
+        transition:0.25s;
+}
+
+.box input[type = "text"]:focus,.box input[type = "password"]:focus {
+        width:280px;
+        border-color: #6470cb;
+}
+
+.box input[type = "submit"] {
+        border:0;
+        background:white;
+        display:block:
+        margin: 24px auto:
+        border:2px solid #2ecc71;
+        padding:14px 40px;
+        outline:none;
+        color:black;
+        border-radius:24px;
+        transition:0.25s;
+        cursor:pointer;
 }
 
 .box input[type = "button"] {
-        border: outset;
-        color: white;
-        border-color: #273076;
-        background:#2e398f;
+        border:0;
+        background:white;
+        display:block:
+        margin: 24px auto:
+        border:2px solid #2ecc71;
         padding:14px 40px;
         outline:none;
+        color:black;
         border-radius:24px;
-        cursor: pointer;
+        transition:0.25s;
+        cursor:pointer;
 }
 
-font {
+.box input[type = "submit"]:hover {
+        background:#6470cb;
+}
+
+.box input[type = "button"]:hover {
+        background:#6470cb;
+}
+
+.change {
         font-weight: bold;
-        color: #2e398f;
+        font-style: italic;
+        color:red;
 }
