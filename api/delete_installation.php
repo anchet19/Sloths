@@ -21,7 +21,7 @@ try{
         if(validate($username, $password)){
             $userData = getUser($username, $password);
             
-            if($userData['admin'] == 2){
+            if($userData['admin'] == 1){
                 $build = $_POST['build'];
                 $desktop = $_POST['desktop'];
    

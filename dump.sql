@@ -103,7 +103,7 @@ CREATE TABLE `feedback` (
   PRIMARY KEY (`feedback_id`),
   KEY `fk_reservation_idx` (`reserve_id`),
   CONSTRAINT `fk_reservation` FOREIGN KEY (`reserve_id`) REFERENCES `reservation` (`reserve_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,57 +168,7 @@ CREATE TABLE `leftover` (
 
 LOCK TABLES `leftover` WRITE;
 /*!40000 ALTER TABLE `leftover` DISABLE KEYS */;
-INSERT INTO `leftover` VALUES (1,8,1315,0,30,'2019-11-04 10:12:28');
 /*!40000 ALTER TABLE `leftover` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `password_reset`
---
-
-DROP TABLE IF EXISTS `password_reset`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `password_reset` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `password_reset`
---
-
-LOCK TABLES `password_reset` WRITE;
-/*!40000 ALTER TABLE `password_reset` DISABLE KEYS */;
-/*!40000 ALTER TABLE `password_reset` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `privilege`
---
-
-DROP TABLE IF EXISTS `privilege`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `privilege` (
-  `privilege_id` int(11) NOT NULL AUTO_INCREMENT,
-  `dtop_id` int(11) NOT NULL,
-  `user_num` int(11) NOT NULL,
-  PRIMARY KEY (`privilege_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `privilege`
---
-
-LOCK TABLES `privilege` WRITE;
-/*!40000 ALTER TABLE `privilege` DISABLE KEYS */;
-INSERT INTO `privilege` VALUES (62,6,30),(61,5,30),(60,13,30),(48,6,13),(47,5,13),(64,11,30),(63,8,30),(59,3,30),(58,12,30),(46,3,13),(75,8,32),(74,6,32),(49,11,13),(73,13,32),(72,3,32);
-/*!40000 ALTER TABLE `privilege` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -273,7 +223,7 @@ CREATE TABLE `reservation` (
   CONSTRAINT `fk_dtop2` FOREIGN KEY (`dtop_id`) REFERENCES `desktop` (`dtop_id`),
   CONSTRAINT `fk_slot` FOREIGN KEY (`slot_id`) REFERENCES `timeslot` (`slot_id`),
   CONSTRAINT `fk_user` FOREIGN KEY (`user_num`) REFERENCES `user` (`user_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47877 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,7 +232,6 @@ CREATE TABLE `reservation` (
 
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
-INSERT INTO `reservation` VALUES (1,32,1315,8),(2,30,1321,8),(3,30,1322,8),(4,32,1327,8),(5,30,1327,3),(6,32,1328,8),(7,30,1357,3),(8,30,1316,8),(9,32,1333,8),(10,30,1334,8),(11,32,1335,8),(12,32,1317,8),(13,32,1323,8),(14,32,1329,8);
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +282,6 @@ CREATE TABLE `user` (
   `last_request` datetime DEFAULT NULL,
   `num_requests` int(2) NOT NULL DEFAULT '0',
   `department_id` int(2) DEFAULT NULL,
-  `login_attempts` tinyint(3) unsigned DEFAULT '0',
   PRIMARY KEY (`user_num`),
   UNIQUE KEY `user_num_UNIQUE` (`user_num`),
   UNIQUE KEY `username_unique` (`username`),
@@ -349,7 +297,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (13,'Jacky','Patel','patelr1','riddhipatel26@yahoo.com','$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq',1,100,NULL,0,NULL,0),(14,'William','Geary','gearyw68','grearyw68@students.rowan.edu','$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S',NULL,100,NULL,0,NULL,0),(16,'bob','bob','bob','bob','$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2',1,100,'2019-09-29 11:16:02',0,NULL,0),(18,'Riddhi','Patel','patelr0','riddhip01@yahoo.com','$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86',NULL,100,'2020-09-29 11:16:02',0,NULL,0),(20,'Shrek','Ogre','shrek1','shrek@swamp.com','$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO',1,100,NULL,0,NULL,0),(24,'Cassandra','Bailey','itscasserole','cass@gmail.com','$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na',NULL,100,NULL,0,NULL,0),(28,'Russia','Commander','russiagirl','russiagirl@yahoo.com','$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO',1,100,NULL,0,NULL,0),(29,'Rishi','Parikh','parish30','rishiparikh@gmail.com','$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q',NULL,100,NULL,0,NULL,0),(30,'bill','bill','bill','bill@bill.bill','$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.',1,117,'2019-11-07 16:07:49',7,NULL,0),(31,'David','Serrano','frenchfrylord','serranod7@students.rowan.edu','$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02',NULL,100,'2018-10-16 16:48:02',0,NULL,0),(32,'Alex','Cross','across','crossa95@students.rowan.edu','$2y$10$zURLq4BxZZrkLWZJxTU94.yYipwMua2OMXDCS6E7r/2a.wNh4J3y2',NULL,130,'2019-11-07 16:16:34',8,NULL,0);
+INSERT INTO `user` VALUES (13,'Jacky','Patel','patelr1','riddhipatel26@yahoo.com','$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq',1,100,NULL,0,NULL),(14,'William','Geary','gearyw68','grearyw68@students.rowan.edu','$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S',NULL,100,NULL,0,NULL),(16,'bob','bob','bob','bob','$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2',1,100,'2019-09-29 11:16:02',0,NULL),(18,'Riddhi','Patel','patelr0','riddhip01@yahoo.com','$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86',NULL,100,'2020-09-29 11:16:02',0,NULL),(20,'Shrek','Ogre','shrek1','shrek@swamp.com','$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO',1,100,NULL,0,NULL),(24,'Cassandra','Bailey','itscasserole','cass@gmail.com','$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na',NULL,100,NULL,0,NULL),(28,'Russia','Commander','russiagirl','russiagirl@yahoo.com','$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO',1,100,NULL,0,NULL),(29,'Rishi','Parikh','parish30','rishiparikh@gmail.com','$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q',NULL,100,NULL,0,NULL),(30,'bill','bill','bill','bill@bill.bill','$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.',1,100,'2019-10-30 16:13:18',0,NULL),(31,'David','Serrano','frenchfrylord','serranod7@students.rowan.edu','$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02',NULL,100,'2018-10-16 16:48:02',0,NULL),(32,'Alex','Cross','across','crossa95@students.rowan.edu','$2y$10$zURLq4BxZZrkLWZJxTU94.yYipwMua2OMXDCS6E7r/2a.wNh4J3y2',NULL,100,'2019-10-30 16:14:20',0,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -361,7 +309,6 @@ UNLOCK TABLES;
 -- Dumping routines for database 'baileyc5'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `check_last_requests` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -398,9 +345,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `clear` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -421,9 +366,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `clear_reservations` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -456,62 +399,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
-/*!50003 DROP PROCEDURE IF EXISTS `create_user_privilege` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `create_user_privilege`(IN dtopName VARCHAR(100), IN userNum INT)
-BEGIN
-	INSERT INTO privilege (dtop_id, user_num)
-    VALUES ((SELECT dtop_id from desktop where name = dtopName), userNum);
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `delete_user_privileges` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user_privileges`(IN userNum INT)
-BEGIN
-	DECLARE finished integer default 0;
-    DECLARE temp_id int(11) default 0;
-	DECLARE priv_cursor cursor for select privilege_id from privilege where user_num = userNum;
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
-    
-    open priv_cursor;
-    
-    loopLabel : loop
-		fetch priv_cursor into temp_id;
-        IF finished = 1 THEN 
-            LEAVE loopLabel;
-        END IF;
-        DELETE FROM privilege where privilege_id = temp_id;        
-	END LOOP loopLabel;
-        close priv_cursor;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `findMinPoints` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -538,9 +426,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `fix_points` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -575,9 +461,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `getQueue` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -598,9 +482,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `GetRequests` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -636,9 +518,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `moveToReservation` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -709,9 +589,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `mtrTest` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -770,9 +648,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `multitest` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -793,9 +669,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `POSTDesktopMetrics` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -826,9 +700,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `reset_points` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -850,9 +722,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `reset_requests` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -886,9 +756,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `set_last_request` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -911,9 +779,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `testrun` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -946,7 +812,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -957,4 +822,4 @@ ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-08 17:19:24
+-- Dump completed on 2019-10-31 11:04:26

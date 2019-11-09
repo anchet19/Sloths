@@ -6,37 +6,22 @@
 
 if(!include_once('./validate_func.php'))
 {
-  die('error finding validate_func file');
+    die('error finding validate_func file');
 }
-
-if(!include_once('../Utils/connect.php'))
-{
-  die('error finding connect file');
-}
-
 
 try{
     if(isset($_POST['username']) && isset($_POST['password'])){
-      $username = $_POST['username'];
-      $password = $_POST['password'];
-      $dbh = ConnectDB();
-      $sql = "SELECT login_attempts FROM user WHERE username = '" . $username . "';";
-      $stmt = $dbh->prepare($sql);
-      $stmt->execute();
-      $attempts = $stmt->fetch();
-      if($attempts[0] < 10){
+        $username = $_POST['username'];
+        $password = $_POST['password'];
         if (validate($username, $password)){
-          echo '{"validation":true}';
+            echo '{"validation":true}';
         }else{
-          $attempts = getAttempts($username);
-            echo '{"validation": false, "attempts": ' . $attempts . '}';
+            echo '{"validation":false}';
         }
-      } else {
-        echo '{"message": "Account locked. Please contact your Manager or Admin."}';
-      }
+       
     }
     else{
-      echo '{"validation":false}';
+        echo '{"validation":false}';
     }
 } catch(\Error $e){
     echo $e->getMessage();

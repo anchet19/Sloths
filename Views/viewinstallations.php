@@ -20,8 +20,7 @@
   <link rel="stylesheet" type="text/css"href="../Styles/displayTables.css">
 </head>
 
-<body class="background" background="../Images/Background.png">
-<div class="header">View Installations</div>
+<body>
 <table>
   <tr>
     <th>Installation ID</th>

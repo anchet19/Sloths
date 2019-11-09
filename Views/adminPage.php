@@ -9,24 +9,17 @@
 <head>
   <title>Admin Panel </title>
   <script src="../Utils/docCookies.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="../Controllers/index.js"></script>
   <script src="../Controllers/adminPage.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
-    <!-- Highest level of CSS, applies to all pages of the software. -->
-    <link rel="stylesheet" href="../Styles/desktop.css">
-    
-    <!-- CSS specifically for this page. -->
-    <link rel="stylesheet" href="../Styles/adminPage.css">
-  
-    <!-- CSS specifically for this drawing in-page tables. -->
-    <link rel="stylesheet" href="../Styles/displayTables.css">
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  <link rel="stylesheet" href="../Styles/adminPage.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
@@ -38,16 +31,24 @@
  
 </style>
 
-<body class="background" background="../Images/Background.png">
+<body>
   <!--specifies a header for the administrator page -->
-  <body class="background" background="../Images/Background.png">
-    <div class="header">Admin Page</div>
-    <div class="topnav">
-        <ul>
-          <li><a class="calendar-button" href="index.html">Calendar</a></li>
-          <li><a class="logout" onclick="logout()">Logout</a></li>
-        </ul>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Calendar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer" onclick="logout()">Logout</a>
+        </li>
+      </ul>
     </div>
+  </nav>
 
   <div class="container">
     <div class="row no-gutters mt-2">
@@ -69,6 +70,7 @@
                 <a class="dropdown-item btn" onclick="makeVisible('insertUser')" data-toggle="collapse" href="#collapseOne">Insert User</a>
                 <a class="dropdown-item btn" onclick="makeVisible('updateUser')" data-toggle="collapse" href="#collapseOne">Update User</a>
                 <a class="dropdown-item btn" onclick="makeVisible('deleteUser')" data-toggle="collapse" href="#collapseOne">Delete User</a>
+                <a class="dropdown-item btn" onclick="makeVisible('userPermissions')" data-toggle="collapse" href="#collapseOne">Edit User Privileges</a>
               </div>
             </div>
           </div>
@@ -278,11 +280,11 @@
               <form>
                 <div class="form-group">
                   <label for="firstName">First Name</label>
-                  <input class="form-control" type="text-sm"  name="firstName" id="firstName" placeholder="First Name" />
+                  <input class="form-control type=" text" name="firstName" id="firstName" placeholder="First Name" />
                 </div>
                 <div class="form-group">
                   <label for="lastName">Last Name</label>
-                  <input class="form-control" type="text-sm"  name="lastName" id="lastName" placeholder="Last Name" />
+                  <input class="form-control" type="text" name="lastName" id="lastName" placeholder="Last Name" />
                 </div>
                 <div class="form-group">
                   <label for="email">Email</label>
@@ -290,18 +292,17 @@
                 </div>
                 <div class="form-group">
                   <label for="username">Username</label>
-                  <input class="form-control" type="text-sm" name="username" id="username" placeholder="Username" />
+                  <input class="form-control" type="text" name="username" id="username" placeholder="Username" />
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
                   <input class="form-control" type="password" name="password" id="password" placeholder="Password"/>
                 </div>
                 <div class="form-group">
-                  <label for="newAdmin">Authorization Level</label>
-                  <select class="form-control-sm" id="newAdmin">
-                    <option value="0">User</option>
-                    <option value="1">Manager</option>
-                    <option value="2">Admin</option>         
+                  <label for="newAdmin">Admin</label>
+                  <select class="form-control" id="newAdmin">
+                    <option value="1">Admin</option>
+                    <option value="0">Not Admin</option>
                   </select>
                 </div>
                 <button class="btn btn-block btn-success" onsubmit="" onclick="doInsertUser(this.form)">Add User</button>
@@ -357,6 +358,22 @@
           </div>
         </div>
 
+        <div id="userPermissions" style="display: none">
+          <div class="row justify-content-center">
+            <div class="col-md-4">
+              <div class="form-group">
+              <form id="privForm">
+                <select class="user-dropdown" id="users" placeholder="Enter a Username"></select>                
+              </div>
+                
+                  <div id="privilegesCheckbox" class="col offset-md-1"></div>        
+                </form>
+                  <div id="privSubmit" class="col offset-md-1"></div>
+              </div>              
+            </div>
+          </div>
+        </div>
+
         <div id="desktopMetrics" style="display: none">
           <form method="post" action="../api/get_desktop_metrics.php" name="desktopMetricsForm" id="desktopMetricsForm">
             <div class="form-row justify-content-center">
@@ -374,7 +391,7 @@
               </div>
               <div class="col offset-md-1">
                 <label>&nbsp;</label> <!-- Alligns button with form input fields -->
-                <input class="btn btn-sm form-control btn-success " type="submit" name="submit" value="Submit">
+                <input class="btn btn-sm btn-success form-control" type="submit" name="submit" value="Submit">
               </div>
             </div>
           </form>
@@ -383,7 +400,10 @@
         </div>
       </div>
     </div>
+
     
+
+    </div>
   </div>
   <script language="javascript">
     function logout() {

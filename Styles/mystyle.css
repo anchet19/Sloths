@@ -1,10 +1,46 @@
-/* Author: Kyle Kaminski */
+/*
+author: Nacer Abreu
+edits by: Eric DeAngelis and William Geary, Kyle Kaminski
+*/
+
+body {
+  margin: 10px 10px;
+  padding: 0;
+  font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px;
+  background-color: white;
+}
+
+.header {
+  font-family: sans-serif;
+  background:#2e398f;
+  text-align: center;
+  font-weight: bold;
+  color: #ccc;
+  font-size: 48px;
+  padding: 5px;
+  cursor: default;
+}
+
+/* Style the top navigation bar */
+
+.topnav {
+  overflow: hidden;
+  background-color: #44a049;
+  font-weight: bold;
+}
+
+.logout {
+  color: red;
+  font-style: italic;
+}
 
 div.column_entry {
   font-size: 18px;
 }
 
 /* Create three equal columns that floats next to each other */
+
 .column_entry {
   float: left;
   width: 20%;
@@ -18,22 +54,75 @@ div.column_entry {
 }
 
 /* Clear floats after the columns */
+
 .row:after {
   content: "";
   display: table;
   clear: both;
 }
 
+.footer {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 10px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+.topnav button {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.topnav button:hover {
+  background-color: #111;
+}
+
 #calendar {
   max-width: 900px;
   color: #2e398f;
-  font-size: 16px;
+  font-size: 12px;
 }
 
-/* Keeps the calendar from shifting 
-when the page resolution changes. */
 * {
   box-sizing: border-box;
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #2e398f;
+  border-radius: 5px;
+  resize: vertical;
+  cursor: pointer;
 }
 
 label {
@@ -41,8 +130,23 @@ label {
   display: inline-block;
 }
 
-/* Override the top level API since this 
-text box is non-editable. */
-.currDesk {
-  cursor: not-allowed !important;
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+button {
+  font-size: 15px;
+  background-color: #2e398f;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+}
+
+button:hover {
+  background-color: #6470cb;
 }

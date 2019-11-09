@@ -17,9 +17,9 @@ try{
         if(validate($username, $password)){
             $userData = getUser($username, $password);
             
-            if($userData['admin'] == 2){
+            if($userData['admin'] == 1){
                 $sql = "SELECT user_num,first_name,last_name,username,email ";
-                $sql .= "FROM user ";
+                $sql .= "FROM user ORDER BY username ";
    
                 $stmt = $dbh->prepare($sql);
                 $stmt->execute();

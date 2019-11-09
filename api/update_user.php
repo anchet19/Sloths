@@ -22,7 +22,7 @@ try{
         if(validate($username, $password) ){
             $userData = getUser($username, $password);
             
-            if($userData['admin'] == 2){
+            if($userData['admin'] == 1){
                 $sql = "UPDATE user ";
                 $sql .= "SET admin = '$admin' ";
                 $sql .= "WHERE user_num = '$user'";
