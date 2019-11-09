@@ -27,6 +27,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
@@ -69,6 +71,7 @@
                 <a class="dropdown-item btn" onclick="makeVisible('insertUser')" data-toggle="collapse" href="#collapseOne">Insert User</a>
                 <a class="dropdown-item btn" onclick="makeVisible('updateUser')" data-toggle="collapse" href="#collapseOne">Update User</a>
                 <a class="dropdown-item btn" onclick="makeVisible('deleteUser')" data-toggle="collapse" href="#collapseOne">Delete User</a>
+                <a class="dropdown-item btn" onclick="makeVisible('userPermissions')" data-toggle="collapse" href="#collapseOne">Edit User Privileges</a>
               </div>
             </div>
           </div>
@@ -120,7 +123,7 @@
                 <a class="dropdown-item btn" href="viewinstallations.php">View Installations</a>
                 <a class="dropdown-item btn" onclick="makeVisible('insertInstallation')" data-toggle="collapse" href="#collapseFour">Insert Installation</a>
                 <a class="dropdown-item btn" onclick="makeVisible('deleteInstallation')" data-toggle="collapse" href="#collapseFour">Delete Installation</a>
-
+                
               </div>
             </div>
           </div>
@@ -353,6 +356,22 @@
                 </div>
                 <button class="btn btn-success" type="button" onclick="doUpdateUser(this.form)">Update User</button>
               </form>
+            </div>
+          </div>
+        </div>
+
+        <div id="userPermissions" style="display: none">
+          <div class="row justify-content-center">
+            <div class="col-md-4">
+              <div class="form-group">
+              <form id="privForm">
+                <select class="user-dropdown" id="users" placeholder="Enter a Username"></select>                
+              </div>
+                
+                  <div id="privilegesCheckbox" class="col offset-md-1"></div>        
+                </form>
+                  <div id="privSubmit" class="col offset-md-1"></div>
+              </div>              
             </div>
           </div>
         </div>
