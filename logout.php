@@ -5,12 +5,12 @@
 #author: Cassandra Bailey
 
 
-   session_start();
-   // Connect to the database
+session_start();
+// Connect to the database
 
-   if (!include('connect.php')) {
-      die('error finding connect file');
-   }
+if (!include('connect.php')) {
+  die('error finding connect file');
+}
 ?>
 
 <?php

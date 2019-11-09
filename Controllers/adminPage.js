@@ -1,8 +1,5 @@
 var lastVisible = "initialFormView";
-var username = docCookies.getItem("username");
-var password = docCookies.getItem("password");
-
-retrieveUser(username, password);
+const username = sessionStorage.getItem('username');
 
 /**
  * Waits for the page to be ready and then sets a new event listener for
@@ -102,19 +99,23 @@ async function desktopMetricsPostData(formattedFormData) {
   document.getElementById("desktopMetricsTable").innerHTML = data;
 }
 
-// Markups
-const DeleteBuildMarkup = `
-        <div display="none" id="deleteBuild" style="display: block">
-          <form>
-            Build: <select id="deleteBuildSelect" name="build"></select>
-            <br> <br>
-            <button type="button" onclick="doDeleteBuild(this.form)">Delete Build</button>
-          </form>
-        </div>
-      `
+function handleChangeUserPassword() {
+  // Get the form and format the data
+  const form = document.getElementById("changeUserPassword");
+  const formattedFormData = new FormData(form);
+  return (req,res) => {
+    fetch('../api/admin_change_password.php', {
+      method: 'POST',
+      body: formattedFormData
+    });
+  }
+}
 
-//changes the visibility state of a form
-
+/**
+ * Hides the currently visible Element and shows the new element
+ * 
+ * @param {DOM Element} id The id of the Element you want to show
+ */
 function makeVisible(id) {
   document.getElementById(lastVisible).style.display = "none";
   document.getElementById(id).style.display = "block";
@@ -131,7 +132,6 @@ function fetchDropdownValues() {
     },
     body: $.param({
       "username": username,
-      "password": password
     })
 
   }).then(function (response) {
@@ -175,7 +175,6 @@ function fetchDropdownValues() {
     },
     body: $.param({
       "username": username,
-      "password": password
     })
 
   }).then(function (response) {
@@ -216,11 +215,9 @@ function fetchDropdownValues() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: $.param({
-      "username": username,
-      "password": password
-    })
-
+    body: {
+      "username": username
+    }
   }).then(function (response) {
     response.json().then(function (data) {
       userSelect = document.getElementById("deleteUserSelect");
@@ -265,7 +262,6 @@ function doDeleteBuild(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "build": form.deleteBuildSelect.value
     })
 
@@ -291,7 +287,6 @@ function doDeleteDesktop(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "desktop": form.deleteDesktopSelect.value
     })
 
@@ -316,7 +311,6 @@ function doDeleteUser(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "user": form.deleteUserSelect.value
     })
 
@@ -343,7 +337,6 @@ function doDeleteInstallation(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "build": form.deleteInstallationSelectB.value,
       "desktop": form.deleteInstallationSelectD.value
     })
@@ -371,7 +364,6 @@ function doInsertBuild(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "build": form.build.value
     })
 
@@ -397,7 +389,6 @@ function doInsertDesktop(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "desktop": form.desktop.value
     })
 
@@ -422,7 +413,6 @@ function doInsertInstallation(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "desktop": form.insertDesktopSelect.value,
       "build": form.insertBuildSelect.value
     })
@@ -449,7 +439,6 @@ function doInsertUser(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "newUsername": form.username.value,
       "newPassword": form.password.value,
       "firstName": form.firstName.value,
@@ -457,9 +446,7 @@ function doInsertUser(form) {
       "email": form.email.value,
       "admin": form.newAdmin.value
     })
-
   }).then(function (response) {
-
     response.json().then(function (data) {
       if (data.result) {
         alert("User Inserted");
@@ -480,13 +467,11 @@ function doUpdateUser(form) {
     },
     body: $.param({
       "username": username,
-      "password": password,
       "user": form.updateUserSelect.value,
       "admin": form.oldAdmin.value
     })
 
   }).then(function (response) {
-
     response.json().then(function (data) {
       if (data.result) {
         alert("User Updated");
@@ -507,7 +492,7 @@ function createSchedule() {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   }).then((response) => {
-    location = "../Views/index.html"
+    location = "../Views/index"
   })
 }
 

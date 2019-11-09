@@ -28,7 +28,33 @@ label {
 
 /* Override the submit button's non-selected properties. */
 .btn-primary {
-  background-color: #00C000 !important;
+  background-color: #00c000 !important;
+  color: white !important;
+  font-weight: bold !important;
+  border: 2px solid white !important;
+  padding: 15px;
+  font-size: 16px;
+}
+
+/* The color of the headers for each tab. */
+.bg-dark {
+  background-color: #2e398f !important;
+}
+
+/* Override the menu item sizes, so they all appear the same size. */
+.dropdown-item {
+  font-size: 16px !important;
+  padding: 10px !important;
+}
+
+/* Override the border of the drop down of a menu item. */
+.card-body {
+  border: 5px solid #2e398f !important;
+}
+
+/* Override the submit button's non-selected properties. */
+.btn-primary {
+  background-color: #00c000 !important;
   color: white !important;
   font-weight: bold !important;
   border: 2px solid white !important;
@@ -55,7 +81,7 @@ form {
 /* Override the properties of the "Insert" button on forms. */
 .btn-success {
   border: 2px solid #2e398f !important;
-  background-color: #00C000 !important;
+  background-color: #00c000 !important;
   font-size: 16px !important;
   cursor: pointer !important;
   max-width: 200px;
@@ -64,7 +90,7 @@ form {
 /* Override the properties of the "Delete" button on forms. */
 .btn-danger {
   border: 2px solid #2e398f !important;
-  background-color: #C00000 !important;
+  background-color: #c00000 !important;
   font-size: 16px;
   max-width: 200px;
 }

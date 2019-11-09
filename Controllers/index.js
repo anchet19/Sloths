@@ -28,19 +28,14 @@ function checkForDesktop(form) {
 //retrieves installation data using rest request.
 //then the data is used to link the build and desktop dropdowns.
 //Author: David Serrano (serranod7)
-function populateDropdowns(username, password) {
+function populateDropdowns() {
     fetch('../api/get_installations.php', {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: $.param({
-            "username": username,
-            "password": password
-        })
-
-    }).then(function (response) {
-        response.json().then(function (data) {
+    }).then(function(response) {
+        response.json().then(function(data) {
             installationData = data;
             builds = document.getElementById("Build");
             builds.innerHTML = '';
@@ -92,21 +87,20 @@ function populateDropdown(b_num) {
 
 //Retrieves user data using rest api
 //Author: David Serrano (serranod7)
-function retrieveUser(username, password) {
+function retrieveUser(username) {
     fetch('../api/get_user.php', {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
         body: $.param({
-            "username": username,
-            "password": password
+            "username": username
         })
     }).then(function (response) {
         response.json().then(function (data) {
             if (data.validation !== false) {
                 welcome = document.getElementById("welcome");
-                // welcome.innerHTML = "Hello " + data.first_name + "!";
+                welcome.innerHTML = "Hello " + data.first_name + "!";
                 userData = data;
             } else {
                 window.location.href = "../Views/login.html";
@@ -206,10 +200,11 @@ function getSundayOfCurrentWeek(d) {
 //if a user selects a timeslot and clicks the Release button, this function will execute
 //author: Cassandra Bailey
 function releaseSlot() {
-    var time = $('#time').val();
-    var date = $('#date').val();
-    var desktop = $('#desktop').val();
-    var user = $('#user').val();
+    const time = $('#time').val();
+    const date = $('#date').val();
+    const desktop = $('#desktop').val();
+    const user = $('#user').val();
+    const reservedBy = $('#reservedBy').val();
 
     //if the current user does not have the selected timeslot reserved, they are not permitted to release it
 
@@ -217,7 +212,11 @@ function releaseSlot() {
         $("#dialog-confirm").dialog("close"); // Koala
         alert("You cannot release a timeslot which you don't have reserved.");
     }
+    // TO-DO: Create script to release a reservation based on if the reservation belongs
+    // to the current user and if the start time of the reservation has not yet passed.
+    else if (reservedBy !== ''){
 
+    }
     //if the current user has the timeslot requested, release.php will be executed and the request
     // will be removed from the queue table in the database
     else {

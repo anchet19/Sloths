@@ -11,20 +11,13 @@ if(!include_once('./get_user_func.php')){
 }
 
 try{
-    if(isset($_POST['username']) && isset($_POST['password'])){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        if (validate($username, $password)){
-            echo json_encode(getUser($username,$password));
-        }else{
-            echo '{"validation":false}';
-        }
-    }else{
-        echo '{"validation":false}';
-    }
+  // if(isset($_POST['username'])){
+    $username = 'bill' ;//$_POST['username'];
+    echo getUser($username);
+//   }else{
+//    echo '{"validation":false}';
+//  }
 } catch(\Error $e){
-    echo $e->getMessage();
+  echo $e->getMessage();
 }
-
-
 ?>

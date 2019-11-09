@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 
 <!--entry point of application
@@ -116,16 +118,14 @@ Authors: Team Elephants, Team Sloths-->
     <div class="footer">
         <!-- <p>Team Elephants 2019, Team Sloths 2019</p> -->
         <script language="javascript">
-            var username = docCookies.getItem("username");
-            var password = docCookies.getItem("password");
-            function logout() {
-                docCookies.removeItem("username");
-                docCookies.removeItem("password");
-                window.location.href = "login.html";
-            }
-
-            populateDropdowns(username, password);
-            retrieveUser(username, password);
+          const username = '<?php echo $_SESSION["username"]; ?>';
+          function logout() {
+              docCookies.removeItem("username");
+              docCookies.removeItem("password");
+              window.location.href = "login";
+          }
+          populateDropdowns();
+          retrieveUser(username);
         </script>
     </div>
 

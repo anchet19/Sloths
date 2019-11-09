@@ -32,7 +32,7 @@ try{
             echo '{"validation": false, "attempts": ' . $attempts . '}';
         }
       } else {
-        echo '{"message": "Account locked. Please contact your Manager or Admin."}';
+        echo '{"message": "Account locked. <a href=\"enter_email.php\">Click here to reset your password</a>"}';
       }
     }
     else{
