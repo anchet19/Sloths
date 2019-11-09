@@ -24,8 +24,7 @@
    <title>View Users</title>							
    <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">		
 </head>										
-<body class="background" background="../Images/Background.png">
-   <div class="header">View Users</div>
+<body>									
    <table>									
       <tr>
          <?php
@@ -61,10 +60,6 @@
         //$row .= "</td><td>" . $user['password'];
         $row .= "</td><td>" . $user['admin'];
         $row .= "</td><td>" . $user['user_points'];
-        $row .= "</td><td>";
-        $row .= "</td><td>";
-        $row .= "</td><td>";
-        $row .= "</td><td>";
         $row .= "</td></tr>"; //testing
 	       echo $row; 									
                }
