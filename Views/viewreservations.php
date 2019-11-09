@@ -18,11 +18,13 @@
 ?>
 <html>
 
-<head>												
-  <link rel="stylesheet" type="text/css"href="../Styles/displayTables.css">				
+<head>
+	<!-- Inherit the specific CSS for this page -->
+	<link rel="stylesheet" type="text/css"href="../Styles/displayTables.css">				
 </head>												
 
-<body>												
+<body class="background" background="../Images/Background.png">	
+<div class="header">View Reservations</div>										
 <table>												
   <tr>
     <th>Reservation ID</th>									

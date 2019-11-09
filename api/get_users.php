@@ -9,16 +9,23 @@ include_once("./get_user_func.php");
 
 try{
   $dbh = ConnectDB();
-  // if(isset($_POST["username"])){
-    $username = 'bill';//$_POST["username"];
-    $sql = "SELECT user_num,first_name,last_name,username,email ";
-    $sql .= "FROM user ";
+  if(isset($_POST['username'])){
+    $username = $_POST['username'];
+    $userData = json_decode(getUser($username));
+    
+    if($userData->{'admin'} == 2){
+      $sql = "SELECT user_num,first_name,last_name,username,email ";
+      $sql .= "FROM user ORDER BY username ";
 
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
-    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
-  // }
-
+      $stmt = $dbh->prepare($sql);
+      $stmt->execute();
+      echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    }else{
+      echo '{"result":false}';
+    }
+  }else{
+    echo '{"result":false}';
+  }
 }catch(\Error $e){
   echo $e->getMessage();
 }

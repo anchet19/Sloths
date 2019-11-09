@@ -6,11 +6,71 @@ const username = sessionStorage.getItem('username');
  * the desktopMetricsForm submission, preventing a redirect.
  */
 $(document).ready(function () {
+
   const desktopMetricsForm = document.getElementById("desktopMetricsForm");
   desktopMetricsForm.addEventListener('submit', function (event) {
     event.preventDefault();
     handleDesktopMetricsSubmit();
   })
+  fetchDropdownValues();
+  //converts user-dropdown classes to select2 format
+  $('.user-dropdown').select2();
+  // occurs when user is selected from the select2 dropdown
+  $('.user-dropdown').on('select2:select', function (e) {
+    var data = e.params.data;
+    fetch('../api/get_user_privileges', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: $.param({
+        "user" : data.text
+      })
+  
+    }).then(function (response) {
+      response.json().then(function (data) {
+        privileges = document.getElementById("privilegesCheckbox");
+        privileges.innerHTML = ''; 
+  
+        let checkbox;
+        let label;
+        data.forEach(function (row) {          
+          
+          checkbox = document.createElement('input');
+          label = document.createElement('label');
+          checkbox.setAttribute("type", "checkbox");
+          
+          checkbox.id = row.name + "checkbox";
+          label.setAttribute("for", checkbox.id);
+          label.textContent = row.name;
+           if(row.allowed == 1){
+            checkbox.checked = true;
+          }
+          
+          
+          label.text = row.name;
+          checkbox.value = row.name;
+          checkbox.name = "privCheckbox";
+          
+          privileges.append(label);
+          privileges.append(checkbox);  
+  
+        });
+        if(!$('#privbut').length){
+        privButton = document.getElementById("privSubmit");
+        newButton = document.createElement('button');
+        newButton.textContent = "Submit";
+        newButton.setAttribute("id","privbut")
+        newButton.setAttribute("class","btn btn-success");
+        newButton.setAttribute("onclick", "savePrivileges(document.getElementById('privForm') )");
+        privButton.append(newButton);
+        }
+      });
+    });
+    
+    
+});
+  
 })
 
 /**
@@ -166,6 +226,9 @@ function fetchDropdownValues() {
       userSelect2 = document.getElementById("updateUserSelect");
       userSelect2.innerHTML = '';
 
+      userSelect3 = document.getElementById("users");
+      userSelect3.innerHTML = '';
+
       let option;
       data.forEach(function (row) {
         option = document.createElement('option');
@@ -177,6 +240,11 @@ function fetchDropdownValues() {
         option.text = row.username;
         option.value = row.user_num;
         userSelect2.add(option);
+
+        option = document.createElement('option');
+        option.text = row.username;
+        option.value = row.user_num;
+        userSelect3.add(option);
       });
 
     });
@@ -426,4 +494,33 @@ function createSchedule() {
   }).then((response) => {
     location = "../Views/index"
   })
+}
+
+// handles the checkbox form for Edit User Privileges
+function savePrivileges(form) {
+  checkBoxArr =  $("input[name='privCheckbox']:checked").map(function(){
+    return this.value;
+  }).get();
+  fetch('../api/save_privileges.php', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: $.param({
+      "user": form.users.value,
+      "checkboxes": JSON.stringify(checkBoxArr)
+    })
+
+  }).then(function (response) {
+
+    response.json().then(function (data) {
+      if (data.result) {
+        alert("User Privileges Saved");
+        fetchDropdownValues();
+      } else {
+        alert("Something Went Wrong");
+      }
+
+    });
+  });
 }
