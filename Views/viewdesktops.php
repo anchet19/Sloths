@@ -20,7 +20,8 @@
    <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">
 </head>
 
-<body>
+<body class="background" background="../Images/Background.png">
+<div class="header">View Desktops</div>
    <table>
       <tr>
          <?php
