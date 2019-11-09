@@ -37,7 +37,7 @@ try{
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
     
-    echo json_encode($stmt->fetchAll());
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
   } else {
     echo '{"validation2":false}';
   }

@@ -28,12 +28,15 @@ function checkForDesktop(form) {
 //retrieves installation data using rest request.
 //then the data is used to link the build and desktop dropdowns.
 //Author: David Serrano (serranod7)
-function populateDropdowns() {
+function populateDropdowns(username) {
     fetch('../api/get_installations.php', {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
+      body: $.param({
+        "username": username
+      })
     }).then(function(response) {
         response.json().then(function(data) {
             installationData = data;
@@ -413,7 +416,7 @@ function BuildCalendar() {
                     console.log(data);
                 }
             }],
-            minTime: "00:00:00",
+            minTime: "06:00:00",
             maxTime: "24:00:00",
             firstHour: "06:00:00",
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
