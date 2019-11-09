@@ -1,38 +1,41 @@
 /* Author: Kyle Kaminski */
 
 .legend {
-  font-size: 24px;
+  font-size: 36px;
   font-weight: bold;
-  width: 200px;
   cursor: default;
 }
 
 .URequested {
-  background-color: #80ff8040;
+  background-color: lightgreen;
+  border: 2px solid black;
   border-radius: 25px;
   padding: 15px;
+  width: 40%;
 }
   
 .UFinalized {
-  background-color: #00CC00;
+  background-color: green;
+  color: white !important;
+  border: 2px solid black;
   border-radius: 25px;
   padding: 15px;
+  width: 40%;
 }
   
 .ORequested {
-  background-color: #ff808040;
+  background-color: pink;
+  border: 2px solid black;
   border-radius: 25px;
   padding: 15px;
+  width: 40%;
 }
   
 .OFinalized {
-  background-color: rgb(255, 0, 0);
+  background-color: darkred;
+  color: white !important;
+  border: 2px solid black;
   border-radius: 25px;
   padding: 15px;
-}
-  
-.open {
-  background-color: #ffffff80;
-  border-radius: 25px;
-  padding: 15px;
+  width: 40%;
 }
