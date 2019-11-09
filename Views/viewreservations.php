@@ -19,9 +19,6 @@
 <html>
 
 <head>
-	<!-- Inherit the top level CSS. -->
-	<link rel="stylesheet" type="text/css"href="../Styles/desktop.css">
-
 	<!-- Inherit the specific CSS for this page -->
 	<link rel="stylesheet" type="text/css"href="../Styles/displayTables.css">				
 </head>												
