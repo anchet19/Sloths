@@ -215,9 +215,9 @@ function fetchDropdownValues() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: {
+    body: $.param({
       "username": username
-    }
+    })
   }).then(function (response) {
     response.json().then(function (data) {
       userSelect = document.getElementById("deleteUserSelect");

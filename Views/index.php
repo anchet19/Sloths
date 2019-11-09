@@ -49,7 +49,7 @@ Authors: Team Elephants, Team Sloths-->
     </script>
 </head>
 
-<body class="background" background="../Images/Background.png">
+<body class="background">
     <div class="header">ASRC Federal Desktop Scheduler</div>
     <div class="topnav">
         <ul>
@@ -124,7 +124,7 @@ Authors: Team Elephants, Team Sloths-->
               docCookies.removeItem("password");
               window.location.href = "login";
           }
-          populateDropdowns();
+          populateDropdowns(username);
           retrieveUser(username);
         </script>
     </div>

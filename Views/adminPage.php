@@ -42,9 +42,8 @@ session_start();
  
 </style>
 
-<body class="background" background="../Images/Background.png">
   <!--specifies a header for the administrator page -->
-  <body class="background" background="../Images/Background.png">
+  <body class="background" >
     <div class="header">Admin Page</div>
     <div class="topnav">
         <ul>
