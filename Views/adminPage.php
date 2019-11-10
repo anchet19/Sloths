@@ -30,6 +30,7 @@ session_start();
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -72,8 +73,8 @@ session_start();
                 <a class="dropdown-item btn" onclick="makeVisible('insertUser')" data-toggle="collapse" href="#collapseOne">Insert User</a>
                 <a class="dropdown-item btn" onclick="makeVisible('updateUser')" data-toggle="collapse" href="#collapseOne">Update User</a>
                 <a class="dropdown-item btn" onclick="makeVisible('changeUserPassword')" data-toggle="collapse" href="#collapseOne">Change User Password</a>
-                <a class="dropdown-item btn" onclick="makeVisible('deleteUser')" data-toggle="collapse" href="#collapseOne">Delete User</a>
                 <a class="dropdown-item btn" onclick="makeVisible('userPermissions')" data-toggle="collapse" href="#collapseOne">Edit User Privileges</a>
+                <a class="dropdown-item btn" onclick="makeVisible('deleteUser')" data-toggle="collapse" href="#collapseOne">Delete User</a>
               </div>
             </div>
           </div>
@@ -178,8 +179,8 @@ session_start();
           <form>
             <div class="form-group row justify-content-center">
               <div class="col-md-4">
-                <label for="build">Delete Builds</label>
-                <select class="form-control" id="deleteBuildSelect" name="build"></select>
+                <label for="deleteBuildSelect">Delete Builds</label>
+                <select class="form-control" id="deleteBuildSelect" name="build-select"></select>
               </div>
             </div>
             <div class="form-group row justify-content-center">
@@ -194,8 +195,9 @@ session_start();
           <form>
             <div class="form-group row justify-content-center">
               <div class="col-md-4">
-                <label for="build">Delete Users</label>
-                <select class="form-control" id="deleteUserSelect" name="user"></select>
+                <label for="deleteUserSelect">Select User Users
+                  <select class="user-dropdown" id="deleteUserSelect" style="width: 100%" name="user-select"><option></option></select>
+                </label>
               </div>
             </div>
             <div class="form-group row justify-content-center">
@@ -210,8 +212,8 @@ session_start();
           <form>
             <div class="form-group row justify-content-center">
               <div class="col-md-5">
-                <label for="build">Delete Desktops</label>
-                <select class="form-control" id="deleteDesktopSelect" name="Desktop"></select>
+                <label for="deleteDesktopSelect">Delete Desktops</label>
+                <select class="form-control" id="deleteDesktopSelect" name="desktop-select"><option></option></select>
               </div>
             </div>
             <div class="form-group row justify-content-center">
@@ -227,14 +229,13 @@ session_start();
           <form>
             <div class="form-group row justify-content-center">
               <div class="col-md-5">
-                <label for="build">Select Build</label>
-                <select class="form-control" id="deleteInstallationSelectB" name="build"></select>
+                <label for="deleteInstallationSelectB">Select Build</label>
+                <select class="form-control" id="deleteInstallationSelectB" name="build-select"><option></option></select>
               </div>
-            </div>
-            <div class="form-group row justify-content-center">
+
               <div class="col-md-5">
-                <label for="desktop">Select Desktop</label>
-                <select class="form-control" id="deleteInstallationSelectD" name="desktop"></select>
+                <label for="deleteInstallationSelectD">Select Desktop</label>
+                <select class="form-control" id="deleteInstallationSelectD" name="desktop-select"><option></option></select>
               </div>
             </div>
             <div class="form-group row justify-content-center">
@@ -265,7 +266,7 @@ session_start();
           <form>
             <div class="form-group row justify-content-center">
               <div class="col-md-5">
-                <label for="build">Insert Desktops</label>
+                <label for="desktop">Insert Desktops</label>
                 <input class="form-control" placeholder="Desktop Name" type="text" id="desktop" name="desktop"></input>
               </div>
             </div>
@@ -321,14 +322,14 @@ session_start();
               <form>
                 <div class="form-group">
                   <label for="insertBuildSelect">Select Build</label>
-                  <select id="insertBuildSelect" class="form-control" type="text" name="build">
-                    <option selected>Build Select</option>
+                  <select id="insertBuildSelect" class="form-control" type="text" name="build-select">
+                    <option></option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="insertDesktopSelect">Select Desktop</label>
-                  <select id="insertDesktopSelect" class="form-control" name="desktop">
-                    <option selected>Build Select</option>
+                  <select id="insertDesktopSelect" class="form-control" name="desktop-select">
+                    <option></option>
                   </select>
                 </div>
                 <button class="btn btn-success" type="button" onclick="doInsertInstallation(this.form)">Insert
@@ -343,10 +344,11 @@ session_start();
             <div class="col-md-4">
               <form>
                 <div class="form-group">
-                  <label for="updateUserSelect">Select User</label>
-                  <select id="updateUserSelect" class="form-control" placeholder="Select User" type="text" name="user">
-                    <option selected>User Select</option>
-                  </select>
+                  <label for="updateUserSelect">Select User
+                    <select id="updateUserSelect" class="user-dropdown" placeholder="Select User" style="width: 100%" type="text" name="user-select">
+                      <option></option>
+                    </select>
+                  </label>
                 </div>
                 <div class="form-group">
                   <label for="oldAdmin">Authorization Level</label>
@@ -365,18 +367,19 @@ session_start();
         <div id="changeUserPassword" style="display: none">
           <div class="row justify-content-center">
             <div class="col-md-4">
-              <form action="adminPage.php" onsubmit="">
+              <form id="newPasswordForm" method="post">
                 <div class="form-group">
-                  <label for="changePasswordSelect">Select User</label>
-                  <select id="changePasswordSelect" class="form-control" placeholder="Select User" type="text" name="user">
-                    <option selected>User Select</option>
-                  </select>
+                  <label for="changePasswordSelect">Select User
+                    <select id="changePasswordSelect" class="user-dropdown" placeholder="Select User" style="width: 100%" type="text" name="user-select">
+                      <option></option>
+                    </select>
+                  </label>
                 </div>
                 <div class="form-group" >
                   <label for="newPassword">New Password</label>
                   <input id="newPassword" class="form-control" name="newPassword" />
-                  <label for="newPassword">Confirm Password</label>
-                  <input id="newPassword_confirm" class="form-control" name="newPassword" />
+                  <label for="newPassword_confirm">Confirm Password</label>
+                  <input id="newPassword_confirm" class="form-control" name="newPassword_confirm" />
                 </div>
                 <input class="btn btn-success" name="admin_change_password" type="submit" />
               </form>
@@ -387,15 +390,15 @@ session_start();
           <div class="row justify-content-center">
             <div class="col-md-4">
               <div class="form-group">
-              <form id="privForm">
-                <select class="user-dropdown" id="users" placeholder="Enter a Username"></select>                
+                <form id="privForm">
+                  <label for="users"> Select User
+                    <select class="user-dropdown" id="users" name="user-select" placeholder="Enter a Username" style="width: 100%"><option></option></select>
+                  </label>
               </div>
-                
                   <div id="privilegesCheckbox" class="col offset-md-1"></div>        
                 </form>
-                  <div id="privSubmit" class="col offset-md-1"></div>
-              </div>              
-            </div>
+              <div id="privSubmit" class="col offset-md-1"></div>
+            </div>              
           </div>
         </div>
 
@@ -404,13 +407,13 @@ session_start();
             <div class="form-row justify-content-center">
               <div class="col offset-md-1">
                 <div class="form-group">
-                  <label class="form-label" for="start">Start date:</label>
+                  <label class="form-label" for="startDate">Start date:</label>
                   <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
                 </div>
               </div>
               <div class="col offset-md-1">
                 <div class="form-group">
-                  <label class="form-label" for="end">End date:</label>
+                  <label class="form-label" for="endDate">End date:</label>
                   <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
                 </div>
               </div>
@@ -425,7 +428,6 @@ session_start();
         </div>
       </div>
     </div>
-    
   </div>
   <script language="javascript">
     sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')

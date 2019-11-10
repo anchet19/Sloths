@@ -388,7 +388,7 @@ function BuildCalendar() {
                 borderColor: 'black',
                 textColor: 'black',
                 success: function (data) {
-                    console.log('requests.php - success!! ' + data);
+                    console.log('requests loaded');
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function (data) {
@@ -406,7 +406,7 @@ function BuildCalendar() {
                 textColor: 'white',
                 className: ["reservation"],
                 success: function (data) {
-                    console.log('requests.php - success!! ' + data);
+                    console.log('reservations loaded');
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function (data) {

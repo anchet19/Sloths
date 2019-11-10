@@ -70,13 +70,13 @@ form {
 }
 
 /* Override the properties for the text boxes in the forms. */
-.form-control {
+/* .form-control {
   padding: 20px !important;
   border: 2px solid #2e398f !important;
   font-family: verdana !important;
   cursor: text;
-  /* min-width: 300px; */
-}
+  min-width: 300px; 
+} */
 
 /* Override the properties of the "Insert" button on forms. */
 .btn-success {

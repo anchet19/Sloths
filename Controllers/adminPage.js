@@ -1,20 +1,26 @@
 var lastVisible = "initialFormView";
 const username = sessionStorage.getItem('username');
+fetchDropdownValues();
 
-/**
- * Waits for the page to be ready and then sets a new event listener for
- * the desktopMetricsForm submission, preventing a redirect.
- */
 $(document).ready(function () {
 
   const desktopMetricsForm = document.getElementById("desktopMetricsForm");
   desktopMetricsForm.addEventListener('submit', function (event) {
     event.preventDefault();
     handleDesktopMetricsSubmit();
-  })
-  fetchDropdownValues();
+  });
+  const newPasswordForm = document.getElementById("newPasswordForm");
+  newPasswordForm.addEventListener('submit', (event) =>{
+    event.preventDefault();
+    handleChangeUserPassword();
+  });
+  
   //converts user-dropdown classes to select2 format
-  $('.user-dropdown').select2();
+  $('.user-dropdown').select2({
+    placeholder: "Select User",
+    theme: 'classic',
+    width: 'resolve'
+  });
   // occurs when user is selected from the select2 dropdown
   $('.user-dropdown').on('select2:select', function (e) {
     var data = e.params.data;
@@ -66,9 +72,7 @@ $(document).ready(function () {
         privButton.append(newButton);
         }
       });
-    });
-    
-    
+    });    
 });
   
 })
@@ -99,16 +103,22 @@ async function desktopMetricsPostData(formattedFormData) {
   document.getElementById("desktopMetricsTable").innerHTML = data;
 }
 
-function handleChangeUserPassword() {
+/**
+ * Handle the form submission for changing a User's password
+ * Post data to rest api and alert the response.
+ */
+async function handleChangeUserPassword() {
   // Get the form and format the data
-  const form = document.getElementById("changeUserPassword");
+  const form = document.getElementById("newPasswordForm");
   const formattedFormData = new FormData(form);
-  return (req,res) => {
-    fetch('../api/admin_change_password.php', {
-      method: 'POST',
-      body: formattedFormData
-    });
-  }
+  fetch('../api/admin_change_password.php', {
+    method: 'POST',
+    body: formattedFormData
+  }).then((response) => {
+    response.json().then((data) =>{
+      alert(data.message);
+    })
+  })
 }
 
 /**
@@ -122,94 +132,57 @@ function makeVisible(id) {
   lastVisible = id;
 }
 
-//fetches and populates all of the dropdowns asyncronhously
-
+/**
+ * Fetches and populates all of the dropdowns asyncronhously
+ */
 function fetchDropdownValues() {
+  /**
+   * Populate all the build select dropdowns
+   */
   fetch('../api/get_builds.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: $.param({
-      "username": username,
-    })
-
   }).then(function (response) {
     response.json().then(function (data) {
-      buildSelect = document.getElementById("deleteBuildSelect");
-      buildSelect.innerHTML = '';
-
-      installationSelectB = document.getElementById("deleteInstallationSelectB");
-      installationSelectB.innerHTML = '';
-
-      insertBuildSelect = document.getElementById("insertBuildSelect");
-      insertBuildSelect.innerHTML = '';
-
-
-      let option;
+      buildSelects = document.getElementsByName("build-select");
       data.forEach(function (row) {
-        option = document.createElement('option');
-        option.text = row.name;
-        option.value = row.b_num;
-        buildSelect.add(option);
-
-        option = document.createElement('option');
-        option.text = row.name;
-        option.value = row.b_num;
-        installationSelectB.add(option);
-
-
-        option = document.createElement('option');
-        option.text = row.name;
-        option.value = row.b_num;
-        insertBuildSelect.add(option);
-
+        buildSelects.forEach((element) => {
+          const option = document.createElement('option');
+          option.text = row.name;
+          option.value = row.b_num;
+          element.add(option);
+        });
       });
-
     });
   });
+
+  /**
+   * Populate all the desktop select dropdowns
+   */
   fetch('../api/get_desktops.php', {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: $.param({
-      "username": username,
-    })
-
-  }).then(function (response) {
-    response.json().then(function (data) {
-      desktopSelect = document.getElementById("deleteDesktopSelect");
-      desktopSelect.innerHTML = '';
-
-      installationSelectD = document.getElementById("deleteInstallationSelectD");
-      installationSelectD.innerHTML = '';
-
-      insertDesktopSelect = document.getElementById("insertDesktopSelect");
-      insertDesktopSelect.innerHTML = '';
-
-      let option;
-      data.forEach(function (row) {
-        option = document.createElement('option');
-        option.text = row.name;
-        option.value = row.dtop_id;
-        desktopSelect.add(option);
-
-        option = document.createElement('option');
-        option.text = row.name;
-        option.value = row.dtop_id;
-        installationSelectD.add(option);
-
-        option = document.createElement('option');
-        option.text = row.name;
-        option.value = row.dtop_id;
-        insertDesktopSelect.add(option);
-
-
+  }).then((response) => {
+    response.json().then((data) => {
+      desktopSelects = document.getElementsByName('desktop-select');
+      data.forEach((row) => {
+        desktopSelects.forEach((element) => {
+          const option = document.createElement('option');
+          option.text = row.name;
+          option.value = row.dtop_id;
+          element.add(option);
+        });
       });
-
     });
   });
+
+  /**
+   * Get all the users from the system and populate all the user select dropdowns
+   */
   fetch('../api/get_users.php', {
     method: "POST",
     headers: {
@@ -220,40 +193,23 @@ function fetchDropdownValues() {
     })
   }).then(function (response) {
     response.json().then(function (data) {
-      userSelect = document.getElementById("deleteUserSelect");
-      userSelect.innerHTML = '';
-
-      userSelect2 = document.getElementById("updateUserSelect");
-      userSelect2.innerHTML = '';
-
-      userSelect3 = document.getElementById("users");
-      userSelect3.innerHTML = '';
-
-      let option;
+      userSelects = document.getElementsByName("user-select");
       data.forEach(function (row) {
-        option = document.createElement('option');
-        option.text = row.username;
-        option.value = row.user_num;
-        userSelect.add(option);
-
-        option = document.createElement('option');
-        option.text = row.username;
-        option.value = row.user_num;
-        userSelect2.add(option);
-
-        option = document.createElement('option');
-        option.text = row.username;
-        option.value = row.user_num;
-        userSelect3.add(option);
+        userSelects.forEach((element) => {
+          const option = document.createElement('option');
+          option.text = row.username;
+          option.value = row.user_num;
+          element.add(option);
+        });
       });
-
     });
   });
-
 }
-fetchDropdownValues();
 
-//function uses rest api to send a delete build request to backend.
+/**
+ * Function uses rest api to send a delet build request to the backend
+ * @param {HTMLFormElement} form The Form to be submitted
+ */
 function doDeleteBuild(form) {
   fetch('../api/delete_build.php', {
     method: "POST",
@@ -278,7 +234,10 @@ function doDeleteBuild(form) {
   });
 }
 
-//function uses rest api to send a delete desktop request to backend.
+/**
+ * Function uses rest api to send a delet desktop request to the backend
+ * @param {HTMLFormElement} form The Form to be submitted
+ */
 function doDeleteDesktop(form) {
   fetch('../api/delete_desktop.php', {
     method: "POST",
@@ -302,7 +261,10 @@ function doDeleteDesktop(form) {
     });
   });
 }
-//function uses rest api to send a delete user request to backend.
+/**
+ * Function uses rest api to send a delet user request to the backend
+ * @param {HTMLFormElement} form The Form to be submitted
+ */
 function doDeleteUser(form) {
   fetch('../api/delete_user.php', {
     method: "POST",
@@ -327,7 +289,10 @@ function doDeleteUser(form) {
   });
 }
 
-//function uses rest api to send a delete installation request to backend.
+/**
+ * Function uses rest api to send a delet installation request to the backend
+ * @param {HTMLFormElement} form The Form to be submitted
+ */
 
 function doDeleteInstallation(form) {
   fetch('../api/delete_installation.php', {
