@@ -13,9 +13,6 @@
   <div class="container">
     <form class="box" action="new_password.php" method="post">
       <h1 class="form-title">New password</h1>
-      <a href="https://www.asrcfederal.com/">
-        <img src="../Images/asrc_logo.jpg" title="ASRC" class="img" alt="ASRC"/>
-      </a>
       <br><br>
       <!-- form validation messages -->
       <?php include('../api/messages.php'); ?>
