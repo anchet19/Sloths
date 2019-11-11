@@ -225,6 +225,7 @@ function releaseSlot() {
   else {
     eventType = '';
   }
+
   // if the current user does not have the selected timeslot requested ore reserved
   // they are not permitted to release it
   if (!user.includes(userData.username)) {
@@ -407,7 +408,6 @@ function BuildCalendar() {
                 borderColor: 'black',
                 textColor: 'black',
                 success: function (data) {
-                    // console.log('requests loaded');
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function (data) {
@@ -425,7 +425,6 @@ function BuildCalendar() {
                 textColor: 'white',
                 className: ["reservation"],
                 success: function (data) {
-                    // console.log('reservations loaded');
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function (data) {
@@ -495,22 +494,21 @@ function BuildCalendar() {
             },
 
             eventClick: function (event, element) {
-                //BEGIN : Koala modifications 
-                $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-                // $('#calendar').fullCalendar('updateEvent', event);
-                //END : Koala modifications
-            
-                document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
-                document.getElementById('date').value = event.date;
-                document.getElementById('time').value = event.time;
-                document.getElementById('desktop').value = event.id;
-                installationData.forEach(function (row) {
-                    if (row.dtopID == event.id) {
-
-                        document.getElementById("desktopForm").value = row.dtopName;
-                    }
-                });
-                document.getElementById('user').value = event.usernames;
+              //BEGIN : Koala modifications 
+              $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+              // $('#calendar').fullCalendar('updateEvent', event);
+              //END : Koala modifications
+          
+              document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
+              document.getElementById('date').value = event.date;
+              document.getElementById('time').value = event.time;
+              document.getElementById('desktop').value = event.id;
+              installationData.forEach(function (row) {
+                if (row.dtopID == event.id) {
+                  document.getElementById("desktopForm").value = row.dtopName;
+                }
+              });
+              document.getElementById('user').value = (event.usernames) ? event.usernames : event.username;
             },
 
             eventOverlap: function (stillEvent, movingEvent) {
