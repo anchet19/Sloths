@@ -432,10 +432,9 @@ session_start();
   <script language="javascript">
     sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
     function logout() {
-        docCookies.removeItem("username");
-        docCookies.removeItem("password");
-        window.location.href = "login";
-    };
+      sessionStorage.clear();
+      window.location.href = "login";
+    }
   </script>
 
 </body>

@@ -43,7 +43,6 @@ Authors: Team Elephants, Team Sloths-->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar-scheduler/1.9.4/scheduler.min.js'></script>
 
     <script src="../Controllers/index.js"></script>
-    <script src="../Utils/docCookies.js"></script>
     <script>
         $(document).ready(BuildCalendar());
     </script>
@@ -120,9 +119,8 @@ Authors: Team Elephants, Team Sloths-->
         <script language="javascript">
           const username = '<?php echo $_SESSION["username"]; ?>';
           function logout() {
-              docCookies.removeItem("username");
-              docCookies.removeItem("password");
-              window.location.href = "login";
+            sessionStorage.clear();
+            window.location.href = "login";
           }
           populateDropdowns(username);
           retrieveUser(username);

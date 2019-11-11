@@ -25,10 +25,17 @@
     <idle_user> -3 </idle_user> <!-- Point value deducted from users who have not made a recent request-->
     <days_to_idle> 7 </days_to_idle> <!-- # of days until a user is considered idle to receive point deduction-->
 
+    <!-- Point values for additional modification to user points when releasing a reservation
+         By default:
+          nonprime release - <nonprime>+<-nonprime>
+          prime release - <primemod> - (<primemod> / 2) Integer division
+    -->
+    <release_nonprime> 0 </release_nonprime> 
+    <release_prime> 0 </release_prime>
 
-    
-
-
+    <!-- Values for what dictates prime time hours in String format (HH-MM-SS) -->
+    <prime_start> 09:00:00 </prime_start>
+    <prime_end> 14:00:00 </prime_end>
 
 </configuration>
 

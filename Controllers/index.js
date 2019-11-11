@@ -199,27 +199,41 @@ function getSundayOfCurrentWeek(d) {
     return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0 ? 0 : 7) - day);
 }
 
-
+/**
+ * Allows a user to release a request or a reservation belonging to them
+ * Reservations can only be released if current time < start time
+ */
 //if a user selects a timeslot and clicks the Release button, this function will execute
 //author: Cassandra Bailey
 function releaseSlot() {
-    const time = $('#time').val();
-    const date = $('#date').val();
-    const desktop = $('#desktop').val();
-    const user = $('#user').val();
-    const reservedBy = $('#reservedBy').val();
-
-    //if the current user does not have the selected timeslot reserved, they are not permitted to release it
-
-    if (userData.user_num != user) {
-        $("#dialog-confirm").dialog("close"); // Koala
-        alert("You cannot release a timeslot which you don't have reserved.");
-    }
-    // TO-DO: Create script to release a reservation based on if the reservation belongs
-    // to the current user and if the start time of the reservation has not yet passed.
-    else if (reservedBy !== ''){
-
-    }
+  // Get the information from the modal
+  const time = $('#time').val();
+  const date = $('#date').val();
+  const desktop = $('#desktop').val();
+  const user = $('#user').val();
+  const reservedBy = $('#reservedBy').val();
+  const dateTime = moment(date + " " + time);
+  const now = moment();
+  // Check to see what type of event has been selected
+  // 1. Request
+  let eventType = '';
+  if (reservedBy === '') {
+    eventType = 'request';
+  }
+  else if (now < dateTime) {
+    eventType = 'reservation';
+  }
+  else {
+    eventType = '';
+  }
+  //if the current user does not have the selected timeslot reserved, they are not permitted to release it
+  if (!user.includes(userData.username)) {
+      $("#dialog-confirm").dialog("close"); // Koala
+      alert("You cannot release a timeslot which you don't have reserved.");
+  }
+  else if(eventType === ''){
+    alert('Cannot release a reservation that has already begun');
+  }
     //if the current user has the timeslot requested, release.php will be executed and the request
     // will be removed from the queue table in the database
     else {
@@ -230,7 +244,8 @@ function releaseSlot() {
                 curr: userData.user_num,
                 time: time,
                 date: date,
-                desktop: desktop
+                desktop: desktop,
+                eventType: eventType
             },
             success: function (result) {
                 redisplay();
@@ -388,7 +403,7 @@ function BuildCalendar() {
                 borderColor: 'black',
                 textColor: 'black',
                 success: function (data) {
-                    console.log('requests loaded');
+                    // console.log('requests loaded');
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function (data) {
@@ -406,7 +421,7 @@ function BuildCalendar() {
                 textColor: 'white',
                 className: ["reservation"],
                 success: function (data) {
-                    console.log('reservations loaded');
+                    // console.log('reservations loaded');
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function (data) {
@@ -462,7 +477,7 @@ function BuildCalendar() {
                 const activeStart = moment(view.start);
                 const activeEnd = moment(view.end);
                 // console.log(activeStart.toDate() + "----" + startOfNextWeek.toDate() + "\n" + activeEnd.toDate() +"----" + endOfNextWeek.toDate());
-                console.log(start.toDate())
+                // console.log(start.toDate())
                 // Calendar slots are non-responsive if the current date range is outside of the normal request
                 // period unless the current user is an admin.
                 if ((userData.admin == 2 && activeStart >= startOfNextWeek) || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
@@ -480,19 +495,18 @@ function BuildCalendar() {
                 $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
                 // $('#calendar').fullCalendar('updateEvent', event);
                 //END : Koala modifications
-
-                document.getElementById('reservedBy').value = event.title;
+            
+                document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
                 document.getElementById('date').value = event.date;
                 document.getElementById('time').value = event.time;
                 document.getElementById('desktop').value = event.id;
-                console.log(event.username);
                 installationData.forEach(function (row) {
                     if (row.dtopID == event.id) {
 
                         document.getElementById("desktopForm").value = row.dtopName;
                     }
                 });
-                document.getElementById('user').value = event.user;
+                document.getElementById('user').value = event.usernames;
             },
 
             eventOverlap: function (stillEvent, movingEvent) {
@@ -525,14 +539,6 @@ function BuildCalendar() {
                 return desktop === event.id ? element : false;
 
             },
-            resourceRender: function (resourceObj, $th) {
-                $th.append('???')
-            },
-            eventMouseEnter: ({ event, el }) => {
-                $
-                // To-Do: Tooltip on event hover. Either here or in eventRender -- undecided
-                // el.tooltop({boundary: 'window', title: event.className + ' info:', })
-            }
         });
 
     });
