@@ -5,7 +5,6 @@
 #for the cycle
 #author: Cassandra Bailey
 
-session_start();
 // Connect to the database
 
 if (!include('../Utils/connect.php')) {
