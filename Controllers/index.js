@@ -133,6 +133,7 @@ function joinQueue() {
   var time = $('#time').val();
   var date = $('#date').val();
   var desktop = $('#desktop').val();
+  var build = $('#Build').val();
 
   $.ajax({
     type: 'post',
@@ -141,7 +142,8 @@ function joinQueue() {
       curr: userData.user_num,
       time: time,
       date: date,
-      desktop: desktop
+      desktop: desktop,
+      build: build
     },
     success: function (response) {
       redisplay();

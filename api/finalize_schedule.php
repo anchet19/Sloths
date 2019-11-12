@@ -84,7 +84,7 @@ $dbh2 = ConnectDB();
     echo "count: " .$count."\n";
             
     
-    $min = "SELECT user_num from user join queue using (user_num) ";
+    $min = "SELECT user_num, q.b_num from user join queue q using (user_num) ";
     $min .= "where dtop_id = $desktop and slot_id = $slot and user_points = $minpoints order by user_num";
 
     $stmt2 = $dbh2->prepare($min);
@@ -99,16 +99,18 @@ $dbh2 = ConnectDB();
                     $row = $stmt2->fetch(); #iterate the random number of times to get the winners info                   
                 }
             $userNum = $row['user_num'];
+            $build = $row['b_num'];
         }
     else
         {
             $row = $stmt2->fetch();
             $userNum = $row['user_num'];
+            $build = $row['b_num'];
         }       
             
             //SQL Procedure: Copies entry from Queue -> Reservation, then removes the entry from Queue
             $move = "CALL mtrTest(".$userNum.",".$desktop.",".$slot.",". $primeMod . ",
-                ".$nonPrimeMod.",".$consolation.");";
+                ".$nonPrimeMod.",".$consolation.",".$build.");";
 
             $stmt2 = $dbh2->prepare($move);
             $stmt2->execute();          
