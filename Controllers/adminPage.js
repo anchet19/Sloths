@@ -1,5 +1,5 @@
 var lastVisible = "initialFormView";
-const username = sessionStorage.getItem('username');
+const username = localStorage.getItem('username');
 fetchDropdownValues();
 
 $(document).ready(function () {

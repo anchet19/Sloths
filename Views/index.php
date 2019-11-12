@@ -118,9 +118,10 @@ Authors: Team Elephants, Team Sloths-->
         <!-- <p>Team Elephants 2019, Team Sloths 2019</p> -->
         <script language="javascript">
           const username = '<?php echo $_SESSION["username"]; ?>';
+          localStorage.setItem('username', username);
           function logout() {
-            sessionStorage.clear();
-            window.location.href = "login";
+            localStorage.clear();
+            window.location = "../logout.php";
           }
           populateDropdowns(username);
           retrieveUser(username);
@@ -138,5 +139,4 @@ Authors: Team Elephants, Team Sloths-->
     </div>
     <!-- END: KOALA MODIFICATIONS -->
 </body>
-
 </html>

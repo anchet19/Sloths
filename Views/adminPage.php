@@ -395,7 +395,7 @@ session_start();
                     <select class="user-dropdown" id="users" name="user-select" placeholder="Enter a Username" style="width: 100%"><option></option></select>
                   </label>
               </div>
-                  <div id="privilegesCheckbox" class="col offset-md-1"></div>        
+                  <div id="privilegesCheckbox" class="col"></div>        
                 </form>
               <div id="privSubmit" class="col offset-md-1"></div>
             </div>              
@@ -430,10 +430,9 @@ session_start();
     </div>
   </div>
   <script language="javascript">
-    sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
     function logout() {
-      sessionStorage.clear();
-      window.location.href = "login";
+      localStorage.clear();
+      window.location="login";
     }
   </script>
 
