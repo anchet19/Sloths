@@ -54,6 +54,7 @@ Authors: Team Elephants, Team Sloths-->
         <ul>
             <li id="admin-button"><a onclick="checkForAdmin();">Admin</a></li>
             <li><a href="manager.html">Manager</a></li> <!-- Update Me! -->
+            <li><a href="dashboard.php">My Dashboard</a></li>
             <li><a href="legend.html">Legend</a></li>
             <li><a class="helppage" href="helppage.html">Help Page</a></li>
             <li><a class="logout" onclick="logout()">Logout</a></li>
