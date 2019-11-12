@@ -53,35 +53,7 @@ $dbh = ConnectDB();	  //connects to mySQL
     
     <div class="container">
       <div class="row no-gutter">
-          <div class="accordion">
-            <section class="accordion-item">
-                <h3>Section 1</h3>
-                <div class="accordion-item-content">
-                  <p>Content for section 1</p>
-                </div>
-            </section>
-            <section class="accordion-item">
-                <h3>Section 2</h3>
-                <div class="accordion-item-content">
-                  <p>Content for section 2</p>
-                </div>
-            </section>
-            <section  class="accordion-item accordion-item">
-                <h3>Section 3</h3>
-                <div class="accordion-item-content">
-                  <a class="dropdown-item " href="viewusers.php">View Users</a>
-                <a class="dropdown-item btn" onclick="makeVisible('insertUser')" data-toggle="collapse" href="#collapseOne">Insert User</a>
-                <a class="dropdown-item btn" onclick="makeVisible('updateUser')" data-toggle="collapse" href="#collapseOne">Update User</a>
-                <a class="dropdown-item btn" onclick="makeVisible('deleteUser')" data-toggle="collapse" href="#collapseOne">Delete User</a>
-                </div>
-            </section>
-            <section class="accordion-item">
-                <h3>Section 4</h3>
-                <div class="accordion-item-content">
-                  <p>Content for section 4</p>
-                </div>
-            </section>
-          </div>
+          
         <div class="col">
           <table>
       <tr>
