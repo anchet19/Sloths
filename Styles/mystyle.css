@@ -4,6 +4,16 @@ div.column_entry {
   font-size: 18px;
 }
 
+/* Welcome message + user first name. */
+div#welcome {
+    font-weight: bold;
+    color: #2e398f;
+    font-size: 24px;
+    border: 5px solid #2e398f;
+    border-radius: 15px;
+    padding: 10px;
+}
+
 /* Create three equal columns that floats next to each other */
 .column_entry {
   float: left;
