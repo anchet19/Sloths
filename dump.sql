@@ -158,7 +158,8 @@ CREATE TABLE `leftover` (
   `slot_id` int(11) NOT NULL,
   `wait_position` int(11) DEFAULT NULL,
   `user_num` int(11) NOT NULL,
-  `request_time` datetime DEFAULT NULL
+  `request_time` datetime DEFAULT NULL,
+  `b_num` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -168,7 +169,7 @@ CREATE TABLE `leftover` (
 
 LOCK TABLES `leftover` WRITE;
 /*!40000 ALTER TABLE `leftover` DISABLE KEYS */;
-INSERT INTO `leftover` VALUES (1,8,1315,0,30,'2019-11-04 10:12:28');
+INSERT INTO `leftover` VALUES (1,8,1315,0,30,'2019-11-04 10:12:28',0);
 /*!40000 ALTER TABLE `leftover` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,14 +236,17 @@ CREATE TABLE `queue` (
   `wait_position` int(11) DEFAULT NULL,
   `user_num` int(11) NOT NULL,
   `request_time` datetime DEFAULT NULL,
+  `b_num` int(11) NOT NULL,
   PRIMARY KEY (`qid`),
   KEY `dtop_id` (`dtop_id`),
   KEY `slot_id` (`slot_id`),
   KEY `user_num` (`user_num`),
+  KEY `queue_ibfk_4` (`b_num`),
   CONSTRAINT `queue_ibfk_1` FOREIGN KEY (`dtop_id`) REFERENCES `desktop` (`dtop_id`),
   CONSTRAINT `queue_ibfk_2` FOREIGN KEY (`slot_id`) REFERENCES `timeslot` (`slot_id`),
-  CONSTRAINT `queue_ibfk_3` FOREIGN KEY (`user_num`) REFERENCES `user` (`user_num`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `queue_ibfk_3` FOREIGN KEY (`user_num`) REFERENCES `user` (`user_num`),
+  CONSTRAINT `queue_ibfk_4` FOREIGN KEY (`b_num`) REFERENCES `build` (`b_num`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,14 +270,17 @@ CREATE TABLE `reservation` (
   `user_num` int(11) NOT NULL,
   `slot_id` int(11) NOT NULL,
   `dtop_id` int(11) NOT NULL,
+  `b_num` int(11) NOT NULL,
   PRIMARY KEY (`reserve_id`),
   UNIQUE KEY `user_slot_unique` (`user_num`,`slot_id`),
   UNIQUE KEY `dtop_slot_unique` (`dtop_id`,`slot_id`),
   KEY `fk_slot` (`slot_id`),
+  KEY `fk_b2` (`b_num`),
+  CONSTRAINT `fk_b2` FOREIGN KEY (`b_num`) REFERENCES `build` (`b_num`),
   CONSTRAINT `fk_dtop2` FOREIGN KEY (`dtop_id`) REFERENCES `desktop` (`dtop_id`),
   CONSTRAINT `fk_slot` FOREIGN KEY (`slot_id`) REFERENCES `timeslot` (`slot_id`),
   CONSTRAINT `fk_user` FOREIGN KEY (`user_num`) REFERENCES `user` (`user_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,7 +289,7 @@ CREATE TABLE `reservation` (
 
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
-INSERT INTO `reservation` VALUES (1,32,1315,8),(2,30,1321,8),(3,30,1322,8),(4,32,1327,8),(5,30,1327,3),(6,32,1328,8),(7,30,1357,3),(8,30,1316,8),(9,32,1333,8),(10,30,1334,8),(11,32,1335,8),(12,32,1317,8),(13,32,1323,8),(14,32,1329,8);
+INSERT INTO `reservation` VALUES (1,32,1315,8,18),(2,30,1321,8,18),(3,30,1322,8,18),(4,32,1327,8,18),(5,30,1327,3,10),(6,32,1328,8,18),(7,30,1357,3,10),(8,30,1316,8,18),(9,32,1333,8,18),(10,30,1334,8,18),(11,32,1335,8,18),(12,32,1317,8,18),(13,32,1323,8,18),(14,32,1329,8,18),(15,30,1358,8,18),(16,30,1359,8,18),(17,30,1364,8,18),(18,30,1365,8,18),(19,30,1370,8,18),(20,30,1371,3,11);
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,7 +356,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (13,'Jacky','Patel','patelr1','riddhipatel26@yahoo.com','$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq',1,100,NULL,0,NULL,0),(14,'William','Geary','gearyw68','grearyw68@students.rowan.edu','$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S',NULL,100,NULL,0,NULL,0),(16,'bob','bob','bob','bob','$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2',1,100,'2019-09-29 11:16:02',0,NULL,0),(18,'Riddhi','Patel','patelr0','riddhip01@yahoo.com','$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86',NULL,100,'2020-09-29 11:16:02',0,NULL,0),(20,'Shrek','Ogre','shrek1','shrek@swamp.com','$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO',1,100,NULL,0,NULL,0),(24,'Cassandra','Bailey','itscasserole','cass@gmail.com','$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na',NULL,100,NULL,0,NULL,0),(28,'Russia','Commander','russiagirl','russiagirl@yahoo.com','$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO',1,100,NULL,0,NULL,0),(29,'Rishi','Parikh','parish30','rishiparikh@gmail.com','$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q',NULL,100,NULL,0,NULL,0),(30,'bill','bill','bill','bill@bill.bill','$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.',1,117,'2019-11-07 16:07:49',7,NULL,0),(31,'David','Serrano','frenchfrylord','serranod7@students.rowan.edu','$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02',NULL,100,'2018-10-16 16:48:02',0,NULL,0),(32,'Alex','Cross','across','crossa95@students.rowan.edu','$2y$10$zURLq4BxZZrkLWZJxTU94.yYipwMua2OMXDCS6E7r/2a.wNh4J3y2',NULL,130,'2019-11-07 16:16:34',8,NULL,0);
+INSERT INTO `user` VALUES (13,'Jacky','Patel','patelr1','riddhipatel26@yahoo.com','$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq',1,100,NULL,0,NULL,0),(14,'William','Geary','gearyw68','grearyw68@students.rowan.edu','$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S',NULL,100,NULL,0,NULL,0),(16,'bob','bob','bob','bob','$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2',1,100,'2019-09-29 11:16:02',0,NULL,0),(18,'Riddhi','Patel','patelr0','riddhip01@yahoo.com','$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86',NULL,100,'2020-09-29 11:16:02',0,NULL,0),(20,'Shrek','Ogre','shrek1','shrek@swamp.com','$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO',1,100,NULL,0,NULL,0),(24,'Cassandra','Bailey','itscasserole','cass@gmail.com','$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na',NULL,100,NULL,0,NULL,0),(28,'Russia','Commander','russiagirl','russiagirl@yahoo.com','$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO',1,100,NULL,0,NULL,0),(29,'Rishi','Parikh','parish30','rishiparikh@gmail.com','$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q',NULL,100,NULL,0,NULL,0),(30,'bill','bill','bill','bill@bill.bill','$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.',2,173,'2019-11-12 17:39:24',33,NULL,0),(31,'David','Serrano','frenchfrylord','serranod7@students.rowan.edu','$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02',NULL,100,'2018-10-16 16:48:02',0,NULL,0),(32,'Alex','Cross','across','crossa95@students.rowan.edu','$2y$10$zURLq4BxZZrkLWZJxTU94.yYipwMua2OMXDCS6E7r/2a.wNh4J3y2',NULL,130,'2019-11-07 16:16:34',8,NULL,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -361,7 +368,6 @@ UNLOCK TABLES;
 -- Dumping routines for database 'baileyc5'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `check_last_requests` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -369,9 +375,9 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `check_last_requests`(IN idleInterval INT, IN points_deducted INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_last_requests`(IN `idleInterval` INT, IN `points_deducted` INT)
 begin
 	
 	DECLARE finished integer default 0; -- Loop End
@@ -398,9 +404,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `clear` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -408,7 +412,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clear`()
 begin
@@ -421,9 +425,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `clear_reservations` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -431,7 +433,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clear_reservations`()
 BEGIN
@@ -456,7 +458,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `create_user_privilege` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -465,9 +466,9 @@ ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `create_user_privilege`(IN dtopName VARCHAR(100), IN userNum INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_user_privilege`(IN `dtopName` VARCHAR(100), IN `userNum` INT)
 BEGIN
 	INSERT INTO privilege (dtop_id, user_num)
     VALUES ((SELECT dtop_id from desktop where name = dtopName), userNum);
@@ -485,9 +486,9 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user_privileges`(IN userNum INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user_privileges`(IN `userNum` INT)
 BEGIN
 	DECLARE finished integer default 0;
     DECLARE temp_id int(11) default 0;
@@ -511,7 +512,6 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `findMinPoints` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -519,9 +519,9 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `findMinPoints`(IN dtop INT(11), IN slot INT(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findMinPoints`(IN `dtop` INT(11), IN `slot` INT(11))
 BEGIN
     select @minpoints := min(user_points) as m from queue join user using (user_num)
     where dtop_id = dtop and slot_id = slot;
@@ -538,9 +538,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `fix_points` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -548,7 +546,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `fix_points`()
 begin
@@ -575,9 +573,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `getQueue` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -598,9 +594,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `GetRequests` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -608,7 +602,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRequests`()
 BEGIN
@@ -636,9 +630,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `moveToReservation` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -646,9 +638,9 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `moveToReservation`(IN userpoints Int(3), IN dtop INT(11), IN slotnum INT(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `moveToReservation`(IN `userpoints` INT(3), IN `dtop` INT(11), IN `slotnum` INT(11))
 BEGIN
 	
    
@@ -709,9 +701,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `mtrTest` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -721,20 +711,19 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mtrTest`(IN userNum Int(11), IN dtop INT(11), IN slotnum INT(11), IN primeMod INT,
- IN nonPrimeMod INT, IN consolationMod INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mtrTest`(IN `userNum` INT(11), IN `dtop` INT(11), IN `slotnum` INT(11), IN `primeMod` INT, IN `nonPrimeMod` INT, IN `consolationMod` INT, IN `bnum` INT)
 BEGIN
 	
    
-	INSERT INTO baileyc5.reservation(user_num,slot_id,dtop_id)
-    SELECT userNum, slotnum, dtop;    
+	INSERT INTO baileyc5.reservation(user_num,slot_id,dtop_id,b_num)
+    SELECT userNum, slotnum, dtop, bnum; 
     
 	SELECT start_time
     into @starttime
 	from user
     join reservation using (user_num)
     join timeslot using (slot_id)
-    WHERE user_num = userNum and dtop_id = dtop and slot_id = slotnum;
+    WHERE user_num = userNum and dtop_id = dtop and slot_id = slotnum and b_num = bnum;
     
     IF 	   @starttime between '09:00:00' 
 		   and '15:00:00'
@@ -749,19 +738,19 @@ BEGIN
 	END IF;     
     
     DELETE FROM queue     
-    WHERE dtop_id = dtop and user_num = userNum and slot_id = slotnum;
+    WHERE dtop_id = dtop and user_num = userNum and slot_id = slotnum and b_num = bnum;
     
     UPDATE user    
     join queue using (user_num)
     SET user_points = user_points + consolationMod
-    where dtop_id = dtop and slot_id = slotnum;
+    where dtop_id = dtop and slot_id = slotnum and b_num = bnum;
     
     Insert into leftover
     select * from queue
-    where dtop_id = dtop and slot_id = slotnum;
+    where dtop_id = dtop and slot_id = slotnum and b_num = bnum;
     
     DELETE FROM queue
-    WHERE dtop_id = dtop AND slot_id = slotnum;
+    WHERE dtop_id = dtop AND slot_id = slotnum and b_num = bnum;
     
 
 END ;;
@@ -770,9 +759,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `multitest` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -780,7 +767,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `multitest`()
 begin
@@ -793,9 +780,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
-/*!50003 DROP PROCEDURE IF EXISTS `POSTDesktopMetrics` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `POSTBuildMetrics` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -803,9 +788,40 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTDesktopMetrics`(IN startDate date, IN endDate date)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTBuildMetrics`(IN `startDate` DATE, IN `endDate` DATE)
+BEGIN
+select f_name as name, hours_fulfilled as time_used,
+sum(hours_fulfilled + IFNULL(hours_unfulfilled, 0)) as time_requested
+from (select * from ((select build.name as f_name, count(*)*3 as hours_fulfilled from reservation
+        inner join build on reservation.b_num = build.b_num
+       inner join timeslot on reservation.slot_id = timeslot.slot_id
+where timeslot.date between startDate and endDate
+group by build.name) as reserved
+left join (select build.name as uf_name, count(*)*3 as hours_unfulfilled from leftover
+        inner join build on leftover.b_num = build.b_num
+       inner join timeslot on leftover.slot_id = timeslot.slot_id
+where timeslot.date between startDate and endDate
+group by build.name) as requests on reserved.f_name = requests.uf_name)) as build_metrics
+group by name;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `POSTDesktopMetrics` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTDesktopMetrics`(IN `startDate` DATE, IN `endDate` DATE)
 BEGIN
 select f_name as name, hours_fulfilled as time_used,
 sum(hours_fulfilled + IFNULL(hours_unfulfilled, 0)) as time_requested
@@ -826,9 +842,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `reset_points` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -836,7 +850,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reset_points`()
 begin
@@ -850,9 +864,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `reset_requests` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -860,7 +872,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reset_requests`()
 BEGIN
@@ -886,9 +898,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `set_last_request` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -898,7 +908,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `set_last_request`(IN userID INT(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `set_last_request`(IN `userID` INT(11))
 begin
 	UPDATE baileyc5.user
     SET last_request = (select now()), 
@@ -911,9 +921,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 DROP PROCEDURE IF EXISTS `testrun` */;
-ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -921,7 +929,7 @@ ALTER DATABASE `baileyc5` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `testrun`()
 begin
@@ -946,7 +954,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -957,4 +964,4 @@ ALTER DATABASE `baileyc5` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-08 17:19:24
+-- Dump completed on 2019-11-12 17:51:18

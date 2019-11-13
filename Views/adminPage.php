@@ -5,7 +5,7 @@
 // modified: Chris Ancheta, 2019-10-18
 
 session_start();
-?>
+?> 
 <html>
 
 <head>
@@ -156,6 +156,7 @@ session_start();
             <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
               <div class="card-body center">
                 <a class="dropdown-item btn" onclick="makeVisible('desktopMetrics')" data-toggle="collapse" href="#collapseSix">Desktop Metrics</a>
+                <a class="dropdown-item btn" onclick="makeVisible('buildMetrics')" data-toggle="collapse" href="#collapseSix">Build Metrics</a>
               </div>
             </div>
           </div>
@@ -394,7 +395,7 @@ session_start();
                     <select class="user-dropdown" id="users" name="user-select" placeholder="Enter a Username" style="width: 100%"><option></option></select>
                   </label>
               </div>
-                  <div id="privilegesCheckbox" class="col"></div>        
+                  <div id="privilegesCheckbox" class="col offset-md-1"></div>        
                 </form>
               <div id="privSubmit" class="col offset-md-1"></div>
             </div>              
@@ -425,13 +426,38 @@ session_start();
           <div class="col" id="desktopMetricsTable">
           </div>
         </div>
+        <div id="buildMetrics" style="display: none">
+          <form method="post" action="./adminPage.php" name="buildMetricsForm" id="buildMetricsForm">
+            <div class="form-row justify-content-center">
+              <div class="col offset-md-1">
+                <div class="form-group">
+                  <label class="form-label" for="startDate">Start date:</label>
+                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
+                </div>
+              </div>
+              <div class="col offset-md-1">
+                <div class="form-group">
+                  <label class="form-label" for="endDate">End date:</label>
+                  <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                </div>
+              </div>
+              <div class="col offset-md-1">
+                <label>&nbsp;</label> <!-- Alligns button with form input fields -->
+                <input class="btn btn-sm form-control btn-success " type="submit" name="submit" value="Submit">
+              </div>
+            </div>
+          </form>
+          <div class="col" id="buildMetricsTable">
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <script language="javascript">
+    sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
     function logout() {
-      localStorage.clear();
-      window.location="login";
+      sessionStorage.clear();
+      window.location.href = "login";
     }
   </script>
 

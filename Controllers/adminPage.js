@@ -1,5 +1,5 @@
 var lastVisible = "initialFormView";
-const username = localStorage.getItem('username');
+const username = sessionStorage.getItem('username');
 fetchDropdownValues();
 
 $(document).ready(function () {
@@ -8,6 +8,11 @@ $(document).ready(function () {
   desktopMetricsForm.addEventListener('submit', function (event) {
     event.preventDefault();
     handleDesktopMetricsSubmit();
+  });
+  const buildMetricsForm = document.getElementById("buildMetricsForm");
+  buildMetricsForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    handleBuildMetricsSubmit();
   });
   const newPasswordForm = document.getElementById("newPasswordForm");
   newPasswordForm.addEventListener('submit', (event) =>{
@@ -22,7 +27,7 @@ $(document).ready(function () {
     width: 'resolve'
   });
   // occurs when user is selected from the select2 dropdown
-  $('#users').on('select2:select', function (e) {
+  $('.user-dropdown').on('select2:select', function (e) {
     var data = e.params.data;
     fetch('../api/get_user_privileges', {
       method: "POST",
@@ -90,6 +95,18 @@ function handleDesktopMetricsSubmit(){
 }
 
 /**
+ * Handles the buildMetricsForm submit event.
+ * 
+ */
+function handleBuildMetricsSubmit(){
+  // Get the form
+  const buildMetricsForm = document.getElementById("buildMetricsForm");
+  // Format the form data -- Content-Type: application/x-www-form-urlencoded
+  const formattedFormData = new FormData(buildMetricsForm);
+  buildMetricsPostData(formattedFormData);
+}
+
+/**
  * Fetch the Desktop metrics HTML markup using the javascript Fetch API
  * and update the DOM
  * @param {FormData} formattedFormData The data from the form
@@ -101,6 +118,20 @@ async function desktopMetricsPostData(formattedFormData) {
   });
   const data = await response.text();
   document.getElementById("desktopMetricsTable").innerHTML = data;
+}
+
+/**
+ * Fetch the Build metrics HTML markup using the javascript Fetch API
+ * and update the DOM
+ * @param {FormData} formattedFormData The data from the form
+ */
+async function buildMetricsPostData(formattedFormData) {
+  const response = await fetch('../api/get_build_metrics.php', {
+    method: 'POST',
+    body: formattedFormData
+  });
+  const data = await response.text();
+  document.getElementById("buildMetricsTable").innerHTML = data;
 }
 
 /**
@@ -477,9 +508,11 @@ function savePrivileges(form) {
     })
 
   }).then(function (response) {
+
     response.json().then(function (data) {
       if (data.result) {
         alert("User Privileges Saved");
+        fetchDropdownValues();
       } else {
         alert("Something Went Wrong");
       }

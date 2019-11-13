@@ -1,10 +1,8 @@
 /**
  * Handles all the logic for the user dashboard page.
- * 
  * author: Chris Ancheta
  * date: 2019-11-12
  */
-
 
 $(document).ready(function () {
   /**
@@ -36,7 +34,7 @@ $(document).ready(function () {
     $("#dialog").dialog("open");
   });
 
-
+  // WIP tooltip - currently not utilized
   $("comment.tip").tooltip({
     classes: {
       "ui-tooltip": "highlight",

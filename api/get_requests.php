@@ -23,6 +23,8 @@ try {
     . "desktop.name AS dtopName,\n"
     . "queue.dtop_id AS dtop_num,\n"
     . "queue.user_num AS userID,\n"
+    . "queue.b_num AS build_num,\n"
+    . "build.name AS buildName,\n"
     . "GROUP_CONCAT(user.first_name, \" \", user.last_name) AS names,\n"
     . "GROUP_CONCAT(user.username) users,\n"
     . "COUNT(queue.slot_id) slotcount\n"
@@ -33,6 +35,8 @@ try {
     . "queue.dtop_id = desktop.dtop_id\n"
     . "INNER JOIN timeslot ON\n"
     . "queue.slot_id = timeslot.slot_id\n"
+    . "INNER JOIN build ON\n"
+    . "queue.b_num = build.b_num\n"
     . "GROUP BY slotID, dtop_num";
   
   $stmt = $dbh->prepare($sql);
@@ -42,10 +46,12 @@ try {
   $out = '';
   foreach($stmt->fetchAll() as $row){
             $out .= '{"id":"'.$row['dtop_num'].'",';
+            $out .= '"buildName":"'.$row['buildName'].'",';
             $out .= '"title":"Requests: '.$row['slotcount'].'",';
             $out .= '"start":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-04:00'.'",';
             $out .= '"end":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-1:00'.'",';
             $out .= '"user":"'.$row['userID'].'",';
+            $out .= '"buildID":"'.$row['build_num'].'",';
             $out .= '"names":"'.$row['names'].'",';
             $out .= '"usernames":"'.$row['users'].'",';
             $out .= '"date":"'.$row['reserveDate'].'",';

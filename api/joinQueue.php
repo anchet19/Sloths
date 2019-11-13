@@ -11,6 +11,7 @@
 	$curr = $_POST['curr'];
 	$date = $_POST['date'];
 	$time = $_POST['time'];
+	$build = $_POST['build'];
 	$desktop = $_POST['desktop'];
 	
 	#gets the slot_id for the date and start_time provided
@@ -33,8 +34,8 @@
   
 	if($currPos[0] == 0){
 		#inserts the request into the queue				
-    $sql  = "INSERT INTO queue (dtop_id, slot_id, wait_position, user_num, request_time) ";
-    $sql .= "VALUES ('$desktop', '$slot[0]', '$actualWait', '$curr',(select now()))";
+    $sql  = "INSERT INTO queue (dtop_id, b_num, slot_id, wait_position, user_num, request_time) ";
+    $sql .= "VALUES ('$desktop', '$build', '$slot[0]', '$actualWait', '$curr',(select now()))";
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
     

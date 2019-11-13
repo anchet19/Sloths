@@ -16,8 +16,7 @@ $dbh = ConnectDB();	  //connects to mySQL
 ?>
 
 <html>
-  <head>
-    
+  <head>   
     <link rel="stylesheet" type="text/css" href="../Styles/desktop.css">    
     <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></script>
@@ -35,7 +34,6 @@ $dbh = ConnectDB();	  //connects to mySQL
       <div class="topnav">
         <ul>
           <li><a href="index">Calendar</a></li>
-          
           <li><a class="logout" onclick="logout()">Logout</a></li>
         </ul>
     </div>
@@ -43,6 +41,7 @@ $dbh = ConnectDB();	  //connects to mySQL
     <div class="container">
       <div class="row no-gutter">
         <div class="col">
+
           <table style="table-layout: fixed; width: 100%">
             <tr id="table-header">
               <th>Date</th>
@@ -53,14 +52,13 @@ $dbh = ConnectDB();	  //connects to mySQL
             </tr>
             <?php
               try{
-                $max_strlen = 250;
+                $max_strlen = 200;
                 $sql = "SELECT t.date, reserve_id, dtop_id, start_time, outcome, comment FROM reservation "
                       . "JOIN user using (user_num) "
                       . "JOIN timeslot t using (slot_id) "
                       . "LEFT JOIN feedback using (reserve_id) "
                       . "WHERE username = 'bill' "
                       . "ORDER BY date DESC;";
-
                 $stmt = $dbh->prepare($sql);
                 $stmt->execute();
 
@@ -106,8 +104,7 @@ $dbh = ConnectDB();	  //connects to mySQL
         <textarea name="comment" id="comment-field" cols="30" rows="5" maxlength="200"></textarea>
         <input id="reservation" type="text" name="reservation" style="display: none"></input>
       </form>
-    </div>
-    
-    </div>
+    </div>  
+   </div>
   </body>
 </html>

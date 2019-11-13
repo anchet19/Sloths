@@ -19,6 +19,8 @@ try{
         $sql .= "reservation.dtop_id AS dtop_num, ";
         $sql .= "reservation.user_num AS userID, ";
         $sql .= "user.username AS username, ";
+        $sql .= "build.name AS buildName, ";
+        $sql .= "reservation.b_num AS build_num,";
         $sql .= "user.first_name AS firstName, ";
         $sql .= "user.last_name AS lastName ";
         $sql .= "FROM reservation ";
@@ -28,6 +30,8 @@ try{
         $sql .= "reservation.dtop_id = desktop.dtop_id ";
         $sql .= "INNER JOIN timeslot ON ";
         $sql .= "reservation.slot_id = timeslot.slot_id ";
+        $sql .= "INNER JOIN build ON ";
+        $sql .= "reservation.b_num = build.b_num ";
         $sql .= "ORDER BY timeslot.date";
 
         $stmt = $dbh->prepare($sql);
@@ -41,9 +45,12 @@ try{
             $out .= '"start":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-04:00'.'",';
             $out .= '"end":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-1:00'.'",';
             $out .= '"user":"'.$row['userID'].'",';
+            $out .= '"buildName":"'.$row['buildName'].'",';
+            $out .= '"buildID":"'.$row['build_num'].'",';
             $out .= '"date":"'.$row['reserveDate'].'",';
             $out .= '"time":"'.$row['reserveTime'].'",';
             $out .= '"username":"'.$row['username'].'"},';
+            
             
         }
             

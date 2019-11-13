@@ -54,7 +54,6 @@ Authors: Team Elephants, Team Sloths-->
         <ul>
             <li id="admin-button"><a onclick="checkForAdmin();">Admin</a></li>
             <li><a href="manager.html">Manager</a></li> <!-- Update Me! -->
-            <li><a href="dashboard.php">My Dashboard</a></li>
             <li><a href="legend.html">Legend</a></li>
             <li><a class="helppage" href="helppage.html">Help Page</a></li>
             <li><a class="logout" onclick="logout()">Logout</a></li>
@@ -101,6 +100,9 @@ Authors: Team Elephants, Team Sloths-->
                     <br> Desktop:
                     <input type="text" id="desktopForm2" name="desktop">
                     <hidden id="desktop"> </hidden>
+                    <br> Build:
+                    <input type="text" id="buildForm2" name = "build">
+                    <hidden id="build"> </hidden>
                     <br> Reserved By:
                     <input type="text" id="reservedBy2" name="reservedBy2">
                     <br>
@@ -119,10 +121,9 @@ Authors: Team Elephants, Team Sloths-->
         <!-- <p>Team Elephants 2019, Team Sloths 2019</p> -->
         <script language="javascript">
           const username = '<?php echo $_SESSION["username"]; ?>';
-          localStorage.setItem('username', username);
           function logout() {
-            localStorage.clear();
-            window.location = "../logout.php";
+            sessionStorage.clear();
+            window.location.href = "login";
           }
           populateDropdowns(username);
           retrieveUser(username);
@@ -134,10 +135,12 @@ Authors: Team Elephants, Team Sloths-->
         <label>Date : <input type="text" id="date" disabled></label>
         <label>Time : <input type="text" id="time" name="time" disabled></label>
         <label>Desktop : <input type="text" id="desktopForm" name="desktop" disabled></label>
+        <label>Build : <input type="text" id="buildForm" name="build" disabled></label>
         <label>Available : <input type="text" id="available" disabled></label>
         <label>Reserved by : <input type="text" id="reservedBy" name="reservedBy" disabled></label>
         <!-- <p><span class="ui-icon ui-icon-info" style="float:left; margin:12px 12px 20px 0;"></span>What would you like to do with this time?</p> -->
     </div>
     <!-- END: KOALA MODIFICATIONS -->
 </body>
+
 </html>
