@@ -9,6 +9,11 @@ $(document).ready(function () {
     event.preventDefault();
     handleDesktopMetricsSubmit();
   });
+  const buildMetricsForm = document.getElementById("buildMetricsForm");
+  buildMetricsForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    handleBuildMetricsSubmit();
+  });
   const newPasswordForm = document.getElementById("newPasswordForm");
   newPasswordForm.addEventListener('submit', (event) =>{
     event.preventDefault();
@@ -90,6 +95,18 @@ function handleDesktopMetricsSubmit(){
 }
 
 /**
+ * Handles the buildMetricsForm submit event.
+ * 
+ */
+function handleBuildMetricsSubmit(){
+  // Get the form
+  const buildMetricsForm = document.getElementById("buildMetricsForm");
+  // Format the form data -- Content-Type: application/x-www-form-urlencoded
+  const formattedFormData = new FormData(buildMetricsForm);
+  buildMetricsPostData(formattedFormData);
+}
+
+/**
  * Fetch the Desktop metrics HTML markup using the javascript Fetch API
  * and update the DOM
  * @param {FormData} formattedFormData The data from the form
@@ -101,6 +118,20 @@ async function desktopMetricsPostData(formattedFormData) {
   });
   const data = await response.text();
   document.getElementById("desktopMetricsTable").innerHTML = data;
+}
+
+/**
+ * Fetch the Build metrics HTML markup using the javascript Fetch API
+ * and update the DOM
+ * @param {FormData} formattedFormData The data from the form
+ */
+async function buildMetricsPostData(formattedFormData) {
+  const response = await fetch('../api/get_build_metrics.php', {
+    method: 'POST',
+    body: formattedFormData
+  });
+  const data = await response.text();
+  document.getElementById("buildMetricsTable").innerHTML = data;
 }
 
 /**
