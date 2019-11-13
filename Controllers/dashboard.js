@@ -11,6 +11,7 @@ $(document).ready(function () {
    * Creates the feedback dialog box using the dialog div in dashboard.php
    */
   $("#dialog").dialog({
+    position: { my: "bottom", at: "bottom", of: document.getElementById("table-header") },
     resizable: false,
     height: "auto",
     width: 400,
@@ -33,6 +34,19 @@ $(document).ready(function () {
   $('.feedback-link').click((event) => {
     document.getElementById('reservation').value = event.target.id;
     $("#dialog").dialog("open");
+  });
+
+
+  $("comment.tip").tooltip({
+    classes: {
+      "ui-tooltip": "highlight",
+      "ui-tooltip-content": "inline-block"
+    },
+    position: {
+      my: "center bottom",
+      at: "center top-10",
+      collision: "none"
+    }
   });
 });
 

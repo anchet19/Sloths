@@ -19,22 +19,23 @@ th {
 }
 
 /* Table entries. */
-td, tr {
+td,
+tr {
   border-top: 2px solid #2e398f;
   color: black;
   text-align: left;
   padding: 10px;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 /* Table entries 1, 3, 5, ... */
-tr:nth-child(even){
-  background-color: rgba(46, 57, 143, 0.100);
+tr:nth-child(even) {
+  background-color: rgba(46, 57, 143, 0.1);
 }
 
 /* Table entries 2, 4, 6, ... */
-tr:nth-child(odd){
-  background-color: rgba(46, 57, 143, 0.300);
+tr:nth-child(odd) {
+  background-color: rgba(46, 57, 143, 0.3);
 }
 
 /*Header and topnav CSS */
@@ -49,7 +50,7 @@ tr:nth-child(odd){
 .header {
   font-family: verdana;
   text-shadow: 2px 2px grey;
-  background:#273076;
+  background: #273076;
   text-align: center;
   font-weight: bold;
   color: #ccc;

@@ -17,15 +17,16 @@ $dbh = ConnectDB();	  //connects to mySQL
 
 <html>
   <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
     <link rel="stylesheet" type="text/css" href="../Styles/desktop.css">    
     <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></script>
+    
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Dependencies for the table -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.core.standalone.min.css"></script>
     <script src='../Controllers/dashboard.js'></script>
   </head>
 
@@ -42,8 +43,8 @@ $dbh = ConnectDB();	  //connects to mySQL
     <div class="container">
       <div class="row no-gutter">
         <div class="col">
-          <table>
-            <tr>
+          <table style="table-layout: fixed; width: 100%">
+            <tr id="table-header">
               <th>Date</th>
               <th>Desktop</th>
               <th>Start Time</th>
@@ -52,6 +53,7 @@ $dbh = ConnectDB();	  //connects to mySQL
             </tr>
             <?php
               try{
+                $max_strlen = 250;
                 $sql = "SELECT t.date, reserve_id, dtop_id, start_time, outcome, comment FROM reservation "
                       . "JOIN user using (user_num) "
                       . "JOIN timeslot t using (slot_id) "
@@ -65,12 +67,21 @@ $dbh = ConnectDB();	  //connects to mySQL
                 foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
                   $id = $row['reserve_id'];
                   $outcome = ($row['outcome'] == '') ? "<a class=\"feedback-link\" id=\"$id\" name=\"outcome\" href=\"#\" style=\"color: red\">Needs Feedback</a>" : $row['outcome'];
-                  $comment = ($row['comment'] == '') ?  '' : $row['comment'];
+                  $comment = $row['comment'];
+                  $length = strlen($comment);
+                  $commentHtml = null;
+                  if($length > $max_strlen){
+                    $commentHtml = "<p href=\"#\" class=\"comment-tip\" title=\"$comment\" style=\"word-wrap: break-word\">" . substr($comment, 0, $max_strlen) . "...</p>";
+                  } else if($length == 0) {
+                    $commentHtml = '';
+                  } else {
+                    $commentHtml = $comment;
+                  }
                   $out =  "<tr value=\"$id\"><td>" . $row['date'];
                   $out .= "</td><td>" . $row['dtop_id'];
                   $out .= "</td><td>" . $row['start_time'];
                   $out .= "</td><td>" . $outcome;
-                  $out .= "</td><td>" . $comment;
+                  $out .= "</td><td style=\"word-wrap: break-word\">" . $commentHtml;
                   $out .= "</td></<tr>";
                   echo $out;
                 }
@@ -89,13 +100,14 @@ $dbh = ConnectDB();	  //connects to mySQL
           <option value="success"> Success </option>
           <option value="software issue"> Software Issue </option>
           <option value="hardware issue"> Hardware Issue </option>
+          <option value="other"> Other </option>
         </select>
         <b><label for="Comment">Comment</label></b>
         <textarea name="comment" id="comment-field" cols="30" rows="5" maxlength="200"></textarea>
         <input id="reservation" type="text" name="reservation" style="display: none"></input>
       </form>
     </div>
-
+    
     </div>
   </body>
 </html>
