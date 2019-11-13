@@ -140,14 +140,61 @@ textarea {
   cursor: pointer;
 }
 
+/* CSS for checkboxes */
+
+/* Custom checkbox, unselected. */
+input[type=checkbox] {
+  top: 0px;
+  left: 0px;
+  height: 24px;
+  width: 24px;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 2px solid #2e398f;
+}
+
+/* Custom checkbox, selected. */
+input[type=checkbox]::after {
+  content: "";
+  left: 12px;
+  top: 12px;
+  height: 0px;
+  width: 0px;
+  border-radius: 5px;
+  border: 2px solid #2e398f;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(0deg) scale(0);
+  -ms-transform: rotate(0deg) scale(0);
+  transform: rotate(0deg) scale(0);
+  opacity: 1;
+}
+
 /* Override the border colors for (calendar) tables of the API. */
 .fc th,
 .fc td {
   border-color: #2e398f !important;
 }
 
-/* CSS for the scrollbar. */
+.footer {
+  background-color: #ccc;
+  text-align: center;
+  padding: 5px;
+}
 
+/* Warning message that the current content is WIP. */
+/* Temp CSS code, delete when working on this page. */
+.WIP {
+  color: #ccc;
+  font-size: inherit;
+  font-weight: bold;
+  background: #2e398f;
+  width: 50%;
+  padding: 25px;
+  border: 15px dashed;
+  border-color: yellow;
+}
+
+/* CSS for the scrollbar. */
 /* width */
 ::-webkit-scrollbar {
   width: 15px;
@@ -168,24 +215,4 @@ textarea {
 ::-webkit-scrollbar-thumb:hover {
   background: #273076;
 }
-
 /* End scrollbar CSS. */
-
-.footer {
-  background-color: #ccc;
-  text-align: center;
-  padding: 5px;
-}
-
-/* Warning message that the current content is WIP. */
-/* Temp CSS code, delete when working on this page. */
-.WIP {
-  color: #ccc;
-  font-size: inherit;
-  font-weight: bold;
-  background: #2e398f;
-  width: 50%;
-  padding: 25px;
-  border: 15px dashed;
-  border-color: yellow;
-}
