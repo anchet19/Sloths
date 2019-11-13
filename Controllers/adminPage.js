@@ -1,5 +1,5 @@
 var lastVisible = "initialFormView";
-const username = localStorage.getItem('username');
+const username = sessionStorage.getItem('username');
 fetchDropdownValues();
 
 $(document).ready(function () {
@@ -22,7 +22,7 @@ $(document).ready(function () {
     width: 'resolve'
   });
   // occurs when user is selected from the select2 dropdown
-  $('#users').on('select2:select', function (e) {
+  $('.user-dropdown').on('select2:select', function (e) {
     var data = e.params.data;
     fetch('../api/get_user_privileges', {
       method: "POST",
@@ -477,9 +477,11 @@ function savePrivileges(form) {
     })
 
   }).then(function (response) {
+
     response.json().then(function (data) {
       if (data.result) {
         alert("User Privileges Saved");
+        fetchDropdownValues();
       } else {
         alert("Something Went Wrong");
       }
