@@ -133,6 +133,7 @@ function joinQueue() {
   var time = $('#time').val();
   var date = $('#date').val();
   var desktop = $('#desktop').val();
+  var build = $('#build').val();
 
   $.ajax({
     type: 'post',
@@ -141,7 +142,8 @@ function joinQueue() {
       curr: userData.user_num,
       time: time,
       date: date,
-      desktop: desktop
+      desktop: desktop,
+      build: build
     },
     success: function (response) {
       redisplay();
@@ -225,7 +227,6 @@ function releaseSlot() {
   else {
     eventType = '';
   }
-
   // if the current user does not have the selected timeslot requested ore reserved
   // they are not permitted to release it
   if (!user.includes(userData.username)) {
@@ -327,12 +328,33 @@ function checkForInfoDisplay(start, end) {
     document.getElementById("time").value = '' + time.toString(); //sets the value of a time in the info display form.
 
     document.getElementById("desktop").value = document.getElementById("Desktop").value;
+    document.getElementById("build").value = document.getElementById("Build").value;
     document.getElementById("reservedBy").value = "";
     document.getElementById('user').value = '';
+    //document.getElementById('buildForm').value = document.getElementById("Build").value; 
+    
+    //document.getElementById('buildForm').value = event.buildName;
     installationData.forEach(function (row) {
       if (row.dtopID == document.getElementById("desktop").value) {
+        console.log(row.buildName);
         document.getElementById("desktopForm").value = row.dtopName;
+        
       }
+      if (row.bID == document.getElementById("build").value) {
+        document.getElementById('buildForm').value = row.buildName;
+      }
+      // if (row.bID == document.getElementById("Build").value) {
+      //   document.getElementById("buildForm").value = row.buildName;
+      // }
+      // if (row.bID == document.getElementById("build").value) {
+      //   document.getElementById("buildForm").value = row.buildName;
+      // }
+      //if(row.dtopID == document.getElementById("desktop").value && row.bID == document.getElementById("build").value) {
+      // if(row.dtopID == document.getElementById("desktop").value && row.bID == event.buildID) {
+      //   document.getElementById("desktopForm").value = row.dtopName;
+      //   document.getElementById("buildForm").value = row.buildName;
+      // }
+
     });
     return true;
   } else {
@@ -408,6 +430,7 @@ function BuildCalendar() {
                 borderColor: 'black',
                 textColor: 'black',
                 success: function (data) {
+                    // console.log('requests loaded');
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function (data) {
@@ -425,6 +448,7 @@ function BuildCalendar() {
                 textColor: 'white',
                 className: ["reservation"],
                 success: function (data) {
+                    // console.log('reservations loaded');
                     $('#calendar').fullCalendar('rerenderEvents');
                 },
                 error: function (data) {
@@ -494,21 +518,44 @@ function BuildCalendar() {
             },
 
             eventClick: function (event, element) {
-              //BEGIN : Koala modifications 
-              $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-              // $('#calendar').fullCalendar('updateEvent', event);
-              //END : Koala modifications
-          
-              document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
-              document.getElementById('date').value = event.date;
-              document.getElementById('time').value = event.time;
-              document.getElementById('desktop').value = event.id;
-              installationData.forEach(function (row) {
-                if (row.dtopID == event.id) {
-                  document.getElementById("desktopForm").value = row.dtopName;
-                }
-              });
-              document.getElementById('user').value = (event.usernames) ? event.usernames : event.username;
+                //BEGIN : Koala modifications 
+                $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+                // $('#calendar').fullCalendar('updateEvent', event);
+                //END : Koala modifications
+            
+                document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
+                document.getElementById('date').value = event.date;
+                document.getElementById('time').value = event.time;
+                document.getElementById('desktop').value = event.id;
+                //document.getElementById('build').value = event.buildID;
+                //document.getElementById('buildForm').value = event.buildName;
+                installationData.forEach(function (row) {
+                    if (row.dtopID == event.id) {
+
+                        document.getElementById("desktopForm").value = row.dtopName;
+                    }
+                    // if(row.bID == event.buildID) {
+
+                    //   document.getElementById("buildForm").value = row.bName
+                    // }
+                    // if(row.dtopID == document.getElementById("desktop").value && row.bID == event.buildID) {
+                    //   document.getElementById("desktopForm").value = row.dtopName;
+                    //   //document.getElementById('buildform').value = "test";
+                    //   document.getElementById("buildForm").value = row.buildName;
+                    // }
+                });
+                installationData.forEach(function (row) {
+                  if (row.bID == document.getElementById("Build").value) {
+                    document.getElementById("buildForm").value = event.buildName;
+                  }
+                });
+              //   installationData.forEach(function (row) {
+              //     if (row.bID == event.buildID) {
+
+              //         document.getElementById("buildForm").value = row.buildName;
+              //     }
+              // });
+                document.getElementById('user').value = event.usernames;
             },
 
             eventOverlap: function (stillEvent, movingEvent) {
