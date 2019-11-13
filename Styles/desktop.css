@@ -146,6 +146,31 @@ textarea {
   border-color: #2e398f !important;
 }
 
+/* CSS for the scrollbar. */
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ccc;
+  border-left: 2px solid #2e398f;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2e398f;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #273076;
+}
+
+/* End scrollbar CSS. */
+
 .footer {
   background-color: #ccc;
   text-align: center;
