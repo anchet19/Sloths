@@ -63,8 +63,9 @@ $(document).ready(function () {
           checkbox.value = row.name;
           checkbox.name = "privCheckbox";
           
+          
+          privileges.append(checkbox);
           privileges.append(label);
-          privileges.append(checkbox);  
   
         });
         if(!$('#privbut').length){
