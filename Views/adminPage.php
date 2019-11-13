@@ -5,7 +5,7 @@
 // modified: Chris Ancheta, 2019-10-18
 
 session_start();
-?>
+?> 
 <html>
 
 <head>
@@ -448,7 +448,7 @@ session_start();
               </div>
             </div>
           </form>
-          <div class="col" id="desktopMetricsTable">
+          <div class="col" id="buildMetricsTable">
           </div>
         </div>
       </div>
