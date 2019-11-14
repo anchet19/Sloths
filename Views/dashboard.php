@@ -6,122 +6,112 @@
    * author: Chris Ancheta
    * date: 2019-10-29
    */
-
 session_start();					                    //calls open and read session and saves handlers
 if  (!include('../Utils/connect.php')) {				    //checks to see if connected to the database
   die('error finding connect file');		//error message if the system is not connected
 }
-
 $dbh = ConnectDB();	  //connects to mySQL
 ?>
 
 <html>
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <head>   
+    <link rel="stylesheet" type="text/css" href="../Styles/desktop.css">    
     <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="../Utils/docCookies.js"></script>
-    <link rel="stylesheet" href="../Styles/accordion.css"></link>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></script>
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Dependencies for the table -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.core.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.core.standalone.min.css"></link>
+    <script src='../Controllers/dashboard.js'></script>
   </head>
 
   <body>
-    <div class="header">
-      <div class="row">
-        <div class="col">
-          <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="index.html">Calendar</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" style="cursor: pointer" onclick="logout()">Logout</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div>
-      </div>
+    <div class="header"></div>
+      <div class="topnav">
+        <ul>
+          <li><a href="index">Calendar</a></li>
+          <li><a class="logout" onclick="logout()">Logout</a></li>
+        </ul>
     </div>
     
     <div class="container">
       <div class="row no-gutter">
-          <div class="accordion">
-            <section class="accordion-item">
-                <h3>Section 1</h3>
-                <div class="accordion-item-content">
-                  <p>Content for section 1</p>
-                </div>
-            </section>
-            <section class="accordion-item">
-                <h3>Section 2</h3>
-                <div class="accordion-item-content">
-                  <p>Content for section 2</p>
-                </div>
-            </section>
-            <section  class="accordion-item accordion-item">
-                <h3>Section 3</h3>
-                <div class="accordion-item-content">
-                  <a class="dropdown-item " href="viewusers.php">View Users</a>
-                <a class="dropdown-item btn" onclick="makeVisible('insertUser')" data-toggle="collapse" href="#collapseOne">Insert User</a>
-                <a class="dropdown-item btn" onclick="makeVisible('updateUser')" data-toggle="collapse" href="#collapseOne">Update User</a>
-                <a class="dropdown-item btn" onclick="makeVisible('deleteUser')" data-toggle="collapse" href="#collapseOne">Delete User</a>
-                </div>
-            </section>
-            <section class="accordion-item">
-                <h3>Section 4</h3>
-                <div class="accordion-item-content">
-                  <p>Content for section 4</p>
-                </div>
-            </section>
-          </div>
         <div class="col">
-          <table>
-      <tr>
-        <th>Date</th>
-        <th>Desktop</th>
-        <th>Start Time</th>
-        <th>Outcome</th>
-        <th>Comment</th>
-      </tr>
-      <?php
-        try{
-          $sql = "SELECT t.date, dtop_id, start_time, outcome, comment FROM reservation "
-                . "JOIN user using (user_num) "
-                . "JOIN timeslot t using (slot_id) "
-                . "LEFT JOIN feedback using (reserve_id) "
-                . "WHERE username = 'bill' "
-                . "ORDER BY date DESC;";
 
-          $stmt = $dbh->prepare($sql);
-          $stmt->execute();
-
-          foreach($stmt->fetchAll() as $row) {
-            $outcome = ($row['outcome'] == '') ? "<a name='outcome' href='#' style='color: red'>Needs Feedback</a>" : $row['outcome'];
-            $comment = ($row['comment'] == '') ?  '' : $row['comment'];
-            $out =  " <tr><td>" . $row['date'];
-            $out .= "</td><td>" . $row['dtop_id'];
-            $out .= "</td><td>" . $row['start_time'];
-            $out .= "</td><td>" . $outcome;
-            $out .= "</td><td>" . $comment;
-            $out .= "</td></tr>";
-            echo $out;
-          }
-          $stmt = null;
-        }
-        catch(Exception $e){}
-      ?>
-   </table>
+          <table style="table-layout: fixed; width: 100%">
+            <tr id="table-header">
+              <th>Date</th>
+              <th>Desktop</th>
+              <th>Start Time</th>
+              <th>Outcome</th>
+              <th>Comment</th>
+            </tr>
+            <?php
+              try{
+                $username = $_SESSION['username'];
+                $max_strlen = 200;
+                $sql = "SELECT t.date, reserve_id, dtop_id, start_time, outcome, comment FROM reservation "
+                      . "JOIN user using (user_num) "
+                      . "JOIN timeslot t using (slot_id) "
+                      . "LEFT JOIN feedback using (reserve_id) "
+                      . "WHERE username = '$username' "
+                      . "ORDER BY date DESC;";
+                $stmt = $dbh->prepare($sql);
+                $stmt->execute();
+                foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                  $id = $row['reserve_id'];
+                  $outcome = ($row['outcome'] == '') ? "<a class=\"feedback-link\" id=\"$id\" name=\"outcome\" href=\"#\" style=\"color: red\">Needs Feedback</a>" : $row['outcome'];
+                  $comment = $row['comment'];
+                  $length = strlen($comment);
+                  $commentHtml = null;
+                  if($length > $max_strlen){
+                    $commentHtml = "<p href=\"#\" class=\"comment-tip\" title=\"$comment\" style=\"word-wrap: break-word\">" . substr($comment, 0, $max_strlen) . "...</p>";
+                  } else if($length == 0) {
+                    $commentHtml = '';
+                  } else {
+                    $commentHtml = $comment;
+                  }
+                  $out =  "<tr value=\"$id\"><td>" . $row['date'];
+                  $out .= "</td><td>" . $row['dtop_id'];
+                  $out .= "</td><td>" . $row['start_time'];
+                  $out .= "</td><td>" . $outcome;
+                  $out .= "</td><td style=\"word-wrap: break-word\">" . $commentHtml;
+                  $out .= "</td></<tr>";
+                  echo $out;
+                }
+                $stmt = null;
+              }
+              catch(Exception $e){}
+            ?>
+          </table>
         </div>
       </div>
     </div>
+    <div id="dialog" title="Feedback Form" style="display: none">
+      <form id="feedback-form" action="dashboard.php" method="post">
+        <b><label for="outcome">Outcome</label></b>
+        <select class="dialog-select" id="outcome-select" name="outcome">
+          <option value="success"> Success </option>
+          <option value="software issue"> Software Issue </option>
+          <option value="hardware issue"> Hardware Issue </option>
+          <option value="other"> Other </option>
+        </select>
+        <b><label for="Comment">Comment</label></b>
+        <textarea name="comment" id="comment-field" cols="30" rows="5" maxlength="200"></textarea>
+        <input id="reservation" type="text" name="reservation" style="display: none"></input>
+      </form>
+    </div>  
+   </div>
+   <div class="footer">
+      <script language="javascript">
+      console.log(sessionStorage.username)
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "login";
+          }
+      </script>
+   </div>
   </body>
-  
 </html>

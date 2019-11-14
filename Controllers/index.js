@@ -227,6 +227,8 @@ function releaseSlot() {
   else {
     eventType = '';
   }
+  console.log(eventType);
+  console.log(user);
   // if the current user does not have the selected timeslot requested ore reserved
   // they are not permitted to release it
   if (!user.includes(userData.username)) {
@@ -331,9 +333,6 @@ function checkForInfoDisplay(start, end) {
     document.getElementById("build").value = document.getElementById("Build").value;
     document.getElementById("reservedBy").value = "";
     document.getElementById('user').value = '';
-    //document.getElementById('buildForm').value = document.getElementById("Build").value; 
-    
-    //document.getElementById('buildForm').value = event.buildName;
     installationData.forEach(function (row) {
       if (row.dtopID == document.getElementById("desktop").value) {
         console.log(row.buildName);
@@ -343,17 +342,6 @@ function checkForInfoDisplay(start, end) {
       if (row.bID == document.getElementById("build").value) {
         document.getElementById('buildForm').value = row.buildName;
       }
-      // if (row.bID == document.getElementById("Build").value) {
-      //   document.getElementById("buildForm").value = row.buildName;
-      // }
-      // if (row.bID == document.getElementById("build").value) {
-      //   document.getElementById("buildForm").value = row.buildName;
-      // }
-      //if(row.dtopID == document.getElementById("desktop").value && row.bID == document.getElementById("build").value) {
-      // if(row.dtopID == document.getElementById("desktop").value && row.bID == event.buildID) {
-      //   document.getElementById("desktopForm").value = row.dtopName;
-      //   document.getElementById("buildForm").value = row.buildName;
-      // }
 
     });
     return true;
@@ -527,35 +515,15 @@ function BuildCalendar() {
                 document.getElementById('date').value = event.date;
                 document.getElementById('time').value = event.time;
                 document.getElementById('desktop').value = event.id;
-                //document.getElementById('build').value = event.buildID;
-                //document.getElementById('buildForm').value = event.buildName;
                 installationData.forEach(function (row) {
                     if (row.dtopID == event.id) {
-
                         document.getElementById("desktopForm").value = row.dtopName;
                     }
-                    // if(row.bID == event.buildID) {
-
-                    //   document.getElementById("buildForm").value = row.bName
-                    // }
-                    // if(row.dtopID == document.getElementById("desktop").value && row.bID == event.buildID) {
-                    //   document.getElementById("desktopForm").value = row.dtopName;
-                    //   //document.getElementById('buildform').value = "test";
-                    //   document.getElementById("buildForm").value = row.buildName;
-                    // }
+                    if (row.bID == document.getElementById("Build").value) {
+                      document.getElementById("buildForm").value = event.buildName;
+                    }
                 });
-                installationData.forEach(function (row) {
-                  if (row.bID == document.getElementById("Build").value) {
-                    document.getElementById("buildForm").value = event.buildName;
-                  }
-                });
-              //   installationData.forEach(function (row) {
-              //     if (row.bID == event.buildID) {
-
-              //         document.getElementById("buildForm").value = row.buildName;
-              //     }
-              // });
-                document.getElementById('user').value = event.usernames;
+                document.getElementById('user').value = (event.usernames) ? event.usernames : event.username;
             },
 
             eventOverlap: function (stillEvent, movingEvent) {
