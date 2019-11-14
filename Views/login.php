@@ -47,6 +47,4 @@ modified: Chris Ancheta, Kyle Kaminski -->
       <p><a href="enter_email.php">Forgot your password?</a></p>
     </form>
   </body>
-  <script language="javascript">
-  </script>
 </html>
