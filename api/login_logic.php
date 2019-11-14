@@ -182,7 +182,6 @@ function clearResetTokens($username){
   $stmt->execute();
   $result = $stmt->fetch();
   $email = $result['email'];
-var_dump($email);
   $sql = "DELETE FROM password_reset WHERE email = '$email'";
   $stmt = $db->prepare($sql);
   $stmt->execute();

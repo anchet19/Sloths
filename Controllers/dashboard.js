@@ -30,6 +30,20 @@ $(document).ready(function () {
 
   // Creates an on click event listener for the "Needs Feedback" links
   $('.feedback-link').click((event) => {
+    fetch('../api/get_feedback_values',{
+      method: 'get'
+    }).then((result) => {
+      result.json().then((data) => {
+        const outcomeSelect = document.getElementById('outcome-select');
+        data.forEach((item) => {
+          const option = document.createElement('option');
+          console.log(item.toUpperCase())
+          option.setAttribute('value', item);
+          option.innerHTML = item.toUpperCase();
+          outcomeSelect.append(option);
+        })
+      })
+    })
     document.getElementById('reservation').value = event.target.id;
     $("#dialog").dialog("open");
   });

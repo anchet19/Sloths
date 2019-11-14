@@ -57,7 +57,7 @@ $dbh = ConnectDB();	  //connects to mySQL
                       . "JOIN timeslot t using (slot_id) "
                       . "LEFT JOIN feedback using (reserve_id) "
                       . "WHERE username = '$username' "
-                      . "ORDER BY date DESC;";
+                      . "ORDER BY date DESC, start_time DESC;";
                 $stmt = $dbh->prepare($sql);
                 $stmt->execute();
                 foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
@@ -93,10 +93,6 @@ $dbh = ConnectDB();	  //connects to mySQL
       <form id="feedback-form" action="dashboard.php" method="post">
         <b><label for="outcome">Outcome</label></b>
         <select class="dialog-select" id="outcome-select" name="outcome">
-          <option value="success"> Success </option>
-          <option value="software issue"> Software Issue </option>
-          <option value="hardware issue"> Hardware Issue </option>
-          <option value="other"> Other </option>
         </select>
         <b><label for="Comment">Comment</label></b>
         <textarea name="comment" id="comment-field" cols="30" rows="5" maxlength="200"></textarea>
@@ -104,7 +100,7 @@ $dbh = ConnectDB();	  //connects to mySQL
       </form>
     </div>  
    </div>
-   <div class="footer">
+   <div class="footer" disabled>
       <script language="javascript">
       console.log(sessionStorage.username)
         function logout() {
