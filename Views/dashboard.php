@@ -28,7 +28,7 @@ $dbh = ConnectDB();	  //connects to mySQL
   </head>
 
   <body>
-    <div class="header"></div>
+    <div class="header">My Dashboard</div>
       <div class="topnav">
         <ul>
           <li><a href="index">Calendar</a></li>
