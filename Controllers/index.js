@@ -161,14 +161,22 @@ function joinQueue() {
 function checkForAdmin() {
   const auth = userData.admin;
 
-  if (auth == 2) {
+  if (auth == 2) { // If user is admin
     window.location.href = "../Views/adminPage.php";
   }
+
   // Uncomment once Manager page is created
-  // else if(auth >= 1){
+  // else if(auth >= 1) { // If user is manager 
   //   window.location.href = "../Views/managerPage.php";
   // }
-  else {
+
+  // Comment out when managerPage.php is created
+  // Uncomment once Manager page is created
+  else if(auth >= 1) { // If user is manager 
+    window.location.href = "../Views/manager.html";
+  }
+
+  else { // If user is not admin or manager
     alert("You don't have permission to access this page.");
   }
 }
