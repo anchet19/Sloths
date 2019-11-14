@@ -56,7 +56,3 @@ text box is non-editable. */
 .currDesk {
   cursor: not-allowed !important;
 }
-
-.footer {
-  visibility: hidden !important;
-}
