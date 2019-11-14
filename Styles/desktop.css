@@ -216,3 +216,7 @@ input[type=checkbox]::after {
   background: #273076;
 }
 /* End scrollbar CSS. */
+
+.footer {
+  visibility: hidden !important;
+}
