@@ -161,14 +161,13 @@ function joinQueue() {
 function checkForAdmin() {
   const auth = userData.admin;
 
-  if (auth == 2) {
+  if (auth == 2) { // If admin
     window.location.href = "../Views/adminPage.php";
   }
-  // Uncomment once Manager page is created
-  // else if(auth >= 1){
-  //   window.location.href = "../Views/managerPage.php";
-  // }
-  else {
+  else if(auth == 1) { // If manager
+    window.location.href = "../Views/managerPage.php";
+  }
+  else { // If user
     alert("You don't have permission to access this page.");
   }
 }
@@ -378,7 +377,7 @@ function getTodaysDate() {
 function BuildCalendar() {
 
     $(document).ready(function () {
-
+        
         //BEGIN : Koala modifications
         // The Modal
         $("#dialog-confirm").dialog({

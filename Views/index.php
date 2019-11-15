@@ -121,13 +121,13 @@ Authors: Team Elephants, Team Sloths-->
     <div class="footer">
         <!-- <p>Team Elephants 2019, Team Sloths 2019</p> -->
         <script language="javascript">
-          const username = '<?php echo $_SESSION["username"]; ?>';
+          sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
           function logout() {
             sessionStorage.clear();
             window.location.href = "login";
           }
-          populateDropdowns(username);
-          retrieveUser(username);
+          populateDropdowns(sessionStorage.username);
+          retrieveUser(sessionStorage.username);
         </script>
     </div>
 
