@@ -378,7 +378,7 @@ function getTodaysDate() {
 function BuildCalendar() {
 
     $(document).ready(function () {
-
+        
         //BEGIN : Koala modifications
         // The Modal
         $("#dialog-confirm").dialog({
