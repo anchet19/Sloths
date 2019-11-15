@@ -158,6 +158,7 @@ session_start();
               <div class="card-body center">
                 <a class="dropdown-item btn" onclick="makeVisible('desktopMetrics')" data-toggle="collapse" href="#collapseSix">Desktop Metrics</a>
                 <a class="dropdown-item btn" onclick="makeVisible('buildMetrics')" data-toggle="collapse" href="#collapseSix">Build Metrics</a>
+                <a class="dropdown-item btn" onclick="makeVisible('outcomeMetrics')" data-toggle="collapse" href="#collapseSix">Outcome Metrics</a>
               </div>
             </div>
           </div>
@@ -425,6 +426,30 @@ session_start();
             </div>
           </form>
           <div class="col" id="desktopMetricsTable">
+          </div>
+        </div>
+        <div id="outcomeMetrics" style="display: none">
+          <form method="post" action="../api/get_outcome_metrics.php" name="outcomeMetricsForm" id="outcomeMetricsForm">
+            <div class="form-row justify-content-center">
+              <div class="col offset-md-1">
+                <div class="form-group">
+                  <label class="form-label" for="startDate">Start date:</label>
+                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
+                </div>
+              </div>
+              <div class="col offset-md-1">
+                <div class="form-group">
+                  <label class="form-label" for="endDate">End date:</label>
+                  <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                </div>
+              </div>
+              <div class="col offset-md-1">
+                <label>&nbsp;</label> <!-- Alligns button with form input fields -->
+                <input class="btn btn-sm form-control btn-success " type="submit" name="submit" value="Submit">
+              </div>
+            </div>
+          </form>
+          <div class="col" id="outcomeMetricsTable">
           </div>
         </div>
         <div id="buildMetrics" style="display: none">
