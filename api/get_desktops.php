@@ -18,7 +18,7 @@ if(!include_once('../Utils/connect.php'))
 
 try {
   $dbh = ConnectDB();
-  $sql = "SELECT * FROM desktop "; 
+  $sql = "SELECT * FROM desktop where active_bit = 1 ORDER BY name"; #crossmod
   
   $stmt = $dbh->prepare($sql);
   $stmt->execute();

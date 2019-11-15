@@ -19,12 +19,11 @@ try{
       $userData = json_decode(getUser($username));
           
       if($userData->{'admin'} == 2){
-        $sql = "DELETE FROM installation WHERE b_num = $b_num";
-        
+        $sql = "DELETE FROM installation WHERE b_num = $b_num";        
         $stmt = $dbh->prepare($sql);
         $stmt->execute();
         
-        $sql2 = "DELETE FROM build WHERE b_num = $b_num";
+        $sql2 = "UPDATE build SET active_bit = 0 WHERE b_num = $b_num"; #crossmod
         $stmt = $dbh->prepare($sql2);
         $stmt->execute();
         

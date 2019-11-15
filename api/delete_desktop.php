@@ -19,17 +19,11 @@ try{
           
     if($userData->{'admin'} == 2){
         $sql  = "DELETE FROM installation WHERE dtop_id = $desktop";
-
         $stmt = $dbh->prepare($sql);
         $stmt->execute();
         $stmt = null;
         
-        $sql  = "DELETE FROM reservation WHERE dtop_id = $desktop";
-        $stmt = $dbh->prepare($sql);
-        $stmt->execute();
-        $stmt = null;
-        
-        $sql2 = "DELETE FROM desktop WHERE dtop_id = $desktop";
+        $sql2 = "UPDATE desktop SET active_bit = 0 WHERE dtop_id = $desktop"; #crossmod
         $stmt = $dbh->prepare($sql2);
         $stmt->execute();
         

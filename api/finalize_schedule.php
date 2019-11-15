@@ -151,13 +151,33 @@ $dbh2 = ConnectDB();
     # Sets users with < 0 points to 0
     $move = "CALL fix_points();";
     $stmt2 = $dbh2->prepare($move);
+    $stmt2->execute();
     
     # Subtracts points from users without a recent request.
     $move = "CALL check_last_requests($daysIdle, $idleDeduction)";
     $stmt3 = $dbh2->prepare($move);
+    $stmt3->execute();
 
     # Resets all user requests to 0.
     $move = "CALL reset_requests()";
-    $stmt3 = $dbh2->prepare($move); 
+    $stmt3 = $dbh2->prepare($move);
+    $stmt3->execute();
+    
+    $move = "SELECT DAYOFWEEK(now()) ";
+    $stmt3 = $dbh2->prepare($move);
+    $stmt3->execute();
+    $dayOfWeek = $stmt3->fetch();
+
+    if($dayOfWeek[0] == 5){ # if it's thursday, it's first finalization - move state from 0 to 1
+        $sql = "CALL state0to1 ";
+        $stmt3 = $dbh2->prepare($sql);
+        $stmt3->execute();
+    }
+    if($dayOfWeek[0] == 6){ # if friday, move from state 1 to 2.
+        $sql = "CALL state1to2 ";
+        $stmt3 = $dbh2->prepare($sql);
+        $stmt3->execute();
+    }
+
 
 ?>
