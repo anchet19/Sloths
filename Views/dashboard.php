@@ -7,7 +7,10 @@
    * date: 2019-10-29
    */
 session_start();					                    //calls open and read session and saves handlers
-
+if  (!include('../Utils/connect.php')) {				    //checks to see if connected to the database
+  die('error finding connect file');		//error message if the system is not connected
+}
+$dbh = ConnectDB();	  //connects to mySQL
 ?>
 
 <html>
@@ -22,7 +25,6 @@ session_start();					                    //calls open and read session and saves
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.core.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.core.standalone.min.css"></link>
     <script src='../Controllers/dashboard.js'></script>
-    <script src='https://momentjs.com/downloads/moment.min.js'></script>
   </head>
 
   <body>
@@ -30,7 +32,6 @@ session_start();					                    //calls open and read session and saves
       <div class="topnav">
         <ul>
           <li><a href="index">Calendar</a></li>
-          <li><a id="actions-btn" href='#'> Actions </a></li>
           <li><a class="logout" onclick="logout()">Logout</a></li>
         </ul>
     </div>
@@ -38,19 +39,62 @@ session_start();					                    //calls open and read session and saves
     <div class="container">
       <div class="row no-gutter">
         <div class="col">
-          <table class="table" id="reservation-table" style="table-layout: fixed; width: 100%">
-            <tr class="table-header" id="table-header"></tr>
+
+          <table style="table-layout: fixed; width: 100%">
+            <tr id="table-header">
+              <th>Date</th>
+              <th>Desktop</th>
+              <th>Start Time</th>
+              <th>Outcome</th>
+              <th>Comment</th>
+            </tr>
+            <?php
+              try{
+                $username = $_SESSION['username'];
+                $max_strlen = 200;
+                $sql = "SELECT t.date, reserve_id, dtop_id, start_time, outcome, comment FROM reservation "
+                      . "JOIN user using (user_num) "
+                      . "JOIN timeslot t using (slot_id) "
+                      . "LEFT JOIN feedback using (reserve_id) "
+                      . "WHERE username = '$username' "
+                      . "ORDER BY date DESC, start_time DESC;";
+                $stmt = $dbh->prepare($sql);
+                $stmt->execute();
+                foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                  $id = $row['reserve_id'];
+                  $outcome = ($row['outcome'] == '') ? "<a class=\"feedback-link\" id=\"$id\" name=\"outcome\" href=\"#\" style=\"color: red\">Needs Feedback</a>" : $row['outcome'];
+                  $comment = $row['comment'];
+                  $length = strlen($comment);
+                  $commentHtml = null;
+                  if($length > $max_strlen){
+                    $commentHtml = "<p href=\"#\" class=\"comment-tip\" title=\"$comment\" style=\"word-wrap: break-word\">" . substr($comment, 0, $max_strlen) . "...</p>";
+                  } else if($length == 0) {
+                    $commentHtml = '';
+                  } else {
+                    $commentHtml = $comment;
+                  }
+                  $out =  "<tr value=\"$id\"><td>" . $row['date'];
+                  $out .= "</td><td>" . $row['dtop_id'];
+                  $out .= "</td><td>" . $row['start_time'];
+                  $out .= "</td><td>" . $outcome;
+                  $out .= "</td><td style=\"word-wrap: break-word\">" . $commentHtml;
+                  $out .= "</td></<tr>";
+                  echo $out;
+                }
+                $stmt = null;
+              }
+              catch(Exception $e){}
+            ?>
           </table>
         </div>
       </div>
     </div>
     <div id="dialog" title="Feedback Form" style="display: none">
       <form id="feedback-form" action="dashboard.php" method="post">
-        <h4 class="dialog-title">Enter Feedback</h4>
-        <b><label for="outcome-select">Outcome</label></b>
+        <b><label for="outcome">Outcome</label></b>
         <select class="dialog-select" id="outcome-select" name="outcome">
         </select>
-        <b><label for="comment-field">Comment</label></b>
+        <b><label for="Comment">Comment</label></b>
         <textarea name="comment" id="comment-field" cols="30" rows="5" maxlength="200"></textarea>
         <input id="reservation" type="text" name="reservation" style="display: none"></input>
       </form>
@@ -58,7 +102,7 @@ session_start();					                    //calls open and read session and saves
    </div>
    <div class="footer" disabled>
       <script language="javascript">
-        sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
+      console.log(sessionStorage.username)
         function logout() {
             sessionStorage.clear();
             window.location.href = "login";
