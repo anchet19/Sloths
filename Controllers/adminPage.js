@@ -14,6 +14,11 @@ $(document).ready(function () {
     event.preventDefault();
     handleBuildMetricsSubmit();
   });
+  const outcomeMetricsForm = document.getElementById("outcomeMetricsForm");
+  outcomeMetricsForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    handleOutcomeMetricsSubmit();
+  });
   const newPasswordForm = document.getElementById("newPasswordForm");
   newPasswordForm.addEventListener('submit', (event) =>{
     event.preventDefault();
@@ -107,6 +112,14 @@ function handleBuildMetricsSubmit(){
   buildMetricsPostData(formattedFormData);
 }
 
+function handleOutcomeMetricsSubmit(){
+  // Get the form
+  const outcomeMetricsForm = document.getElementById("outcomeMetricsForm");
+  // Format the form data -- Content-Type: application/x-www-form-urlencoded
+  const formattedFormData = new FormData(outcomeMetricsForm);
+  outcomeMetricsPostData(formattedFormData);
+}
+
 /**
  * Fetch the Desktop metrics HTML markup using the javascript Fetch API
  * and update the DOM
@@ -133,6 +146,15 @@ async function buildMetricsPostData(formattedFormData) {
   });
   const data = await response.text();
   document.getElementById("buildMetricsTable").innerHTML = data;
+}
+
+async function outcomeMetricsPostData(formattedFormData) {
+  const response = await fetch('../api/get_outcome_metrics.php', {
+    method: 'POST',
+    body: formattedFormData
+  });
+  const data = await response.text();
+  document.getElementById("outcomeMetricsTable").innerHTML = data;
 }
 
 /**
@@ -257,7 +279,7 @@ function doDeleteBuild(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("Build Deleted");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -285,7 +307,7 @@ function doDeleteDesktop(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("Desktop Deleted");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -312,7 +334,7 @@ function doDeleteUser(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("User Deleted");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -342,7 +364,7 @@ function doDeleteInstallation(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("Installation Deleted");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -368,7 +390,7 @@ function doInsertBuild(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("Build Inserted");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -393,7 +415,7 @@ function doInsertDesktop(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("Desktop Inserted");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -419,7 +441,7 @@ function doInsertInstallation(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("Installation Inserted");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -447,7 +469,7 @@ function doInsertUser(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("User Inserted");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -472,7 +494,7 @@ function doUpdateUser(form) {
     response.json().then(function (data) {
       if (data.result) {
         alert("User Updated");
-        fetchDropdownValues();
+        //fetchDropdownValues(); crossmod
       } else {
         alert("Something Went Wrong");
       }
@@ -512,8 +534,7 @@ function savePrivileges(form) {
 
     response.json().then(function (data) {
       if (data.result) {
-        alert("User Privileges Saved");
-        fetchDropdownValues();
+        alert("User Privileges Saved");        
       } else {
         alert("Something Went Wrong");
       }
