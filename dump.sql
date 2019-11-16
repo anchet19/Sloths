@@ -106,7 +106,7 @@ CREATE TABLE `feedback` (
   PRIMARY KEY (`feedback_id`),
   KEY `fk_reservation_idx` (`reserve_id`),
   CONSTRAINT `fk_reservation` FOREIGN KEY (`reserve_id`) REFERENCES `reservation` (`reserve_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +115,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES (11,75,'success',''),(12,74,'software issue',''),(13,73,'other',''),(14,72,'hardware issue','');
+INSERT INTO `feedback` VALUES (15,86,'success','a'),(16,87,'hardware issue','b'),(17,88,'success','c'),(18,89,'software issue','d');
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +274,7 @@ CREATE TABLE `queue` (
   CONSTRAINT `queue_ibfk_2` FOREIGN KEY (`slot_id`) REFERENCES `timeslot` (`slot_id`),
   CONSTRAINT `queue_ibfk_3` FOREIGN KEY (`user_num`) REFERENCES `user` (`user_num`),
   CONSTRAINT `queue_ibfk_4` FOREIGN KEY (`b_num`) REFERENCES `build` (`b_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,7 +308,7 @@ CREATE TABLE `reservation` (
   CONSTRAINT `fk_dtop2` FOREIGN KEY (`dtop_id`) REFERENCES `desktop` (`dtop_id`),
   CONSTRAINT `fk_slot` FOREIGN KEY (`slot_id`) REFERENCES `timeslot` (`slot_id`),
   CONSTRAINT `fk_user` FOREIGN KEY (`user_num`) REFERENCES `user` (`user_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -317,7 +317,7 @@ CREATE TABLE `reservation` (
 
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
-INSERT INTO `reservation` VALUES (67,32,1352,15,18),(72,30,1353,16,18),(73,30,1359,16,18),(74,30,1378,17,18),(75,30,1384,17,18);
+INSERT INTO `reservation` VALUES (86,30,1358,17,11),(87,30,1364,17,11),(88,32,1359,17,11),(89,32,1365,17,11);
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -385,7 +385,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (13,'Jacky','Patel','patelr1','riddhipatel26@yahoo.com','$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq',1,100,NULL,0,NULL,0),(14,'William','Geary','gearyw68','grearyw68@students.rowan.edu','$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S',NULL,100,NULL,0,NULL,0),(16,'bob','bob','bob','bob','$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2',1,91,'2019-09-29 11:16:02',0,NULL,0),(18,'Riddhi','Patel','patelr0','riddhip01@yahoo.com','$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86',NULL,100,'2020-09-29 11:16:02',0,NULL,0),(20,'Shrek','Ogre','shrek1','shrek@swamp.com','$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO',1,100,NULL,0,NULL,0),(24,'Cassandra','Bailey','itscasserole','cass@gmail.com','$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na',NULL,100,NULL,0,NULL,0),(28,'Russia','Commander','russiagirl','russiagirl@yahoo.com','$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO',1,100,NULL,0,NULL,0),(29,'Rishi','Parikh','parish30','rishiparikh@gmail.com','$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q',NULL,100,NULL,0,NULL,0),(30,'bill','bill','bill','bill@bill.bill','$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.',2,243,'2019-11-15 13:29:24',36,NULL,0),(31,'David','Serrano','frenchfrylord','serranod7@students.rowan.edu','$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02',NULL,91,'2018-10-16 16:48:02',0,NULL,0),(32,'Alex','Cross','across','crossa95@students.rowan.edu','$2y$10$zURLq4BxZZrkLWZJxTU94.yYipwMua2OMXDCS6E7r/2a.wNh4J3y2',NULL,174,'2019-11-15 12:58:22',4,NULL,0);
+INSERT INTO `user` VALUES (13,'Jacky','Patel','patelr1','riddhipatel26@yahoo.com','$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq',1,100,NULL,0,NULL,0),(14,'William','Geary','gearyw68','grearyw68@students.rowan.edu','$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S',NULL,100,NULL,0,NULL,0),(16,'bob','bob','bob','bob','$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2',1,91,'2019-09-29 11:16:02',0,NULL,0),(18,'Riddhi','Patel','patelr0','riddhip01@yahoo.com','$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86',NULL,100,'2020-09-29 11:16:02',0,NULL,0),(20,'Shrek','Ogre','shrek1','shrek@swamp.com','$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO',1,100,NULL,0,NULL,0),(24,'Cassandra','Bailey','itscasserole','cass@gmail.com','$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na',NULL,100,NULL,0,NULL,0),(28,'Russia','Commander','russiagirl','russiagirl@yahoo.com','$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO',1,100,NULL,0,NULL,0),(29,'Rishi','Parikh','parish30','rishiparikh@gmail.com','$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q',NULL,100,NULL,0,NULL,0),(30,'bill','bill','bill','bill@bill.bill','$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.',2,235,'2019-11-16 12:08:44',50,2,0),(31,'David','Serrano','frenchfrylord','serranod7@students.rowan.edu','$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02',NULL,91,'2018-10-16 16:48:02',0,NULL,0),(32,'Alex','Cross','across','crossa95@students.rowan.edu','$2y$10$zURLq4BxZZrkLWZJxTU94.yYipwMua2OMXDCS6E7r/2a.wNh4J3y2',NULL,176,'2019-11-16 12:09:21',6,1,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -871,6 +871,45 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `POSToutcomeDep` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `POSToutcomeDep`(IN startDate date, in EndDate date)
+BEGIN
+	select coalesce(d.name, 'All Departments') as Department, coalesce(f.outcome, 'Total') as Outcome, count(*)*3 as Hours
+	from reservation r
+    join timeslot t using (slot_id)
+	join feedback f using (reserve_id)
+	join user using (user_num)
+	join department d using (department_id)
+    WHERE t.date BETWEEN startDate and endDate
+	GROUP BY d.name, f.outcome WITH ROLLUP
+	UNION
+	SELECT '******', '******', '******'
+	UNION
+	SELECT 'Department', 'Total Bad Shots','Hours'
+	UNION
+	select coalesce(d2.name, 'All Departments'), '', count(*)*3
+	from reservation r2
+    join timeslot t2 using (slot_id)
+	join feedback f2 using (reserve_id)
+	join user using (user_num)
+	join department d2 using (department_id)
+	WHERE f2.outcome != 'success' and t2.date BETWEEN startDate and endDate
+	GROUP BY d2.name;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `POSTOutcomeMetrics` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1100,4 +1139,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-15 16:23:26
+-- Dump completed on 2019-11-16 13:43:41
