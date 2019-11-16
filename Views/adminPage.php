@@ -433,6 +433,10 @@ session_start();
             <div class="form-row justify-content-center">
               <div class="col offset-md-1">
                 <div class="form-group">
+                  <fieldset id="filter">                  
+                    <input type="radio" name="filter" id="filter" value="desktop"> By Desktop
+                    <input type="radio" name="filter" id="filter" value="department">By Department
+                  </fieldset>
                   <label class="form-label" for="startDate">Start date:</label>
                   <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
                 </div>

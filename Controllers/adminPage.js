@@ -116,7 +116,10 @@ function handleOutcomeMetricsSubmit(){
   // Get the form
   const outcomeMetricsForm = document.getElementById("outcomeMetricsForm");
   // Format the form data -- Content-Type: application/x-www-form-urlencoded
+ 
   const formattedFormData = new FormData(outcomeMetricsForm);
+ /*  $(this.form).find(':radio:checked').each(function () {
+    formattedFormData.append(this.name, $(this).val());}); */
   outcomeMetricsPostData(formattedFormData);
 }
 
