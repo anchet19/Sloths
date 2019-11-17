@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+if(!isset($_SESSION['username'])){
+  header("Location: ./404page");
+}
+?>
 
 <!DOCTYPE html>
 
@@ -53,7 +58,7 @@ Authors: Team Elephants, Team Sloths-->
     <div class="topnav">
         <ul>
             <li id="admin-button"><a onclick="checkForAdmin();">Admin</a></li>
-            <li><a href="manager.html">Manager</a></li> <!-- Update Me! -->
+            <li><a href="managerPage.php">Manager</a></li> <!-- Update Me! -->
             <li><a href="dashboard.php">My Dashboard</a></li>
             <li><a href="legend.html">Legend</a></li>
             <li><a class="helppage" href="helppage.html">Help Page</a></li>

@@ -1,3 +1,10 @@
+<?php 
+session_start();
+if(!isset($_SESSION['username'])){
+  header("Location: ./404page");
+}
+?>
+
 <!DOCTYPE html>
 
 <!-- UI with forms that the manager can use
