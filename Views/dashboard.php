@@ -20,6 +20,7 @@ include_once('./changepwd.php');
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="../Styles/desktop.css">
     <link rel="stylesheet" type="text/css" href="../Styles/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></script>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
 

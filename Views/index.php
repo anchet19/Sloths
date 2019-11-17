@@ -70,34 +70,22 @@ Authors: Team Elephants, Team Sloths-->
             <form>
                 <div id="welcome"></div>
                 <br>
-                <br> Currently Displayed Schedule:
+                <br> 
+                <p class="MultiTextBoxForm">Currently Displayed Schedule:</p>
                 <hidden type="text" id="demo" name="demo" disabled> </hidden>
                 <input class="currDesk" type="text" id="currDesktop" disabled></input>
-                <br>
-                <br>
-
-                <br> Build:
-
+                <p class="MultiTextBoxForm">Build:</p>
                 <select id="Build" name="Builds" onchange="populateDropdown(this.value);">
                 </select>
-
-                <br> Desktop:
-
-                <select id="Desktop" name="Desktop">
-
-                </select>
-
+                <p class="MultiTextBoxForm">Desktop:</p>
+                <select id="Desktop" name="Desktop"></select>
                 <br>
                 <br>
-
-                <button id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed
-                    Schedule </button>
-                <br> <br> <br> <br> <br>
+                <button id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
             </form>
             <!-- //TODO: HIDDEN UNTIL DIALOG IS COMPLETED (Nasser)-->
             <div class="rel" style="display: none;">
                 <form method='post'>
-
                     Selected Time Slot Information: Date:
                     <input type="text" id="date2" name="date2">
                     <br> Time:
