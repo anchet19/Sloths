@@ -434,31 +434,27 @@ if(!isset($_SESSION['username'])){
         <div id="outcomeMetrics" style="display: none">
           <form method="post" action="../api/get_outcome_metrics.php" name="outcomeMetricsForm" id="outcomeMetricsForm">
             <div class="form-row justify-content-center">
-              <div class="col offset-md-1">
+              <div id="outcome-group">
                 <div class="form-group">
                   <fieldset id="filter">                  
                     <input type="radio" name="filter" id="filter" value="desktop"> By Desktop
                     <input type="radio" name="filter" id="filter" value="department">By Department
                   </fieldset>
                   <label class="form-label" for="startDate">Start date:</label>
-                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
-                </div>
-              </div>
-              <div class="col offset-md-1">
-                <div class="form-group">
-                  <label class="form-label" for="endDate">End date:</label>
+                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                  <label class="form-label" id= endDateLabel for="endDate">End date:</label>
                   <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                  <div class="col offset-md-1">
+                    <label>&nbsp;</label> <!-- Alligns button with form input fields -->
+                    <input class="btn btn-sm form-control btn-success " type="submit" name="submit" value="Submit" id="outcomeSubmit">
+                  </div>
                 </div>
               </div>
-              <div class="col offset-md-1">
-                <label>&nbsp;</label> <!-- Alligns button with form input fields -->
-                <input class="btn btn-sm form-control btn-success " type="submit" name="submit" value="Submit">
-              </div>
-            </div>
           </form>
           <div class="col" id="outcomeMetricsTable">
           </div>
         </div>
+
         <div id="buildMetrics" style="display: none">
           <form method="post" action="./adminPage.php" name="buildMetricsForm" id="buildMetricsForm">
             <div class="form-row justify-content-center">
