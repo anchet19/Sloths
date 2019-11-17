@@ -5,6 +5,9 @@
 // modified: Chris Ancheta, 2019-10-18
 
 session_start();
+if(!isset($_SESSION['username'])){
+  header("Location: ./404page");
+}
 ?> 
 <html>
 
