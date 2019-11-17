@@ -134,6 +134,7 @@ input[type="text"],
 input[type="password"],
 input[type="new-pwd"],
 input[type="new-pwd-c"],
+input[type="search"],
 select,
 textarea {
   width: 100%;
@@ -147,7 +148,8 @@ textarea {
 /* CSS for checkboxes */
 
 /* Custom checkbox, unselected. */
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="radio"] {
   top: 0px;
   left: 0px;
   height: 24px;

@@ -69,6 +69,15 @@ form {
   color: #2e398f;
 }
 
+/* .form-group {
+  max-width: 500px !important;
+  align-content: center;
+} */
+/* 
+.col {
+  flex-basis: 0 !important;
+} */
+
 /* Override the properties for the text boxes in the forms. */
 /* .form-control {
   padding: 20px !important;

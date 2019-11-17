@@ -12,6 +12,7 @@ div#welcome {
     border: 5px solid #2e398f;
     border-radius: 15px;
     padding: 10px;
+    cursor: not-allowed;
 }
 
 /* Create three equal columns that floats next to each other */
