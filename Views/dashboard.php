@@ -102,11 +102,5 @@ include_once('./changepwd.php');
           }
       </script>
    </div>
-   <style>
-      form { display: table;}
-      .form-control {display: table-row;}
-      font {display: table-cell;}
-      input {display: table-cell;}
-   </style>
   </body>
 </html>
