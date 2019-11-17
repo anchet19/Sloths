@@ -33,17 +33,14 @@ modified: Chris Ancheta, Kyle Kaminski -->
       <h1 class="form-title">ASRC Desktop Scheduler Login</h1>
 		<!-- form validation messages -->
       <?php include('../api/messages.php'); ?>
-      <br>
-      <div>
-        <font>Username</font>
+      <div class="MultiTextBoxForm">
+        <p>Username</p>
         <input type="text" value="" name="username">
-        <br><br>
-        <font>Password</font>
+        <p>Password</p>
         <input type="password" name="password">
-      </div>
-      <br><br>
+      </div> 
+      <br>
         <input type="submit" name="login_user" class="login-btn" />
-      <br><br>
       <p><a href="enter_email.php">Forgot your password?</a></p>
     </form>
   </body>
