@@ -57,3 +57,12 @@ text box is non-editable. */
 .currDesk {
   cursor: not-allowed !important;
 }
+
+/* Experimental Rendering of multiple events in one time box 
+  .reservation {
+  width: 100%;
+  height: auto;
+  position: relative !important;
+  left: 0% !important;
+  margin-right: 0% !important;
+} */

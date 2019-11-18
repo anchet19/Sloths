@@ -48,9 +48,6 @@ Authors: Team Elephants, Team Sloths-->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar-scheduler/1.9.4/scheduler.min.js'></script>
 
     <script src="../Controllers/index.js"></script>
-    <script>
-        $(document).ready(BuildCalendar());
-    </script>
 </head>
 
 <body class="background">
@@ -83,28 +80,6 @@ Authors: Team Elephants, Team Sloths-->
                 <br>
                 <button id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
             </form>
-            <!-- //TODO: HIDDEN UNTIL DIALOG IS COMPLETED (Nasser)-->
-            <div class="rel" style="display: none;">
-                <form method='post'>
-                    Selected Time Slot Information: Date:
-                    <input type="text" id="date2" name="date2">
-                    <br> Time:
-                    <input type="text" id="time2" name="time2">
-                    <br> Desktop:
-                    <input type="text" id="desktopForm2" name="desktop">
-                    <hidden id="desktop"> </hidden>
-                    <br> Build:
-                    <input type="text" id="buildForm2" name = "build">
-                    <hidden id="build"> </hidden>
-                    <br> Reserved By:
-                    <input type="text" id="reservedBy2" name="reservedBy2">
-                    <br>
-                    <input type="hidden" id="user" name="user" value="">
-                    <button type="button" name="request2" id="request2" onclick="requestSlot();">Request</button>
-                    <button type="button" name="release2" id="release2" onclick="releaseSlot();">Release</button>
-                </form>
-            </div>
-
         </div>
 
         <div class="column_content" id='calendar'></div>
@@ -118,7 +93,6 @@ Authors: Team Elephants, Team Sloths-->
             sessionStorage.clear();
             window.location.href = "login";
           }
-          populateDropdowns(sessionStorage.username);
           retrieveUser(sessionStorage.username);
         </script>
     </div>
@@ -127,13 +101,13 @@ Authors: Team Elephants, Team Sloths-->
     <div align="left" id="dialog-confirm" title="Time Reservation" style="display:none">
         <label>Date : <input type="text" id="date" disabled></label>
         <label>Time : <input type="text" id="time" name="time" disabled></label>
-        <label>Desktop : <input type="text" id="desktopForm" name="desktop" disabled></label>
-        <label>Build : <input type="text" id="buildForm" name="build" disabled></label>
-        <label>Available : <input type="text" id="available" disabled></label>
+        <label>Build : <select type="text" id="buildForm" name="build" ></select></label>
+        <label>Desktop : <select type="text" id="desktopForm" name="desktop" disabled></select></label>
+        <input type="text" id="dtopID" style="display: none" disabled>
         <label>Reserved by : <input type="text" id="reservedBy" name="reservedBy" disabled></label>
+        <input id="user" type="text" style="display: none" disabled></input>
         <!-- <p><span class="ui-icon ui-icon-info" style="float:left; margin:12px 12px 20px 0;"></span>What would you like to do with this time?</p> -->
     </div>
     <!-- END: KOALA MODIFICATIONS -->
 </body>
-
 </html>

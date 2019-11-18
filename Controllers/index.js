@@ -10,6 +10,60 @@ var time;
 var installationData = {};
 var userData = {};
 
+$(document).ready(function () {
+  populateDropdowns(sessionStorage.username);
+  BuildCalendar();
+  
+  //BEGIN : Koala modifications
+  // The Modal
+  $("#dialog-confirm").dialog({
+    resizable: false,
+    height: "auto",
+    width: 400,
+    autoOpen: false,
+    modal: true,
+    buttons: [{
+      id: "btnRequest",
+      text: "Request",
+      icon: "ui-icon-plus",
+      click: function () {
+        requestSlot();
+        $(this).dialog("close");
+      }
+    },
+    {
+      id: "btnRelease",
+      text: "Release",
+      icon: "ui-icon-minus",
+      click: function () {
+        releaseSlot();
+        $(this).dialog("close");
+      }
+    }
+    ]
+  });
+    //END : Koala modifications
+
+
+  $('#Build').change((event) => {
+    const dtopSelect = document.getElementById('Desktop');
+    populateDesktopDropdown('Desktop', event.target.value);
+    event.target.value == 0 ? dtopSelect.disabled = true : dtopSelect.disabled = false;
+    redisplay();
+  })
+
+  $('#buildForm').change((event => {
+    const dtopSelect = document.getElementById('desktopForm');
+    populateDesktopDropdown('desktopForm', event.target.value);
+    event.target.value == 0 ? dtopSelect.disabled = true : dtopSelect.disabled = false;
+  }))
+
+  $('#Desktop').change((event) => {
+    setDesktop()
+  })
+
+});
+
 /**
  * Refreshes the calendar to keep the displayed information persistent with the the rest api 
  */
@@ -48,11 +102,14 @@ function populateDropdowns(username) {
   }).then(function (response) {
     response.json().then(function (data) {
       installationData = data;
-      builds = document.getElementById("Build");
-      builds.innerHTML = '';
-      desktops = document.getElementById("Desktop");
-      desktops.innerHTML = '';
-
+      const dialogDtopSel = document.getElementById('desktopForm');
+      const dialogBuildSel = document.getElementById('buildForm');
+      const builds = document.getElementById("Build");
+      const desktops = document.getElementById("Desktop");
+      builds.innerHTML = '<option value="0">-- Select --</option>';
+      desktops.innerHTML = '<option value="0">-- Select --</option>';
+      dialogBuildSel.innerHTML = '<option value="0" selected>-- Select --</option>';
+      dialogDtopSel.innerHTML = '<option value="0" selected>-- Select --</option>';
       let option;
       data.forEach(function (row) {
         if ($("#Build option[value='" + row.bID + "']").length < 1) {
@@ -60,20 +117,15 @@ function populateDropdowns(username) {
           option.text = row.buildName;
           option.value = row.bID;
           builds.add(option);
+          dialogBuildSel.add(option.cloneNode(true));
         }
         builds.value = option.value;
+        dialogBuildSel.value = option.value;
       });
-
-      data.forEach(function (row) {
-        if (builds.value == row.bID) {
-          option = document.createElement('option');
-          option.text = row.dtopName;
-          option.value = row.dtopID;
-          desktops.add(option);
-        }
-      });
-
-      $("#changeDesktop").click();
+      $('#Build').val(0).trigger('change');
+      $('#Desktop').val(0).trigger('change');
+      $('#buildForm').val(0).trigger('change');
+      $('#desktopForm').val(0).trigger('change');
     });
   });
 }
@@ -84,13 +136,13 @@ function populateDropdowns(username) {
  * Author: David Serrano (serranod7)
  * @param {String} b_num The unique id of the build in the build table
  */
-function populateDropdown(b_num) {
-  dropdown = document.getElementById("Desktop");
-  let option;
-  dropdown.innerHTML = '';
+function populateDesktopDropdown(element, b_num) {
+  const dropdown = document.getElementById(element);
+  dropdown.innerHTML = '<option value="0">-- Select --</option>'
+  
   installationData.forEach(function (row) {
+    const option = document.createElement('option');
     if (b_num == row.bID) {
-      option = document.createElement('option');
       option.text = row.dtopName;
       option.value = row.dtopID;
       dropdown.add(option);
@@ -130,11 +182,10 @@ function retrieveUser(username) {
  * selected desktop, date, and time using the rest api.
  */
 function joinQueue() {
-  var time = $('#time').val();
-  var date = $('#date').val();
-  var desktop = $('#desktop').val();
-  var build = $('#build').val();
-
+  const time = $('#time').val();
+  const date = $('#date').val();
+  const desktop = $('#desktopForm').val();
+  const build = $('#buildForm').val();
   $.ajax({
     type: 'post',
     url: '../api/joinQueue.php',
@@ -178,13 +229,9 @@ function checkForAdmin() {
  * so that the calendar can use it to filter it's information
  */
 function setDesktop() {
-  desktopID = document.getElementById("Desktop").value;
-  installationData.forEach(function (row) {
-    if (row.dtopID == desktopID) {
-      document.getElementById("demo").value = row.dtopID;
-      document.getElementById("currDesktop").value = row.dtopName;
-    }
-  });
+  desktop = document.getElementById("Desktop");
+  document.getElementById("demo").value = desktop.value;
+  document.getElementById("currDesktop").value = desktop.options[desktop.selectedIndex].text;
   $("#calendar").fullCalendar("rerenderEvents");
 }
 
@@ -193,9 +240,9 @@ function setDesktop() {
  * author: Cassandra Bailey
  */
 function requestSlot() {
-  var time = $('#time').val();
-  var date = $('#date').val();
-  var desktop = $('#desktop').val();
+  const time = $('#time').val();
+  const date = $('#date').val();
+  const desktop = $('#desktop').val();
   joinQueue(userData.user_num, time, date, desktop);
 } // end of requestSlot
 
@@ -210,7 +257,7 @@ function releaseSlot() {
   // Get the information from the modal
   const time = $('#time').val();
   const date = $('#date').val();
-  const desktop = $('#desktop').val();
+  const desktop = $('#desktopForm').val();
   const user = $('#user').val();
   const reservedBy = $('#reservedBy').val();
   const dateTime = moment(date + " " + time);
@@ -226,8 +273,7 @@ function releaseSlot() {
   else {
     eventType = '';
   }
-  console.log(eventType);
-  console.log(user);
+
   // if the current user does not have the selected timeslot requested ore reserved
   // they are not permitted to release it
   if (!user.includes(userData.username)) {
@@ -267,13 +313,6 @@ function releaseSlot() {
 }
 
 /**
- * Get the desktop name of the current view
- */
-function getDesktopName() {
-  return document.getElementById("Desktop").text;
-}
-
-/**
  * When desktop chosen from dropdown and Submit button clicked, the desktop name will be displayed
  * author: Cassandra Bailey
  */
@@ -294,60 +333,17 @@ function submitFunction() {
 function checkForInfoDisplay(start, end) {
 
   console.log("submitted = (" + submitted + ")"); //Koala
+  const startDateTime = start.format().split('T');
+  const endDateTime = end.format().split('T');
+  // hydrate the dialog elements
+  document.getElementById("date").value = startDateTime[0];
+  document.getElementById("time").value = startDateTime[1];
+  $('#buildForm').val(document.getElementById('Build').value).trigger('change');
+  $('#desktopForm').val(document.getElementById('Desktop').value).trigger('change');
 
-  if (submitted == 1) {
-    var a = new Date(start);
-    var b = new Date(end);
-
-    //change date format
-    var dd = a.getDate();
-    var mm = a.getMonth() + 1;
-    var yyyy = a.getFullYear();
-    if (dd < 10) {
-      dd = '0' + dd;
-    }
-    if (mm < 10) {
-      mm = '0' + mm;
-    }
-    date = yyyy + '-' + mm + '-' + dd;
-    document.getElementById("date").value = '' + date.toString(); //sets the value of a date in the info display form.
-
-    //change the  time format
-    var h = a.getHours() + 5;
-    var min = a.getMinutes();
-    var sec = a.getSeconds();
-    if (h < 10) {
-      h = '0' + h;
-    }
-    if (min < 10) {
-      min = '0' + min;
-    }
-    if (sec < 10) {
-      sec = '0' + sec;
-    }
-    time = h + ':' + min + ':' + sec;
-    document.getElementById("time").value = '' + time.toString(); //sets the value of a time in the info display form.
-
-    document.getElementById("desktop").value = document.getElementById("Desktop").value;
-    document.getElementById("build").value = document.getElementById("Build").value;
-    document.getElementById("reservedBy").value = "";
-    document.getElementById('user').value = '';
-    installationData.forEach(function (row) {
-      if (row.dtopID == document.getElementById("desktop").value) {
-        console.log(row.buildName);
-        document.getElementById("desktopForm").value = row.dtopName;
-
-      }
-      if (row.bID == document.getElementById("build").value) {
-        document.getElementById('buildForm').value = row.buildName;
-      }
-
-    });
-    return true;
-  } else {
-    alert("You must select a desktop and submit to see time slot information.")
-    return false;
-  }
+  // document.getElementById("buildForm").value = document.getElementById("Build").value;
+  // document.getElementById("desktopForm").value = document.getElementById("Desktop").value;
+  document.getElementById("reservedBy").value = "";
 }
 
 /*
@@ -376,192 +372,156 @@ function getTodaysDate() {
  */
 function BuildCalendar() {
 
-  $(document).ready(function () {
-
-    //BEGIN : Koala modifications
-    // The Modal
-    $("#dialog-confirm").dialog({
-      resizable: false,
-      height: "auto",
-      width: 400,
-      autoOpen: false,
-      modal: true,
-      buttons: [{
-        id: "btnRequest",
-        text: "Request",
-        icon: "ui-icon-plus",
-        click: function () {
-          requestSlot();
-          $(this).dialog("close");
-        }
-      },
-      {
-        id: "btnRelease",
-        text: "Release",
-        icon: "ui-icon-minus",
-        click: function () {
-          releaseSlot();
-          $(this).dialog("close");
-        }
-      }
-      ]
-    });
-    //END : Koala modifications
-
     // The calendar
     $('#calendar').fullCalendar({
-      eventSources: [{
-        url: '../api/get_requests',
-        type: 'GET',
-        color: 'pink', // Other Users' Requested
-        borderColor: 'black',
-        textColor: 'black',
-        success: function (data) {
-          // console.log('requests loaded');
-          $('#calendar').fullCalendar('rerenderEvents');
+        eventSources: [{
+            url: '../api/get_requests',
+            type: 'GET',
+            color: 'pink', // Other Users' Requested
+            borderColor: 'black',
+            textColor: 'black',
+            success: function (data) {
+                // console.log('requests loaded');
+                $('#calendar').fullCalendar('rerenderEvents');
+            },
+            error: function (data) {
+                console.log(data);
+            },
+            failure: function (data) {
+                console.log(data);
+            }
         },
-        error: function (data) {
-          console.log(data);
+        {
+            url: '../api/get_reservations',
+            type: 'GET',
+            color: 'darkred', // Other Users' Finalized
+            borderColor: 'black',
+            textColor: 'white',
+            className: ["reservation"],
+            success: function (data) {
+                // console.log('reservations loaded');
+                $('#calendar').fullCalendar('rerenderEvents');
+            },
+            error: function (data) {
+                console.log(data);
+            },
+            failure: function (data) {
+                console.log(data);
+            }
+        }],
+        minTime: "06:00:00",
+        maxTime: "24:00:00",
+        firstHour: "06:00:00",
+        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+        timezone: false,
+        defaultView: 'agendaWeek',
+        navLinks: true, // can click day/week names to navigate views
+        unselectAuto: false,
+        selectable: true,
+        selectHelper: false,
+        editable: false,
+        eventLimit: true, // allow "more" link when too many events
+        allDaySlot: false,
+        slotDuration: "03:00:00",
+        contentHeight: 'auto',
+        eventDurationEditable: false, //prevents event from being resize
+        agendaEventMinHeight: "3px",
+        firstDay: 1,
+        header: {
+            left: 'prev,next,today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
         },
-        failure: function (data) {
-          console.log(data);
-        }
-      },
-      {
-        url: '../api/get_reservations',
-        type: 'GET',
-        color: 'darkred', // Other Users' Finalized
-        borderColor: 'black',
-        textColor: 'white',
-        className: ["reservation"],
-        success: function (data) {
-          // console.log('reservations loaded');
-          $('#calendar').fullCalendar('rerenderEvents');
+        defaultDate: getTodaysDate(),
+
+        selectAllow: function (selectInfo) {
+            var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
+
+            if (duration.asHours() > 3) {
+                $('#calendar').fullCalendar('unselect');
+                return false;
+            }
+            return true;
         },
-        error: function (data) {
-          console.log(data);
+
+        unselect: function (event) {
+            // console.log(event);
         },
-        failure: function (data) {
-          console.log(data);
-        }
-      }],
-      // if (primeTime) { // If Primetime button is pressed
-      //   minTime: "09:00:00";
-      //   maxTime: "15:00:00";
-      // } else { // If normal view
-      //   minTime: "06:00:00";
-      //   maxTime: "24:00:00";
-      // }
-      minTime: "06:00:00",
-      maxTime: "24:00:00",
-      firstHour: "06:00:00",
-      schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-      timezone: false,
-      defaultView: 'agendaWeek',
-      // aspectRatio: 1.8,
-      navLinks: true, // can click day/week names to navigate views
-      unselectAuto: false,
-      selectable: true,
-      selectHelper: false,
-      editable: false,
-      eventLimit: true, // allow "more" link when too many events
-      allDaySlot: false,
-      slotDuration: "03:00:00",
-      contentHeight: 'auto',
-      eventDurationEditable: false, //prevents event from being resize
-      agendaEventMinHeight: "10px",
-      firstDay: 1,
-      header: {
-        left: 'prev,next,today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-      },
-      defaultDate: getTodaysDate(),
 
-      selectAllow: function (selectInfo) {
-        var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
+        select: function (start, end, _, view) {
+            const startOfNextWeek = moment().startOf('week').add(7, 'days');
+            const endOfNextWeek = moment().endOf('week').add(8, 'days');
+            const activeStart = moment(view.start);
+            const activeEnd = moment(view.end);
+            // console.log(activeStart.toDate() + "----" + startOfNextWeek.toDate() + "\n" + activeEnd.toDate() +"----" + endOfNextWeek.toDate());
+            // Calendar slots are non-responsive if the current date range is outside of the normal request
+            // period unless the current user is an admin.
+            if ((userData.admin == 2 && activeStart >= startOfNextWeek) || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
+              checkForInfoDisplay(start, end);
+              $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+                
+            }
+        },
 
-        if (duration.asHours() > 3) {
-          $('#calendar').fullCalendar('unselect');
-          return false;
-        }
-        return true;
-      },
-
-      unselect: function (event) {
-        // console.log(event);
-      },
-
-      select: function (start, end, _, view) {
-        const startOfNextWeek = moment().startOf('week').add(7, 'days');
-        const endOfNextWeek = moment().endOf('week').add(8, 'days');
-        const activeStart = moment(view.start);
-        const activeEnd = moment(view.end);
-        // console.log(activeStart.toDate() + "----" + startOfNextWeek.toDate() + "\n" + activeEnd.toDate() +"----" + endOfNextWeek.toDate());
-        console.log(start)
-        // Calendar slots are non-responsive if the current date range is outside of the normal request
-        // period unless the current user is an admin.
-        if ((userData.admin == 2 && activeStart >= startOfNextWeek) || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
-          end = start + 1.08e+7; // enforces the 3hr blocks. (milliseconds)
+        eventClick: function (event, element) {
+          //BEGIN : Koala modifications 
           $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-          var check = checkForInfoDisplay(start, end);
-          if (check == false) {
-            $('#calendar').fullCalendar('unselect');
-          }
-        }
-      },
+          //END : Koala modifications
+          document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
+          document.getElementById('date').value = event.date;
+          document.getElementById('time').value = event.time;
+          document.getElementById('dtopID').value = event.id;
+          $('#buildForm').val(event.buildID).trigger('change');
+          $('#desktopForm').val(event.id).trigger('change');
+          document.getElementById('user').value = (event.usernames) ? event.usernames : event.username;
+        },
 
-      eventClick: function (event, element) {
-        //BEGIN : Koala modifications 
-        $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-        // $('#calendar').fullCalendar('updateEvent', event);
-        //END : Koala modifications
+        eventOverlap: function (stillEvent, movingEvent) {
+            return stillEvent.allDay && movingEvent.allDay;
+        },
 
-        document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
-        document.getElementById('date').value = event.date;
-        document.getElementById('time').value = event.time;
-        document.getElementById('desktop').value = event.id;
-        installationData.forEach(function (row) {
-          if (row.dtopID == event.id) {
-            document.getElementById("desktopForm").value = row.dtopName;
-          }
-          if (row.bID == document.getElementById("Build").value) {
-            document.getElementById("buildForm").value = event.buildName;
-          }
-        });
-        document.getElementById('user').value = (event.usernames) ? event.usernames : event.username;
-      },
-
-      eventOverlap: function (stillEvent, movingEvent) {
-        return stillEvent.allDay && movingEvent.allDay;
-      },
-
-      eventDrop: function (event, delta, revertFunc) {
-        setStartEndTime(event.start, event.end);
-      },
-      eventRender: function (event, element) {
-        element.css("font-size", "1.1em");
-        // Color the events differently if it belongs to the current user
-        if (event.className[0] === 'request') {
-          if (event.usernames.includes(userData.username)) {
-            element.css("background-color", "lightgreen") // Your Request
-            element.css("border-color", "black")
-            element.css("cursor", "pointer")
-          }
-        } else {
-          if (event.username === userData.username) {
-            element.css("background-color", "green") // Your Final
-            // element.css("font-weight", "bold")
-            element.css("color", "white")
-            element.css("border-color", "black")
-            element.css("cursor", "pointer")
-          }
-        }
-        desktop = document.getElementById('demo').value;
-
-        return desktop === event.id ? element : false;
-
-      },
+        eventDrop: function (event, delta, revertFunc) {
+            setStartEndTime(event.start, event.end);
+        },
+        eventRender: function (event, element, view) {
+          // Set size of font depending upon the view
+          if(view.name === 'month'){
+            element.css("font-size", "0.85em")
+          } else {
+            element.css("font-size", "1em");
+          }          
+            // Color the events differently if it belongs to the current user
+            if (event.className[0] === 'request') {
+                if (event.usernames.includes(userData.username)) {
+                    element.css("background-color", "lightgreen") // Your Request
+                    element.css("border-color", "black")
+                    element.css("cursor", "pointer")
+                }
+            } else {
+                if (event.username === userData.username) {
+                    element.css("background-color", "green") // Your Final
+                    // element.css("font-weight", "bold")
+                    element.css("color", "white")
+                    element.css("border-color", "black")
+                    element.css("cursor", "pointer")
+                }
+            }
+            // Filter the results based on the value of the drop-downs
+            const desktop = document.getElementById('Desktop').value;
+            const build = document.getElementById('Build').value;
+            if(desktop > 1 && build > 1) {
+              return (desktop == event.id && build == event.buildID) ? element : false;
+            }
+            else if(desktop > 1 && build < 1) {
+              return (desktop == event.id) ? element : false;
+            }
+            else if(!desktop < 1 && build > 1) {
+              return (build == event.buildID) ? element : false;
+            }
+            else {
+              return element;
+            }
+        },
     });
 
   });

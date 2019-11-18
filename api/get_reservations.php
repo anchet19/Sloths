@@ -41,6 +41,7 @@ try{
         
 	      foreach($stmt->fetchAll() as $row){
             $out .= '{"id":"'.$row['dtop_num'].'",';
+            $out .= '"dtopName":"'.$row['dtopName'].'",';
             $out .= '"title":"'.$row['firstName'].' '.$row['lastName'].'",';
             $out .= '"start":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-04:00'.'",';
             $out .= '"end":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-1:00'.'",';
@@ -50,8 +51,6 @@ try{
             $out .= '"date":"'.$row['reserveDate'].'",';
             $out .= '"time":"'.$row['reserveTime'].'",';
             $out .= '"username":"'.$row['username'].'"},';
-            
-            
         }
             
         echo '['.substr($out, 0, -1).']' ;
