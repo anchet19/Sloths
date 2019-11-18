@@ -22,7 +22,7 @@ try {
     . "timeslot.start_time AS reserveTime,\n"
     . "desktop.name AS dtopName,\n"
     . "queue.dtop_id AS dtop_num,\n"
-    . "queue.user_num AS userID,\n"
+    . "GROUP_CONCAT(queue.user_num) AS userIDs,\n"
     . "queue.b_num AS build_num,\n"
     . "build.name AS buildName,\n"
     . "GROUP_CONCAT(user.first_name, \" \", user.last_name) AS names,\n"
@@ -50,7 +50,7 @@ try {
             $out .= '"title":"Requests: '.$row['slotcount'].'",';
             $out .= '"start":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-04:00'.'",';
             $out .= '"end":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-1:00'.'",';
-            $out .= '"user":"'.$row['userID'].'",';
+            $out .= '"users":"'.$row['userIDs'].'",';
             $out .= '"buildID":"'.$row['build_num'].'",';
             $out .= '"names":"'.$row['names'].'",';
             $out .= '"usernames":"'.$row['users'].'",';
