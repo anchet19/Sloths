@@ -46,6 +46,8 @@ Authors: Team Elephants, Team Sloths-->
     <script src='https://momentjs.com/downloads/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar-scheduler/1.9.4/scheduler.min.js'></script>
+      <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
 
     <script src="../Controllers/index.js"></script>
 </head>
@@ -61,8 +63,7 @@ Authors: Team Elephants, Team Sloths-->
             <li><a class="logout" onclick="logout()">Logout</a></li>
         </ul>
     </div>
-
-    <div class="row">
+        <div class="row">
         <div class="column_entry">
             <form>
                 <div id="welcome"></div>
@@ -72,10 +73,11 @@ Authors: Team Elephants, Team Sloths-->
                 <hidden type="text" id="demo" name="demo" disabled> </hidden>
                 <input class="currDesk" type="text" id="currDesktop" disabled></input>
                 <p class="MultiTextBoxForm">Build:</p>
-                <select id="Build" name="Builds" onchange="populateDropdown(this.value);">
+
+                <select id="Build" name="Builds">
                 </select>
                 <p class="MultiTextBoxForm">Desktop:</p>
-                <select id="Desktop" name="Desktop"></select>
+                <select id="Desktop" name="Desktop" disabled></select>
                 <br>
                 <br>
                 <button id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
@@ -84,6 +86,7 @@ Authors: Team Elephants, Team Sloths-->
 
         <div class="column_content" id='calendar'></div>
     </div>
+
 
     <div class="footer">
         <!-- <p>Team Elephants 2019, Team Sloths 2019</p> -->
@@ -103,9 +106,9 @@ Authors: Team Elephants, Team Sloths-->
         <label>Time : <input type="text" id="time" name="time" disabled></label>
         <label>Build : <select type="text" id="buildForm" name="build" ></select></label>
         <label>Desktop : <select type="text" id="desktopForm" name="desktop" disabled></select></label>
-        <input type="text" id="dtopID" style="display: none" disabled>
-        <label>Reserved by : <input type="text" id="reservedBy" name="reservedBy" disabled></label>
-        <input id="user" type="text" style="display: none" disabled></input>
+        <!-- <input type="text" id="dtopID" style="display: none" disabled> -->
+        <label for="reservedBy" style="display: none">Reserved by : <input type="text" id="reservedBy" name="reservedBy" disabled></label>
+        <label for="user" style="display: none">User : <select class="user-dropdown" id="user" type="text" ></select></label>
         <!-- <p><span class="ui-icon ui-icon-info" style="float:left; margin:12px 12px 20px 0;"></span>What would you like to do with this time?</p> -->
     </div>
     <!-- END: KOALA MODIFICATIONS -->

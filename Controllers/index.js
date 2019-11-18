@@ -62,6 +62,11 @@ $(document).ready(function () {
     setDesktop()
   })
 
+  $('.user-dropdown').select2({
+    theme: 'classic',
+    width: 'resolve'
+  });
+
 });
 
 /**
@@ -78,9 +83,9 @@ function redisplay() {
  * @param {HTMLFormElement} form The form submitted by the Desktop drop-down
  */
 function checkForDesktop(form) {
-  if (form.Desktop.value == "") {
-    alert("You must select a desktop");
-  }
+    if (form.Desktop.value == "") {
+      alert("You must select a desktop");
+    }
 }
 
 /**
@@ -91,6 +96,7 @@ function checkForDesktop(form) {
  * @param {String} username The current users username
  */
 function populateDropdowns(username) {
+  
   fetch('../api/get_installations.php', {
     method: "POST",
     headers: {
@@ -186,11 +192,12 @@ function joinQueue() {
   const date = $('#date').val();
   const desktop = $('#desktopForm').val();
   const build = $('#buildForm').val();
+  const user = $('#user').val();
   $.ajax({
     type: 'post',
     url: '../api/joinQueue.php',
     data: {
-      curr: userData.user_num,
+      curr: user,
       time: time,
       date: date,
       desktop: desktop,
@@ -215,7 +222,7 @@ function checkForAdmin() {
   if (auth == 2) { // If admin
     window.location.href = "../Views/adminPage.php";
   }
-  else if (auth == 1) { // If manager
+  else if(auth == 1) { // If manager
     window.location.href = "../Views/managerPage.php";
   }
   else { // If user
@@ -259,6 +266,7 @@ function releaseSlot() {
   const date = $('#date').val();
   const desktop = $('#desktopForm').val();
   const user = $('#user').val();
+  console.log(user)
   const reservedBy = $('#reservedBy').val();
   const dateTime = moment(date + " " + time);
   const now = moment();
@@ -276,16 +284,16 @@ function releaseSlot() {
 
   // if the current user does not have the selected timeslot requested ore reserved
   // they are not permitted to release it
-  if (!user.includes(userData.username)) {
+  if (user != userData.user_num || userData.admin != 2) {
     $("#dialog-confirm").dialog("close"); // Koala
     alert("You cannot release a timeslot which you don't have reserved.");
   }
-  else if (eventType === '') {
+  else if(eventType === ''){
     $("#dialog-confirm").dialog("close"); // Koala
     alert('Cannot release a reservation that has already begun');
   }
-  //if the current user has the timeslot requested, release.php will be executed and the request
-  // will be removed from the queue table in the database
+    //if the current user has the timeslot requested, release.php will be executed and the request
+    // will be removed from the queue table in the database
   else {
     $.ajax({
       type: 'post',
@@ -331,8 +339,31 @@ function submitFunction() {
  * @param {Moment object} end The end time of the time-slot that was clicked on
  */
 function checkForInfoDisplay(start, end) {
-
-  console.log("submitted = (" + submitted + ")"); //Koala
+  if(userData.admin == 2) {
+    fetch('../api/get_users.php', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: $.param({
+        "username": sessionStorage.username
+      })
+    }).then(function (response) {
+      response.json().then(function (data) {
+        const userSelect = document.getElementById("user");
+        userSelect.parentNode.style = "display: block";
+        userSelect.innerHTML = '<option value="0">-- Select User -- </option>';
+        data.forEach(function (row) {
+            const option = document.createElement('option');
+            option.text = row.username;
+            option.value = row.user_num;
+            userSelect.add(option);
+        });
+        userSelect.options.selectedIndex = 0;
+      });
+    });
+  }
+  
   const startDateTime = start.format().split('T');
   const endDateTime = end.format().split('T');
   // hydrate the dialog elements
@@ -340,9 +371,6 @@ function checkForInfoDisplay(start, end) {
   document.getElementById("time").value = startDateTime[1];
   $('#buildForm').val(document.getElementById('Build').value).trigger('change');
   $('#desktopForm').val(document.getElementById('Desktop').value).trigger('change');
-
-  // document.getElementById("buildForm").value = document.getElementById("Build").value;
-  // document.getElementById("desktopForm").value = document.getElementById("Desktop").value;
   document.getElementById("reservedBy").value = "";
 }
 
@@ -368,9 +396,34 @@ function getTodaysDate() {
 };
 
 /**
+ * Populates the user select box in the popup dialog for admins
+ * 
+ * @param {String uNames} A comma delimited string of names (first last, first last...)
+ * @param {String uIds} A comma delimited string of user ids
+ */
+function populateUserSelect(uNames, uIds) {
+  const names = uNames.split(',');
+  const ids = uIds.split(',');
+  const el = document.getElementById("user");
+  el.parentNode.style = "display: block"
+  // Clear the options list and populate with new data
+  el.innerHTML = '';
+  for(let i = 0; i < names.length; i++) {
+    const option = document.createElement('option');
+    option.text = names[i];
+    option.value = ids[i];
+    el.add(option);
+  }
+  // Default select the first option
+  el.options.selectedIndex = 0;
+}
+
+/**
  * Creates the calendar display and the popup modal for requesting / releasing
  */
 function BuildCalendar() {
+
+  
 
     // The calendar
     $('#calendar').fullCalendar({
@@ -459,21 +512,23 @@ function BuildCalendar() {
             if ((userData.admin == 2 && activeStart >= startOfNextWeek) || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
               checkForInfoDisplay(start, end);
               $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-                
             }
         },
 
         eventClick: function (event, element) {
+          console.log(event.users)
           //BEGIN : Koala modifications 
           $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
           //END : Koala modifications
           document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
           document.getElementById('date').value = event.date;
           document.getElementById('time').value = event.time;
-          document.getElementById('dtopID').value = event.id;
+          // document.getElementById('dtopID').value = event.id;
           $('#buildForm').val(event.buildID).trigger('change');
           $('#desktopForm').val(event.id).trigger('change');
-          document.getElementById('user').value = (event.usernames) ? event.usernames : event.username;
+          if(userData.admin == 2) {
+            (event.names) ? populateUserSelect(event.names, event.users) : populateUserSelect(event.title, event.user);
+          }
         },
 
         eventOverlap: function (stillEvent, movingEvent) {
@@ -523,6 +578,4 @@ function BuildCalendar() {
             }
         },
     });
-
-  });
 } // BuildCalendar
