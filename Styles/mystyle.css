@@ -6,12 +6,12 @@ div.column_entry {
 
 /* Welcome message + user first name. */
 div#welcome {
-    font-weight: bold;
-    color: #2e398f;
-    font-size: 24px;
-    border: 5px solid #2e398f;
-    border-radius: 15px;
-    padding: 10px;
+  font-weight: bold;
+  color: #2e398f;
+  font-size: 24px;
+  border: 5px solid #2e398f;
+  border-radius: 15px;
+  padding: 10px;
 }
 
 /* Create three equal columns that floats next to each other */
@@ -56,3 +56,12 @@ text box is non-editable. */
 .currDesk {
   cursor: not-allowed !important;
 }
+
+/* Experimental Rendering of multiple events in one time box 
+  .reservation {
+  width: 100%;
+  height: auto;
+  position: relative !important;
+  left: 0% !important;
+  margin-right: 0% !important;
+} */

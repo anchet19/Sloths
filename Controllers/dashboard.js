@@ -44,22 +44,9 @@ $(document).ready(function () {
     closeOnEscape: true,
   });
 
-  // WIP tooltip - currently not utilized
-  $("comment.tip").tooltip({
-    classes: {
-      "ui-tooltip": "highlight",
-      "ui-tooltip-content": "inline-block"
-    },
-    position: {
-      my: "center bottom",
-      at: "center top-10",
-      collision: "none"
-    }
-  });
-
   $("newPwd-form").submit((event) => {
+    makeVisible('change-pwd');
     event.preventDefault();
-    
   })
 });
 

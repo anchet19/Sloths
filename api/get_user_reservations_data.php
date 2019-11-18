@@ -12,7 +12,7 @@
     $username = $_POST['username'];
     $max_strlen = 200;
     // Query to get all users reservation information
-    // |date|reserve_id|desktop|build|startTime|outcome|comment
+    // |reserve_id|date|desktop|build|startTime|outcome|comment
     $sql = "SELECT reserve_id as id, t.date, d.name AS desktop, b.name AS build, "
             ."TIME_FORMAT(t.start_time, \"%r\") AS time, outcome, comment FROM reservation "
             ."JOIN user USING (user_num) "

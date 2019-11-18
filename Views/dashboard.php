@@ -54,7 +54,7 @@ include_once('./changepwd.php');
           </table>
         </div>
         <div  id="change-pwd" style="display: none">
-          <form class="box" id="newPwd-form" method="post">
+          <form class="box" id="newPwd-form" action="dashboard.php" method="post">
               <h4 class="form-title">Change Password</h4>
               <?php include('../api/messages.php'); ?>
               <div class='form-group'>
