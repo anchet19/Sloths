@@ -54,8 +54,7 @@ Authors: Team Elephants, Team Sloths-->
     <div class="header">ASRC Federal Desktop Scheduler</div>
     <div class="topnav">
         <ul>
-            <li id="admin-button"><a onclick="checkForAdmin();">Admin</a></li>
-            <li><a href="managerPage.php">Manager</a></li> <!-- Update Me! -->
+            <li id="admin-button"><a onclick="checkForAdmin();">My Options</a></li>
             <li><a href="dashboard.php">My Dashboard</a></li>
             <li><a href="legend.html">Legend</a></li>
             <li><a class="helppage" href="helppage.html">Help Page</a></li>
@@ -68,32 +67,19 @@ Authors: Team Elephants, Team Sloths-->
             <form>
                 <div id="welcome"></div>
                 <br>
-                <br> Currently Displayed Schedule:
+                <br> 
+                <p class="MultiTextBoxForm">Currently Displayed Schedule:</p>
                 <hidden type="text" id="demo" name="demo" disabled> </hidden>
                 <input class="currDesk" type="text" id="currDesktop" disabled></input>
-                <br>
-                <br>
-
-                <br> Build:
-
-                <select  id="Build" name="Builds">
+                <p class="MultiTextBoxForm">Build:</p>
+                <select id="Build" name="Builds" onchange="populateDropdown(this.value);">
                 </select>
-
-                <br> Desktop:
-
-                <select  id="Desktop" name="Desktop" disabled>
-
-                </select>
-
+                <p class="MultiTextBoxForm">Desktop:</p>
+                <select id="Desktop" name="Desktop"></select>
                 <br>
                 <br>
-
-                <button id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed
-                    Schedule </button>
-                <br> <br> <br> <br> <br>
+                <button id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
             </form>
-            <!-- //TODO: HIDDEN UNTIL DIALOG IS COMPLETED (Nasser)-->
-
         </div>
 
         <div class="column_content" id='calendar'></div>

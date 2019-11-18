@@ -129,7 +129,12 @@ body {
   background-color: #00000050;
 }
 
+/* Syling for form entries. */
 input[type="text"],
+input[type="password"],
+input[type="new-pwd"],
+input[type="new-pwd-c"],
+input[type="search"],
 select,
 textarea {
   width: 100%;
@@ -143,7 +148,8 @@ textarea {
 /* CSS for checkboxes */
 
 /* Custom checkbox, unselected. */
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="radio"] {
   top: 0px;
   left: 0px;
   height: 24px;
@@ -169,6 +175,39 @@ input[type="checkbox"]::after {
   opacity: 1;
 }
 
+.box input[type="submit"] {
+  border: outset;
+  color: white;
+  border-color: #273076;
+  background: #2e398f;
+  padding: 14px 40px;
+  outline: none;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+/* .box input[type="text"],
+.box input[type="password"],
+.box input[type="new-pwd"],
+.box input[type="new-pwd-c"] {
+  background: white;
+  text-align: center;
+  font-size: 18px;
+  border: 2px solid #273076;
+  padding: 14px 10px;
+  width: 300px;
+  outline: none;
+  color: black;
+  border-radius: 24px;
+  cursor: text;
+} */
+
+/* Styling for aligning forms with a lot of consecutive text boxes. */
+.MultiTextBoxForm {
+  font-weight: bold;
+  color: #2e398f;
+}
+
 /* Override the border colors for (calendar) tables of the API. */
 .fc th,
 .fc td {
@@ -178,6 +217,14 @@ input[type="checkbox"]::after {
 .footer {
   background-color: #ccc;
   text-align: center;
+  padding: 5px;
+}
+
+/* Styling for any type of neutral notification. */
+.NNotif {
+  border: 5px dotted #2e398f;
+  background-color: #2e398f20;
+  font-weight: bold;
   padding: 5px;
 }
 

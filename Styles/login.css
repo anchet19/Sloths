@@ -9,8 +9,8 @@ body {
 }
 
 .img {
-  width: 500px;
-  height: 300px;
+  width: 400px;
+  height: 250px;
 }
 
 /* Adds more attributes on top of the top level CSS. */
@@ -40,17 +40,6 @@ body {
   color: black;
   border-radius: 24px;
   cursor: text;
-}
-
-.box input[type="submit"] {
-  border: outset;
-  color: white;
-  border-color: #273076;
-  background: #2e398f;
-  padding: 14px 40px;
-  outline: none;
-  border-radius: 24px;
-  cursor: pointer;
 }
 
 font {

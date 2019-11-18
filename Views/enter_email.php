@@ -11,16 +11,10 @@
     <div class="container">
         <form class="box" action="enter_email.php" method="post">
           <h1>Reset Password</h1>
-          <a href="https://www.asrcfederal.com/">
-            <img src="../Images/asrc_logo.jpg" title="ASRC" class="img" alt="ASRC"/>
-          </a>
-          <br><br>
           <?php include('../api/messages.php'); ?>
-          <br>
-          <font for="email">Enter Email</font>
+          <p class="MultiTextBoxForm" for="email">Enter Your Email</p>
           <input id="email" type="email" name="email">
-          <br>
-          <br>
+          <br><br>
           <input type="submit" name="reset-password" value="Submit" />
         </form>
     </div>

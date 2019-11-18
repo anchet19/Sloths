@@ -69,6 +69,15 @@ form {
   color: #2e398f;
 }
 
+/* .form-group {
+  max-width: 500px !important;
+  align-content: center;
+} */
+/* 
+.col {
+  flex-basis: 0 !important;
+} */
+
 /* Override the properties for the text boxes in the forms. */
 /* .form-control {
   padding: 20px !important;
@@ -106,4 +115,23 @@ form {
 /* Override the border of the form when it is opened. */
 .row {
   padding: 25px !important;
+}
+
+#filter{
+  padding: 25px !important;
+  margin-left: 25px;
+}
+
+#outcome-group{
+  margin-left: 25px;
+  margin-right: 70px;
+}
+
+#endDateLabel{
+  margin-left: 15px !important;  
+}
+
+#outcomeSubmit{
+  margin-right: 25%;
+  margin-left: 10%;
 }

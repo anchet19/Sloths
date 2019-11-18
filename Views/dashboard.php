@@ -19,6 +19,8 @@ include_once('./changepwd.php');
     
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="../Styles/desktop.css">
+    <link rel="stylesheet" type="text/css" href="../Styles/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="../Styles/displayTables.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></script>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
 
@@ -53,9 +55,9 @@ include_once('./changepwd.php');
             <tbody id="table-body"></tbody>
           </table>
         </div>
-        <div  id="change-pwd" style="display: none">
-          <form class="box" id="newPwd-form" action="dashboard.php" method="post">
-              <h4 class="form-title">Change Password</h4>
+        <div class="MultiTextBoxForm" id="change-pwd" style="display: none">
+          <form class="box div MultiTextBoxForm" id="newPwd-form" method="post">
+              <h1 class="form-title">Change Password</h1>
               <?php include('../api/messages.php'); ?>
               <div class='form-group'>
                 <label for="username"> Username </label>
@@ -73,6 +75,7 @@ include_once('./changepwd.php');
                 <label for="new-pwd-c"> Confirm New Password </label>
                 <input type="password" id="new-pwd-c" name="confirm_pwd">
               </div>
+              <br>
               <input type="submit" name="change_pwd" value="Submit">
             </form>
         </div> 

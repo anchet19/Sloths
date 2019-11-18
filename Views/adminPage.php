@@ -412,13 +412,13 @@ if(!isset($_SESSION['username'])){
             <div class="form-row justify-content-center">
               <div class="col offset-md-1">
                 <div class="form-group">
-                  <label class="form-label" for="startDate">Start date:</label>
+                  <label class="form-label MultiTextBoxForm" for="startDate">Start date:</label>
                   <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
                 </div>
               </div>
               <div class="col offset-md-1">
                 <div class="form-group">
-                  <label class="form-label" for="endDate">End date:</label>
+                  <label class="form-label MultiTextBoxForm" for="endDate">End date:</label>
                   <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
                 </div>
               </div>
@@ -430,49 +430,26 @@ if(!isset($_SESSION['username'])){
           </form>
           <div class="col" id="desktopMetricsTable">
           </div>
-        </div>
-        <div id="outcomeMetrics" style="display: none">
-          <form method="post" action="../api/get_outcome_metrics.php" name="outcomeMetricsForm" id="outcomeMetricsForm">
-            <div class="form-row justify-content-center">
-              <div class="col offset-md-1">
-                <div class="form-group">
-                  <fieldset id="filter">                  
-                    <input type="radio" name="filter" id="filter" value="desktop"> By Desktop
-                    <input type="radio" name="filter" id="filter" value="department">By Department
-                  </fieldset>
-                  <label class="form-label" for="startDate">Start date:</label>
-                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
-                </div>
-              </div>
-              <div class="col offset-md-1">
-                <div class="form-group">
-                  <label class="form-label" for="endDate">End date:</label>
-                  <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
-                </div>
-              </div>
-              <div class="col offset-md-1">
-                <label>&nbsp;</label> <!-- Alligns button with form input fields -->
-                <input class="btn btn-sm form-control btn-success " type="submit" name="submit" value="Submit">
-              </div>
-            </div>
-          </form>
-          <div class="col" id="outcomeMetricsTable">
-          </div>
-        </div>
+        </div> 
+
         <div id="buildMetrics" style="display: none">
           <form method="post" action="./adminPage.php" name="buildMetricsForm" id="buildMetricsForm">
             <div class="form-row justify-content-center">
               <div class="col offset-md-1">
                 <div class="form-group">
-                  <label class="form-label" for="startDate">Start date:</label>
+                  <label class="form-label MultiTextBoxForm" for="startDate">Start date:</label>
+                  <br>
                   <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" > 
                 </div>
+                <br>
               </div>
               <div class="col offset-md-1">
                 <div class="form-group">
-                  <label class="form-label" for="endDate">End date:</label>
+                  <label class="form-label MultiTextBoxForm" for="endDate">End date:</label>
+                  <br>
                   <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
                 </div>
+                <br>
               </div>
               <div class="col offset-md-1">
                 <label>&nbsp;</label> <!-- Alligns button with form input fields -->
@@ -483,9 +460,40 @@ if(!isset($_SESSION['username'])){
           <div class="col" id="buildMetricsTable">
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+  
+
+        <div id="outcomeMetrics" style="display: none">
+          <form method="post" action="../api/get_outcome_metrics.php" name="outcomeMetricsForm" id="outcomeMetricsForm">
+            <div class="form-row justify-content-center">
+              <div id="outcome-group">
+              
+                <div class="form-group">
+                  <fieldset id="filter">                  
+                    <input type="radio" name="filter" id="filter" value="desktop"> By Desktop </input>
+                    <input type="radio" name="filter" id="filter" value="department">By Department </input>
+                  </fieldset>
+                  <label class="form-label MultiTextBoxForm" for="startDate">Start date:</label>
+                  <br>
+                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                  <br>
+                  <label class="form-label MultiTextBoxForm" id= endDateLabel for="endDate">End date:</label>
+                  <br>
+                  <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                  <br>
+                  <div class="col offset-md-1">
+                    <label>&nbsp;</label> <!-- Alligns button with form input fields -->
+                    <br>
+                    <input class="btn btn-sm form-control btn-success " type="submit" name="submit" value="Submit" id="outcomeSubmit">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="col" id="outcomeMetricsTable">
+          </div>
+        </div>
+
   <script language="javascript">
     sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
     function logout() {

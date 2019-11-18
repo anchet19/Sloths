@@ -78,9 +78,9 @@ function redisplay() {
  * @param {HTMLFormElement} form The form submitted by the Desktop drop-down
  */
 function checkForDesktop(form) {
-    if (form.Desktop.value == "") {
-      alert("You must select a desktop");
-    }
+  if (form.Desktop.value == "") {
+    alert("You must select a desktop");
+  }
 }
 
 /**
@@ -215,7 +215,7 @@ function checkForAdmin() {
   if (auth == 2) { // If admin
     window.location.href = "../Views/adminPage.php";
   }
-  else if(auth == 1) { // If manager
+  else if (auth == 1) { // If manager
     window.location.href = "../Views/managerPage.php";
   }
   else { // If user
@@ -280,12 +280,12 @@ function releaseSlot() {
     $("#dialog-confirm").dialog("close"); // Koala
     alert("You cannot release a timeslot which you don't have reserved.");
   }
-  else if(eventType === ''){
+  else if (eventType === '') {
     $("#dialog-confirm").dialog("close"); // Koala
     alert('Cannot release a reservation that has already begun');
   }
-    //if the current user has the timeslot requested, release.php will be executed and the request
-    // will be removed from the queue table in the database
+  //if the current user has the timeslot requested, release.php will be executed and the request
+  // will be removed from the queue table in the database
   else {
     $.ajax({
       type: 'post',
@@ -371,8 +371,6 @@ function getTodaysDate() {
  * Creates the calendar display and the popup modal for requesting / releasing
  */
 function BuildCalendar() {
-
-  
 
     // The calendar
     $('#calendar').fullCalendar({
@@ -525,4 +523,6 @@ function BuildCalendar() {
             }
         },
     });
+
+  });
 } // BuildCalendar
