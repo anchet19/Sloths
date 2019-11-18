@@ -266,7 +266,6 @@ function releaseSlot() {
   const date = $('#date').val();
   const desktop = $('#desktopForm').val();
   const user = $('#user').val();
-  console.log(user)
   const reservedBy = $('#reservedBy').val();
   const dateTime = moment(date + " " + time);
   const now = moment();
@@ -284,7 +283,7 @@ function releaseSlot() {
 
   // if the current user does not have the selected timeslot requested ore reserved
   // they are not permitted to release it
-  if (user != userData.user_num || userData.admin != 2) {
+  if (user != userData.user_num && userData.admin != 2) {
     $("#dialog-confirm").dialog("close"); // Koala
     alert("You cannot release a timeslot which you don't have reserved.");
   }
@@ -299,7 +298,7 @@ function releaseSlot() {
       type: 'post',
       url: '../api/release.php',
       data: {
-        curr: userData.user_num,
+        curr: user,
         time: time,
         date: date,
         desktop: desktop,
