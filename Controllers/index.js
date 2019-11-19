@@ -23,11 +23,20 @@ $(document).ready(function () {
     autoOpen: false,
     modal: true,
     buttons: [{
+      id: "btnReserve",
+      text: "Reserve",
+      icon: "ui-icon-plus",
+      click: function () {
+        reserveSlot();
+        $(this).dialog("close");
+      }
+    },
+      {
       id: "btnRequest",
       text: "Request",
       icon: "ui-icon-plus",
       click: function () {
-        requestSlot();
+        joinQueue();
         $(this).dialog("close");
       }
     },
@@ -193,6 +202,7 @@ function joinQueue() {
   const desktop = $('#desktopForm').val();
   const build = $('#buildForm').val();
   const user = $('#user').val();
+  console.log(user);
   $.ajax({
     type: 'post',
     url: '../api/joinQueue.php',
@@ -243,15 +253,50 @@ function setDesktop() {
 }
 
 /**
+ * Called when an admin clicks the "Reserve" button on the popup dialog.
+ * Sends a POST request to the database server.
+ */
+function reserveSlot() {
+  const user = $('#user').val();
+  const desktop = $('#desktopForm').val();
+  const build = $('#buildForm').val();
+  const time = $('#time').val();
+  const date = $('#date').val();
+
+  $.ajax({
+    type: 'post',
+    url: '../api/admin_reserve.php',
+    data: {
+      curr: user,
+      time: time,
+      date: date,
+      desktop: desktop,
+      build: build,
+    },
+    success: function (result) {
+      redisplay();
+      alert(result);
+      // console.log("release.php -- success!!" + result); //Koala
+    },
+    error: function (result) {
+      console.log(result); //Koala
+    },
+    failure: function (result) {
+      console.log(result);
+    }
+  });
+}
+
+/**
  * If a user selects a timeslot and clicks the Request button, this function will execute
  * author: Cassandra Bailey
  */
-function requestSlot() {
-  const time = $('#time').val();
-  const date = $('#date').val();
-  const desktop = $('#desktop').val();
-  joinQueue(userData.user_num, time, date, desktop);
-} // end of requestSlot
+// function requestSlot() {
+//   const time = $('#time').val();
+//   const date = $('#date').val();
+//   const desktop = $('#desktop').val();
+//   joinQueue(userData.user_num, time, date, desktop);
+// } // end of requestSlot
 
 /**
  * Allows the user to release a request or a reservation belonging to them
@@ -266,7 +311,6 @@ function releaseSlot() {
   const date = $('#date').val();
   const desktop = $('#desktopForm').val();
   const user = $('#user').val();
-  console.log(user)
   const reservedBy = $('#reservedBy').val();
   const dateTime = moment(date + " " + time);
   const now = moment();
@@ -281,10 +325,10 @@ function releaseSlot() {
   else {
     eventType = '';
   }
-
+console.log(userData.admin)
   // if the current user does not have the selected timeslot requested ore reserved
   // they are not permitted to release it
-  if (user != userData.user_num || userData.admin != 2) {
+  if (user != userData.user_num && userData.admin != 2) {
     $("#dialog-confirm").dialog("close"); // Koala
     alert("You cannot release a timeslot which you don't have reserved.");
   }
@@ -299,7 +343,7 @@ function releaseSlot() {
       type: 'post',
       url: '../api/release.php',
       data: {
-        curr: userData.user_num,
+        curr: user,
         time: time,
         date: date,
         desktop: desktop,
@@ -308,7 +352,7 @@ function releaseSlot() {
       success: function (result) {
         redisplay();
         alert(result);
-        console.log("release.php -- success!!" + result); //Koala
+        // console.log("release.php -- success!!" + result); //Koala
       },
       error: function (result) {
         console.log(result); //Koala
@@ -362,6 +406,13 @@ function checkForInfoDisplay(start, end) {
         userSelect.options.selectedIndex = 0;
       });
     });
+  } else {
+    document.getElementById('btnReserve').style = "display: none";
+    const el = document.getElementById("user")
+    const option = document.createElement("option");
+    option.value = userData.user_num;
+    el.add(option);
+    el.options.selectedIndex = 0;
   }
   
   const startDateTime = start.format().split('T');
@@ -502,14 +553,16 @@ function BuildCalendar() {
         },
 
         select: function (start, end, _, view) {
-            const startOfNextWeek = moment().startOf('week').add(7, 'days');
-            const endOfNextWeek = moment().endOf('week').add(8, 'days');
+            const startOfWeek = moment().startOf('week');
+            const endOfNextWeek = moment().endOf('week').add(2, 'weeks');
             const activeStart = moment(view.start);
             const activeEnd = moment(view.end);
+            const now = moment().utc(-5)  // The time right now using UTC -5hours.
+
             // console.log(activeStart.toDate() + "----" + startOfNextWeek.toDate() + "\n" + activeEnd.toDate() +"----" + endOfNextWeek.toDate());
             // Calendar slots are non-responsive if the current date range is outside of the normal request
-            // period unless the current user is an admin.
-            if ((userData.admin == 2 && activeStart >= startOfNextWeek) || (activeStart >= startOfNextWeek && activeEnd <= endOfNextWeek)) {
+            // or Free-For-All periods unless the current user is an admin.
+            if ((userData.admin == 2) || (now < start && activeStart >= startOfWeek && activeEnd <= endOfNextWeek)) {
               checkForInfoDisplay(start, end);
               $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
             }

@@ -14,6 +14,10 @@
 	$build = $_POST['build'];
 	$desktop = $_POST['desktop'];
   
+  if($curr <= 0){
+    echo "You must select a user to make a request.";
+    die();
+  }
   if($build == 0 || $desktop == 0) {
     echo "You must choose a Build and a Desktop to make a request.";
   } else {
