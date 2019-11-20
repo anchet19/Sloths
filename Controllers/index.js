@@ -78,6 +78,24 @@ $(document).ready(function () {
 
 });
 
+function colorPrimeRows() {
+  const pat = /9am|12pm|3pm/;
+  const rows = document.querySelectorAll('.fc-time');
+  rows.forEach((row) => {
+    const text = row.innerHTML;
+    pat.test(text) ? row.style = "background-color: gold" : false;
+  })
+}
+
+// function colorDesktop() {
+//   const desk = /DT4/;
+//   const desktops = document.querySelectorAll('.tbody');
+//   desktops.forEach((desktop) => {
+//     const text = row.innerHTML;
+//     desk.test(text) ? row.style = "background-color: red" : false;
+//   })
+// }
+
 /**
  * Refreshes the calendar to keep the displayed information persistent with the the rest api 
  */
@@ -630,5 +648,7 @@ function BuildCalendar() {
               return element;
             }
         },
+       colorPrimeRows();
+      // colorDesktop();
     });
 } // BuildCalendar
