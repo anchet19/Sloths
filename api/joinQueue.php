@@ -57,7 +57,7 @@
       }
 
       if($slot[1] == 1){ #Second State Check -- 2nd round pick
-        $sql ="SELECT count(*) from leftover where user_num = '$curr' ";
+        $sql ="SELECT count(*) from leftover where user_num = '$curr' and activeBit = 1";
         $stmt = $dbh->prepare($sql);
         $stmt->execute();
         $eligible = $stmt->fetch();
