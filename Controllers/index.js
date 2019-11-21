@@ -662,6 +662,7 @@ function BuildCalendar() {
         },
         // Callback for any time the view is changed. Here it is used to conditionally change filter capabilities
         viewRender: function(view){
+          colorPrimeRows(); // Highlight "Prime Time" row headers. (9am-3pm)
           const buildSelect = $('#Build');
           const buildPlaceholder = $('#Build > option[value="0"]');
           const dtopSelect = $('Desktop');
@@ -687,5 +688,4 @@ function BuildCalendar() {
           }
         }
       });
-  colorPrimeRows();
 } // BuildCalendar
