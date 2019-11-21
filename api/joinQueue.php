@@ -21,7 +21,6 @@
   if($build == 0 || $desktop == 0) {
     echo "You must choose a Build and a Desktop to make a request.";
   } else {
-
     #gets the slot_id for the date and start_time provided
     $sql  = "SELECT slot_id, state FROM timeslot ";
     $sql .= "WHERE date = '$date' AND start_time = '$time'";
@@ -29,7 +28,6 @@
     $stmt->execute();
     $slot = $stmt->fetch();
     $stmt = null;
-
     // Checks to see if that slot/desktop combo is in the block list
     $sql = "SELECT COUNT(slot_id) FROM maintenance WHERE slot_id = $slot[0] AND dtop_id = $desktop";
     $blocked = $dbh->query($sql)->fetch();
@@ -56,10 +54,8 @@
           $stmt = $dbh->prepare($sql);
           $stmt->execute();
           $row  = "You have joined the queue for desktop " . $desktop . " at " . $time . " on " . $date;
-
           echo $row;
         }
-
         if($slot[1] == 1){ #Second State Check -- 2nd round pick
           $sql ="SELECT count(*) from leftover where user_num = '$curr' ";
           $stmt = $dbh->prepare($sql);
@@ -75,7 +71,6 @@
             $stmt = $dbh->prepare($sql);
             $stmt->execute();
             $row  = "You have joined the queue for desktop " . $desktop . " at " . $time . " on " . $date;
-
             echo $row;
           }else{
             echo "This user is ineligible for second round picks.";
@@ -96,7 +91,6 @@
           $stmt = $dbh->prepare($sql);
           $stmt->execute();
           $row  = "You have successfully reserved " . $desktop . " at " . $time . " on " . $date;
-
           echo $row;
           }
           else{
