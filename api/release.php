@@ -59,6 +59,11 @@ if($eventType == 'request'){
   $stmt = $dbh->prepare($sql2);
   $stmt->execute();
   $stmt = null;
+
+  // Decrement the request count
+  $sql = "UPDATE user SET num_requests = num_requests - 1 WHERE user_num = $curr";
+  $dbh->query($sql);
+
 }
 // Delete reservation from reservation table
 // and refund half the points the reservation cost to the user
