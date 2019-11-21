@@ -4,8 +4,7 @@
  * date: 2019-11-19
  */
 var a = JSON.parse(sessionStorage.getItem("userData"));
-const departmentNum = a['department_id'];
-console.log(departmentNum);
+const departmentNum = a['department'];
 let lastVisible = undefined;
 $(document).ready(function () {
 

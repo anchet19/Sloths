@@ -73,11 +73,7 @@ if(!isset($_SESSION['username'])){
           </form>
           <div class="col" id="managerUserMetricsTable">
           </div>
-        </div>
-        <p class="WIP">Under Construction.
-            <br></br>
-            Expected updates coming soon.
-        </p>
+        </div>        
     </div>
 </body>
 
