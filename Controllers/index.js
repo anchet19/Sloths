@@ -53,24 +53,45 @@ $(document).ready(function () {
   });
     //END : Koala modifications
 
-
+  /**
+   * Event handler for the build filter
+   */
   $('#Build').change((event) => {
     const dtopSelect = document.getElementById('Desktop');
-    populateDesktopDropdown('Desktop', event.target.value);
+    const first = dtopSelect.firstChild;
+    const view = $('#calendar').fullCalendar('getView');
+    if(view.name != 'month'){
+      populateDesktopDropdown('Desktop', event.target.value);
+    } else {
+      if(first.value != 0){
+        const el = $('#Desktop');
+        el.prepend( $(`<option value="0">-- Select -- </option>`))
+        el.val(0).trigger('change');
+      }
+    }
     event.target.value == 0 ? dtopSelect.disabled = true : dtopSelect.disabled = false;
     redisplay();
   })
 
+  /**
+   * Event handler for the build select in popup
+   */
   $('#buildForm').change((event => {
     const dtopSelect = document.getElementById('desktopForm');
     populateDesktopDropdown('desktopForm', event.target.value);
     event.target.value == 0 ? dtopSelect.disabled = true : dtopSelect.disabled = false;
   }))
 
+  /**
+   * Event handler for desktop filter
+   */
   $('#Desktop').change((event) => {
     setDesktop()
   })
 
+  /**
+   * Transform all user-dropdown classes into Select2 plugin style dropdowns
+   */
   $('.user-dropdown').select2({
     theme: 'classic',
     width: 'resolve'
@@ -78,8 +99,17 @@ $(document).ready(function () {
 
 });
 
+function colorPrimeRows() {
+  const pat = /9am|12pm|3pm/;
+  const rows = document.querySelectorAll('.fc-time');
+  rows.forEach((row) => {
+    const text = row.innerHTML;
+    pat.test(text) ? row.style = "background-color: gold" : false;
+  })
+}
+
 /**
- * Refreshes the calendar to keep the displayed information persistent with the the rest api 
+ * Refreshes the calendar to keep the displayed information persistent with the rest api 
  */
 function redisplay() {
   $('#calendar').fullCalendar('refetchEvents');
@@ -117,14 +147,17 @@ function populateDropdowns(username) {
   }).then(function (response) {
     response.json().then(function (data) {
       installationData = data;
+      // Select boxes for the popup form
       const dialogDtopSel = document.getElementById('desktopForm');
       const dialogBuildSel = document.getElementById('buildForm');
+      // Select boxes for the filter
       const builds = document.getElementById("Build");
       const desktops = document.getElementById("Desktop");
-      builds.innerHTML = '<option value="0">-- Select --</option>';
-      desktops.innerHTML = '<option value="0">-- Select --</option>';
-      dialogBuildSel.innerHTML = '<option value="0" selected>-- Select --</option>';
-      dialogDtopSel.innerHTML = '<option value="0" selected>-- Select --</option>';
+      // Make placholder options and then hydrate with response data
+      builds.innerHTML = '';
+      desktops.innerHTML = '';
+      dialogBuildSel.innerHTML = '';
+      dialogDtopSel.innerHTML = '';
       let option;
       data.forEach(function (row) {
         if ($("#Build option[value='" + row.bID + "']").length < 1) {
@@ -137,10 +170,11 @@ function populateDropdowns(username) {
         builds.value = option.value;
         dialogBuildSel.value = option.value;
       });
-      $('#Build').val(0).trigger('change');
-      $('#Desktop').val(0).trigger('change');
-      $('#buildForm').val(0).trigger('change');
-      $('#desktopForm').val(0).trigger('change');
+      // Set the default value to the placeholders
+      $('#Build').trigger('change');
+      $('#Desktop').trigger('change');
+      $('#buildForm').trigger('change');
+      $('#desktopForm').trigger('change');
     });
   });
 }
@@ -149,12 +183,14 @@ function populateDropdowns(username) {
 /**
  * Updates the desktop dropdown for a given build id.
  * Author: David Serrano (serranod7)
- * @param {String} b_num The unique id of the build in the build table
+ * @param {Int} b_num The unique id of the build in the build table
  */
-function populateDesktopDropdown(element, b_num) {
-  const dropdown = document.getElementById(element);
-  dropdown.innerHTML = '<option value="0">-- Select --</option>'
-  
+function populateDesktopDropdown(selector, b_num) {
+  const dropdown = document.getElementById(selector);
+  if(selector === 'Desktop') {
+
+  }
+  dropdown.innerHTML = '';
   installationData.forEach(function (row) {
     const option = document.createElement('option');
     if (b_num == row.bID) {
@@ -190,7 +226,11 @@ function retrieveUser(username) {
           uid: data.user_num,
           department: data.department_id
         }
+<<<<<<< HEAD
         sessionStorage.setItem('userData', JSON.stringify(data))
+=======
+        sessionStorage.setItem('userData', JSON.stringify(user))
+>>>>>>> finalizeChange
       } else {
         window.location.href = "../Views/login.html";
       }
@@ -208,7 +248,6 @@ function joinQueue() {
   const desktop = $('#desktopForm').val();
   const build = $('#buildForm').val();
   const user = $('#user').val();
-  console.log(user);
   $.ajax({
     type: 'post',
     url: '../api/joinQueue.php',
@@ -268,7 +307,6 @@ function reserveSlot() {
   const build = $('#buildForm').val();
   const time = $('#time').val();
   const date = $('#date').val();
-
   $.ajax({
     type: 'post',
     url: '../api/admin_reserve.php',
@@ -292,17 +330,6 @@ function reserveSlot() {
     }
   });
 }
-
-/**
- * If a user selects a timeslot and clicks the Request button, this function will execute
- * author: Cassandra Bailey
- */
-// function requestSlot() {
-//   const time = $('#time').val();
-//   const date = $('#date').val();
-//   const desktop = $('#desktop').val();
-//   joinQueue(userData.user_num, time, date, desktop);
-// } // end of requestSlot
 
 /**
  * Allows the user to release a request or a reservation belonging to them
@@ -331,7 +358,6 @@ function releaseSlot() {
   else {
     eventType = '';
   }
-console.log(userData.admin)
   // if the current user does not have the selected timeslot requested ore reserved
   // they are not permitted to release it
   if (user != userData.user_num && userData.admin != 2) {
@@ -431,27 +457,6 @@ function checkForInfoDisplay(start, end) {
   document.getElementById("reservedBy").value = "";
 }
 
-/*
- *This function returns today's date.
- */
-function getTodaysDate() {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth() + 1; //January is 0!
-  var yyyy = today.getFullYear();
-  if (dd < 10) {
-    dd = '0' + dd;
-  }
-
-  if (mm < 10) {
-    mm = '0' + mm;
-  }
-
-  today = yyyy + '-' + mm + '-' + dd;
-
-  return today;
-};
-
 /**
  * Populates the user select box in the popup dialog for admins
  * 
@@ -479,9 +484,6 @@ function populateUserSelect(uNames, uIds) {
  * Creates the calendar display and the popup modal for requesting / releasing
  */
 function BuildCalendar() {
-
-  
-
     // The calendar
     $('#calendar').fullCalendar({
         eventSources: [{
@@ -518,6 +520,24 @@ function BuildCalendar() {
             failure: function (data) {
                 console.log(data);
             }
+        },
+        {
+          url: '../api/get_blocklist',
+          type: 'GET',
+          color: 'black', // Other Users' Finalized
+          borderColor: 'black',
+          textColor: 'white',
+          className: ["blocked"],
+          success: function (data) {
+
+            $('#calendar').fullCalendar('rerenderEvents');
+          },
+          error: function (data) {
+            console.log(data);
+          },
+          failure: function (data) {
+            console.log(data);
+          }
         }],
         minTime: "06:00:00",
         maxTime: "24:00:00",
@@ -535,67 +555,55 @@ function BuildCalendar() {
         slotDuration: "03:00:00",
         contentHeight: 'auto',
         eventDurationEditable: false, //prevents event from being resize
-        agendaEventMinHeight: "3px",
+        agendaEventMinHeight: "10px",
+        slotEventOverlap: false,
         firstDay: 1,
         header: {
             left: 'prev,next,today',
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
-        defaultDate: getTodaysDate(),
-
+        defaultDate: moment().format('YYYY-MM-DD'),
         selectAllow: function (selectInfo) {
-            var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
-
-            if (duration.asHours() > 3) {
-                $('#calendar').fullCalendar('unselect');
-                return false;
-            }
-            return true;
+          var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
+          if (duration.asHours() > 3) {
+              $('#calendar').fullCalendar('unselect');
+              return false;
+          }
+          return true;
+        }, // TO-DO: merge logic for this and eventclick into a single function call
+        select: function (start, end, _ , view) {
+          $('#buildForm').parent().show();
+          const startOfWeek = moment().startOf('week');
+          const endOfNextWeek = moment().endOf('week').add(2, 'weeks');
+          const activeStart = moment(view.start);
+          const activeEnd = moment(view.end);
+          const now = moment().utc(-5)  // The time right now using UTC -5hours.
+          // Calendar slots are non-responsive if the current date range in view is outside
+          // of the normal Request or Free-For-All periods unless the current user is an Admin.
+          if ((userData.admin == 2) || (now < start && activeStart >= startOfWeek && activeEnd <= endOfNextWeek)) {
+            checkForInfoDisplay(start, end);
+            $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+          }
         },
-
-        unselect: function (event) {
-            // console.log(event);
-        },
-
-        select: function (start, end, _, view) {
-            const startOfWeek = moment().startOf('week');
-            const endOfNextWeek = moment().endOf('week').add(2, 'weeks');
-            const activeStart = moment(view.start);
-            const activeEnd = moment(view.end);
-            const now = moment().utc(-5)  // The time right now using UTC -5hours.
-
-            // console.log(activeStart.toDate() + "----" + startOfNextWeek.toDate() + "\n" + activeEnd.toDate() +"----" + endOfNextWeek.toDate());
-            // Calendar slots are non-responsive if the current date range is outside of the normal request
-            // or Free-For-All periods unless the current user is an admin.
-            if ((userData.admin == 2) || (now < start && activeStart >= startOfWeek && activeEnd <= endOfNextWeek)) {
-              checkForInfoDisplay(start, end);
-              $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-            }
-        },
-
         eventClick: function (event, element) {
-          console.log(event.users)
-          //BEGIN : Koala modifications 
-          $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-          //END : Koala modifications
           document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
           document.getElementById('date').value = event.date;
           document.getElementById('time').value = event.time;
           // document.getElementById('dtopID').value = event.id;
-          $('#buildForm').val(event.buildID).trigger('change');
-          $('#desktopForm').val(event.id).trigger('change');
-          if(userData.admin == 2) {
-            (event.names) ? populateUserSelect(event.names, event.users) : populateUserSelect(event.title, event.user);
+          if(event.title != 'BLOCKED') {
+            if (event.className[0] != 'request' && userData.admin != 2 && !event.user.includes(userData.user_num)) {
+              return false;
+            }
+            $('#buildForm').val(event.buildID).trigger('change');
+            $('#desktopForm').val(event.id).trigger('change');
+            if (userData.admin == 2) {
+              (event.names) ? populateUserSelect(event.names, event.user) : populateUserSelect(event.title, event.user);
+            }
+            //BEGIN : Koala modifications 
+            $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+            //END : Koala modifications
           }
-        },
-
-        eventOverlap: function (stillEvent, movingEvent) {
-            return stillEvent.allDay && movingEvent.allDay;
-        },
-
-        eventDrop: function (event, delta, revertFunc) {
-            setStartEndTime(event.start, event.end);
         },
         eventRender: function (event, element, view) {
           // Set size of font depending upon the view
@@ -603,38 +611,72 @@ function BuildCalendar() {
             element.css("font-size", "0.85em")
           } else {
             element.css("font-size", "1em");
-          }          
-            // Color the events differently if it belongs to the current user
-            if (event.className[0] === 'request') {
-                if (event.usernames.includes(userData.username)) {
-                    element.css("background-color", "lightgreen") // Your Request
-                    element.css("border-color", "black")
-                    element.css("cursor", "pointer")
-                }
-            } else {
-                if (event.username === userData.username) {
-                    element.css("background-color", "green") // Your Final
-                    // element.css("font-weight", "bold")
-                    element.css("color", "white")
-                    element.css("border-color", "black")
-                    element.css("cursor", "pointer")
-                }
+          } 
+          // Style blocked slots
+          if (event.title === 'BLOCKED') {
+            element.css("cursor", "not-allowed");
+            element.css("border-color", "black")
+            view.name === 'month' ? false : element.css("height", "5.4em");
+          }         
+          // Color the events differently if it belongs to the current user
+          if (event.className[0] === 'request') {
+            if (event.usernames.includes(userData.username)) {
+                element.css("background-color", "lightgreen") // Your Request
+                element.css("border-color", "black")
+                element.css("cursor", "pointer")
             }
-            // Filter the results based on the value of the drop-downs
-            const desktop = document.getElementById('Desktop').value;
-            const build = document.getElementById('Build').value;
-            if(desktop > 1 && build > 1) {
-              return (desktop == event.id && build == event.buildID) ? element : false;
+          } else {
+            // view.name === 'month' ? false : element.css("height", "5.4em");
+            if (event.username === userData.username) {
+                element.css("background-color", "green") // Your Final
+                element.css("color", "white")
+                element.css("border-color", "black")
+                element.css("cursor", "pointer")
             }
-            else if(desktop > 1 && build < 1) {
+          }
+          // Filter the results based on the value of the drop-downs
+          const desktop = document.getElementById('Desktop').value;
+          const build = document.getElementById('Build').value;
+            if (desktop > 1 && build > 1) {
+              return ((desktop == event.id && event.buildID.includes(build)) || 
+                (desktop == event.id && event.title === 'BLOCKED')) ? element : false;
+            }
+            else if (desktop > 1 && build < 1) {
               return (desktop == event.id) ? element : false;
             }
-            else if(!desktop < 1 && build > 1) {
-              return (build == event.buildID) ? element : false;
+            else if (!desktop < 1 && build > 1) {
+              return (event.buildID.includes(build)) ? element : false;
             }
             else {
               return element;
             }
         },
-    });
+        // Callback for any time the view is changed. Here it is used to conditionally change filter capabilities
+        viewRender: function(view){
+          const buildSelect = $('#Build');
+          const buildPlaceholder = $('#Build > option[value="0"]');
+          const dtopSelect = $('Desktop');
+          const dtopPlaceholder = $('#Desktop > option[value="0"]');
+          if(view.name === 'month'){
+            if (buildPlaceholder.length == 0){
+              buildSelect.prepend('<option value="0">-- Select --</option>');
+              buildSelect.val(0).trigger('change');
+            }
+            if (dtopPlaceholder.length == 0) {
+              dtopSelect.prepend('<option value="0">-- Select --</option>');
+              dtopSelect.val(0).trigger('change');
+            }
+          } else {
+            if (buildPlaceholder.length != 0){
+              buildSelect.find('option:first').remove();
+              buildSelect.trigger('change');
+            }
+            if (dtopPlaceholder.length != 0) {
+              dtopSelect.find('option:first').remove();
+              dtopSelect.trigger('change');
+            }
+          }
+        }
+      });
+  colorPrimeRows();
 } // BuildCalendar

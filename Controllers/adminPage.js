@@ -24,6 +24,24 @@ $(document).ready(function () {
     event.preventDefault();
     handleChangeUserPassword();
   });
+
+  $('#block-desktops').submit((event) => {
+    event.preventDefault();
+    const fd = new FormData(event.target)
+    // Display the key/value pairs
+    for (var pair of fd.keys()) {
+      console.log(pair);
+    }
+    fetch('../api/block_desktops.php', {
+      method: 'POST',
+      body: fd
+    }).then((response) => {
+      response.text().then((result) => {
+        alert(result);
+        document.getElementById('block-desktops').reset();
+      })
+    })
+  })
   
   //converts user-dropdown classes to select2 format
   $('.user-dropdown').select2({
@@ -31,6 +49,7 @@ $(document).ready(function () {
     theme: 'classic',
     width: 'resolve'
   });
+
   // occurs when user is selected from the select2 dropdown
   $('.user-dropdown').on('select2:select', function (e) {
     var data = e.params.data;
@@ -225,7 +244,7 @@ function fetchDropdownValues() {
     },
   }).then((response) => {
     response.json().then((data) => {
-      desktopSelects = document.getElementsByName('desktop-select');
+      desktopSelects = document.querySelectorAll('[name^=desktop-select]')
       data.forEach((row) => {
         desktopSelects.forEach((element) => {
           const option = document.createElement('option');
