@@ -48,7 +48,7 @@ Authors: Team Elephants, Team Sloths-->
     <div class="header">ASRC Federal Desktop Scheduler</div>
     <div class="topnav">
         <ul>
-            <li id="admin-button"><a onclick="checkForAdmin();">My Options</a></li>
+            <li id="admin-button" style="display: none"><a onclick="checkForAdmin();"></a></li>
             <li><a href="dashboard.php">My Dashboard</a></li>
             <li><a href="legend.html">Legend</a></li>
             <li><a class="helppage" href="helppage.html">Help Page</a></li>

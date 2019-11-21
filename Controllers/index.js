@@ -13,6 +13,22 @@ var userData = {};
 $(document).ready(function () {
   populateDropdowns(sessionStorage.username);
   BuildCalendar();
+
+  // Transform user dropdown into a Select2 style dropdown
+  $('.user-dropdown').select2({
+    placeholder: 'Select User',
+    width: '75%',
+    theme: 'classic'
+  })
+
+  // Ensure that any Select2 style dropdowns are accessible within any modals
+  if ($.ui && $.ui.dialog && $.ui.dialog.prototype._allowInteraction) {
+    var ui_dialog_interaction = $.ui.dialog.prototype._allowInteraction;
+    $.ui.dialog.prototype._allowInteraction = function (e) {
+      if ($(e.target).closest('.select2-dropdown').length) return true;
+      return ui_dialog_interaction.apply(this, arguments);
+    };
+  }
   
   //BEGIN : Koala modifications
   // The Modal
@@ -22,6 +38,7 @@ $(document).ready(function () {
     width: 400,
     autoOpen: false,
     modal: true,
+    focus: false,
     buttons: [{
       id: "btnReserve",
       text: "Reserve",
@@ -88,15 +105,6 @@ $(document).ready(function () {
   $('#Desktop').change((event) => {
     setDesktop()
   })
-
-  /**
-   * Transform all user-dropdown classes into Select2 plugin style dropdowns
-   */
-  $('.user-dropdown').select2({
-    theme: 'classic',
-    width: 'resolve'
-  });
-
 });
 
 function colorPrimeRows() {
@@ -225,7 +233,12 @@ function retrieveUser(username) {
           username: data.username,
           uid: data.user_num,
           department: data.department_id
-        }        
+        }
+        if (userData.admin > 0) {
+          const el = document.getElementById('admin-button');
+          el.firstChild.innerHTML = userData.admin < 2 ? 'Manager' : 'Admin';
+          el.style = "display: block";
+        }
         sessionStorage.setItem('userData', JSON.stringify(user))
       } else {
         window.location.href = "../Views/login.html";
@@ -423,15 +436,15 @@ function checkForInfoDisplay(start, end) {
     }).then(function (response) {
       response.json().then(function (data) {
         const userSelect = document.getElementById("user");
-        userSelect.parentNode.style = "display: block";
-        userSelect.innerHTML = '<option value="0">-- Select User -- </option>';
+        userSelect.innerHTML = '';
         data.forEach(function (row) {
             const option = document.createElement('option');
             option.text = row.username;
             option.value = row.user_num;
             userSelect.add(option);
         });
-        userSelect.options.selectedIndex = 0;
+        userSelect.options.selectedIndex = -1;
+        userSelect.parentNode.style = "display: block";
       });
     });
   } else {
