@@ -68,10 +68,12 @@ Authors: Team Elephants, Team Sloths-->
             <form>
                 <div id="welcome"></div>
                 <br>
-                <br> 
+                <br>
+              <div style="display: none"> 
                 <p class="MultiTextBoxForm">Currently Displayed Schedule:</p>
                 <hidden type="text" id="demo" name="demo" disabled> </hidden>
                 <input class="currDesk" type="text" id="currDesktop" disabled></input>
+              </div>
                 <p class="MultiTextBoxForm">Build:</p>
 
                 <select id="Build" name="Builds">
@@ -80,7 +82,7 @@ Authors: Team Elephants, Team Sloths-->
                 <select id="Desktop" name="Desktop" disabled></select>
                 <br>
                 <br>
-                <button id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
+                <button style="display: none" id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
             </form>
         </div>
 
@@ -104,13 +106,16 @@ Authors: Team Elephants, Team Sloths-->
     <div align="left" id="dialog-confirm" title="Time Reservation" style="display:none">
         <label>Date : <input type="text" id="date" disabled></label>
         <label>Time : <input type="text" id="time" name="time" disabled></label>
-        <label>Build : <select type="text" id="buildForm" name="build" ></select></label>
-        <label>Desktop : <select type="text" id="desktopForm" name="desktop" disabled></select></label>
+        <label>Build : <select type="text" id="buildForm" name="build" required></select></label>
+        <label>Desktop : <select type="text" id="desktopForm" name="desktop" required disabled></select></label>
         <!-- <input type="text" id="dtopID" style="display: none" disabled> -->
         <label for="reservedBy" style="display: none">Reserved by : <input type="text" id="reservedBy" name="reservedBy" disabled></label>
-        <label for="user" style="display: none">User : <select class="user-dropdown" id="user" type="text" ></select></label>
+        <label for="user" style="display: none">User : <select class="user-dropdown" id="user" type="text" required></select></label>
         <!-- <p><span class="ui-icon ui-icon-info" style="float:left; margin:12px 12px 20px 0;"></span>What would you like to do with this time?</p> -->
     </div>
     <!-- END: KOALA MODIFICATIONS -->
+    <div id="tooltip" title="Info Display" style="display: none">
+      <table><thead><tr><th>User</th><th>Desktop</th><th>Build</th></tr></thead></table>
+    </div>
 </body>
 </html>
