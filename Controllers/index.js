@@ -185,6 +185,12 @@ function retrieveUser(username) {
         welcome = document.getElementById("welcome");
         welcome.innerHTML = "Hello " + data.first_name + "!";
         userData = data;
+        const user = {
+          username: data.username,
+          uid: data.user_num,
+          department: data.department_id
+        }
+        sessionStorage.setItem('userData', JSON.stringify(data))
       } else {
         window.location.href = "../Views/login.html";
       }
