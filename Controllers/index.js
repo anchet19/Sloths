@@ -108,15 +108,6 @@ function colorPrimeRows() {
   })
 }
 
-// function colorDesktop() {
-//   const desk = /DT4/;
-//   const desktops = document.querySelectorAll('.tbody');
-//   desktops.forEach((desktop) => {
-//     const text = row.innerHTML;
-//     desk.test(text) ? row.style = "background-color: red" : false;
-//   })
-// }
-
 /**
  * Refreshes the calendar to keep the displayed information persistent with the rest api 
  */
@@ -561,7 +552,6 @@ function BuildCalendar() {
         contentHeight: 'auto',
         eventDurationEditable: false, //prevents event from being resize
         agendaEventMinHeight: "10px",
-        businessHours: true,
         slotEventOverlap: false,
         firstDay: 1,
         header: {
@@ -588,7 +578,6 @@ function BuildCalendar() {
           // Calendar slots are non-responsive if the current date range in view is outside
           // of the normal Request or Free-For-All periods unless the current user is an Admin.
           if ((userData.admin == 2) || (now < start && activeStart >= startOfWeek && activeEnd <= endOfNextWeek)) {
-            $('#user').parent().show();
             checkForInfoDisplay(start, end);
             $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
           }
@@ -599,10 +588,13 @@ function BuildCalendar() {
           document.getElementById('time').value = event.time;
           // document.getElementById('dtopID').value = event.id;
           if(event.title != 'BLOCKED') {
+            if (event.className[0] != 'request' && userData.admin != 2 && !event.user.includes(userData.user_num)) {
+              return false;
+            }
             $('#buildForm').val(event.buildID).trigger('change');
             $('#desktopForm').val(event.id).trigger('change');
             if (userData.admin == 2) {
-              (event.names) ? populateUserSelect(event.names, event.users) : populateUserSelect(event.title, event.user);
+              (event.names) ? populateUserSelect(event.names, event.user) : populateUserSelect(event.title, event.user);
             }
             //BEGIN : Koala modifications 
             $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
@@ -616,10 +608,11 @@ function BuildCalendar() {
           } else {
             element.css("font-size", "1em");
           } 
-          // Color blocked slots
+          // Style blocked slots
           if (event.title === 'BLOCKED') {
             element.css("cursor", "not-allowed");
-            view.name === 'month' ? false : element.css("height", "5.5em");
+            element.css("border-color", "black")
+            view.name === 'month' ? false : element.css("height", "5.4em");
           }         
           // Color the events differently if it belongs to the current user
           if (event.className[0] === 'request') {
@@ -629,7 +622,7 @@ function BuildCalendar() {
                 element.css("cursor", "pointer")
             }
           } else {
-            view.name === 'month' ? false : element.css("height", "5.5em");
+            // view.name === 'month' ? false : element.css("height", "5.4em");
             if (event.username === userData.username) {
                 element.css("background-color", "green") // Your Final
                 element.css("color", "white")
@@ -680,6 +673,6 @@ function BuildCalendar() {
             }
           }
         }
-    });
+      });
   colorPrimeRows();
 } // BuildCalendar

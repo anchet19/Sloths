@@ -17,17 +17,9 @@ Authors: Team Elephants, Team Sloths-->
 
     <!-- Highest level of CSS, applies to all pages of the software. -->
     <link rel="stylesheet" href="../Styles/desktop.css">
-
-    <!-- CSS specifically for this page. -->
-    <link rel="stylesheet" type="text/css" href="../Styles/mystyle.css">
-
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css' />
-    <style>
-        .fc-time-grid .fc-slats td {
-            height: 5.5em;
-            border-bottom: 0
-        }
-    </style>
+        <!-- CSS specifically for this page. -->
+    <link rel="stylesheet" type="text/css" href="../Styles/mystyle.css">
 
     <!-- BEGIN: KOALA MODIFICATIONS -->
     <link rel='stylesheet'
