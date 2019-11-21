@@ -225,7 +225,7 @@ function retrieveUser(username) {
           username: data.username,
           uid: data.user_num,
           department: data.department_id
-        }
+        }        
         sessionStorage.setItem('userData', JSON.stringify(user))
       } else {
         window.location.href = "../Views/login.html";

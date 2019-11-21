@@ -13,7 +13,7 @@ if(!include_once('../Utils/connect.php')){
 function getUser($username){
   $dbh = ConnectDB();
   $sql = "SELECT user_num, first_name, last_name, ";
-  $sql .= "username, email, admin FROM user ";
+  $sql .= "username, email, admin, department_id FROM user ";
   $sql .= "WHERE username='$username'";
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
