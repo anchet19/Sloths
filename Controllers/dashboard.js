@@ -66,6 +66,7 @@ function hydrateTable() {
     response.json().then((result) => {
       // Store the table element for use later
       const tbody = document.getElementById('table-body')
+      tbody.innerHTML = ''
       // Capture the table head and table body data
       const headings = result.headings;
       const data = result.data;
@@ -116,7 +117,7 @@ function hydrateTable() {
           else if (key === 'comment') {
             // If comment value is not null, then check to see if it's too long
             // if not then display full comment, otherwise truncate and store full comment in title field
-            if (value != null) {
+            if (value != null && value != '') {
               a = document.createElement('a');
               a.href = '#';
               a.className = 'comment-link';
@@ -143,11 +144,13 @@ function hydrateTable() {
         })
       });
 
-      $('#reservation-table').DataTable({
-        autoWidth: true,
-        paging: true,
-        order: [[1, "desc"], [4, "desc"]]
-      });
+      if (!$.fn.dataTable.isDataTable('#reservation-table')) {
+        $('#reservation-table').DataTable({
+          autoWidth: true,
+          paging: true,
+          order: [[1, "desc"], [4, "desc"]]
+        });
+      }
     });
   })
 }
@@ -205,9 +208,8 @@ function handleSubmitFeedback() {
     body: formattedFormData
   }).then((response) => {
     if (response.status === 200) {
-      window.location.reload();
+      hydrateTable();
+      form.reset();
     }
-  }).then(() => {
-    hydrateTable();
-  })
+  });
 }
