@@ -112,7 +112,16 @@ function colorPrimeRows() {
   const rows = document.querySelectorAll('.fc-time');
   rows.forEach((row) => {
     const text = row.innerHTML;
-    pat.test(text) ? row.style = "background-color: gold" : false;
+    pat.test(text) ? row.style = "background-color: #cccc0040" : false;
+  })
+}
+
+function colorRegularRows() {
+  const pat = /6am|6pm|9pm/;
+  const rows = document.querySelectorAll('.fc-time');
+  rows.forEach((row) => {
+    const text = row.innerHTML;
+    pat.test(text) ? row.style = "background-color: #ffffff40" : false;
   })
 }
 
@@ -663,6 +672,7 @@ function BuildCalendar() {
         // Callback for any time the view is changed. Here it is used to conditionally change filter capabilities
         viewRender: function(view){
           colorPrimeRows(); // Highlight "Prime Time" row headers. (9am-3pm)
+          colorRegularRows(); // Highlight "Non Prime Time" row headers. (6am, 6pm-9pm)
           const buildSelect = $('#Build');
           const buildPlaceholder = $('#Build > option[value="0"]');
           const dtopSelect = $('Desktop');
