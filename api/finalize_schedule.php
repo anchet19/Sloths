@@ -1,4 +1,3 @@
-  
 <?php
 #finalizes the schedule by finding the min points,
 #then moving that user, desktop, and timeslot info
@@ -7,19 +6,16 @@
 #Resets users with negative point values to zero points
 #And then subtracts points from users who have not made a recent request
 #Author: Alex Cross     Last Modification: 10/31/19
-
 header("Content-Type: application/json");
 if(!include('../Utils/connect.php'))
 {
     die('error retrieving connect.php');
 }
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require 'Exception.php';
 require 'PHPMailer.php'; # PHPMailer files to send emails via an SMTP
 require 'SMTP.php';
-
 # Default values for fairness algorithm
 $userNum = 0;
 $primeMod = 5;
@@ -27,7 +23,6 @@ $nonPrimeMod = -1;
 $consolation = -2;
 $daysIdle = 7;
 $idleDeduction = -3;
-
 # Load custom configuration if available
 if($xml=simplexml_load_file("../Utils/configuration.xml")){
     $primeMod = $xml->primemod;
@@ -47,10 +42,8 @@ if($xml=simplexml_load_file("../Utils/configuration.xml")){
     $smtp_subject= $xml->stmp_subject;
     $smtp_content= $xml->stmp_content;
 }
-
 $dbh = ConnectDB();
 $dbh2 = ConnectDB();
-
   $sql = 'CALL getQueue()'; #finds distinct slot+desktop combinations
   
   $stmt = $dbh->prepare($sql);
@@ -77,7 +70,6 @@ $dbh2 = ConnectDB();
     $slot =  $result['slot_id'];
     $minpoints = $result['@minpoints'];
     $count = $result['@count'];
-
     echo "desktop: " . $desktop."\n";
     echo "slot: " . $slot ."\n";
     echo "minpoints: " .$minpoints."\n";
@@ -86,10 +78,8 @@ $dbh2 = ConnectDB();
     
     $min = "SELECT user_num, q.b_num from user join queue q using (user_num) ";
     $min .= "where dtop_id = $desktop and slot_id = $slot and user_points = $minpoints order by user_num";
-
     $stmt2 = $dbh2->prepare($min);
     $stmt2->execute();
-
     if($count > 1)
         {
             $win = random_int(1, $count);
@@ -111,19 +101,15 @@ $dbh2 = ConnectDB();
             //SQL Procedure: Copies entry from Queue -> Reservation, then removes the entry from Queue
             $move = "CALL mtrTest(".$userNum.",".$desktop.",".$slot.",". $primeMod . ",
                 ".$nonPrimeMod.",".$consolation.",".$build.");";
-
             $stmt2 = $dbh2->prepare($move);
             $stmt2->execute();          
 }
-
   # Find unique e-mails for blast
   $email = 'select distinct email from user join reservation using (user_num)';
-
   $stmt2 = $dbh2->prepare($email);
   $stmt2->execute();
-
   #******** DO NOT DELETE - COMMENTED OUT SO IT DOESNT SPAM EMAILS DURING TESTING ********
-/*  if($xml=simplexml_load_file("../Utils/configuration.xml"))
+if($xml=simplexml_load_file("../Utils/configuration.xml"))
  {
    foreach($stmt2->fetchAll() as $row)
     {
@@ -148,7 +134,7 @@ $dbh2 = ConnectDB();
         $mail->IsHTML(true);
         $mail->send();
     }
- } */ #******************************************************************************************
+ }
     # Sets users with < 0 points to 0
     $move = "CALL fix_points();";
     $stmt2 = $dbh2->prepare($move);
@@ -158,7 +144,6 @@ $dbh2 = ConnectDB();
     $move = "CALL check_last_requests($daysIdle, $idleDeduction)";
     $stmt3 = $dbh2->prepare($move);
     $stmt3->execute();
-
     # Resets all user requests to 0.
     $move = "CALL reset_requests()";
     $stmt3 = $dbh2->prepare($move);
@@ -168,7 +153,6 @@ $dbh2 = ConnectDB();
     $stmt3 = $dbh2->prepare($move);
     $stmt3->execute();
     $dayOfWeek = $stmt3->fetch();
-
     if($dayOfWeek[0] == 5){ # if it's thursday, it's first finalization - move state from 0 to 1
         $sql = "CALL state0to1 ";
         $stmt3 = $dbh2->prepare($sql);
@@ -179,6 +163,4 @@ $dbh2 = ConnectDB();
         $stmt3 = $dbh2->prepare($sql);
         $stmt3->execute();
     }
-
-
 ?>
