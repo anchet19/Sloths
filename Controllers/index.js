@@ -29,7 +29,7 @@ $(document).ready(function () {
       return ui_dialog_interaction.apply(this, arguments);
     };
   }
-  
+
   //BEGIN : Koala modifications
   // The Modal
   $("#dialog-confirm").dialog({
@@ -48,7 +48,7 @@ $(document).ready(function () {
         $(this).dialog("close");
       }
     },
-      {
+    {
       id: "btnRequest",
       text: "Request",
       icon: "ui-icon-plus",
@@ -68,7 +68,7 @@ $(document).ready(function () {
     }
     ]
   });
-    //END : Koala modifications
+  //END : Koala modifications
 
   /**
    * Event handler for the build filter
@@ -77,17 +77,16 @@ $(document).ready(function () {
     const dtopSelect = document.getElementById('Desktop');
     const first = dtopSelect.firstChild;
     const view = $('#calendar').fullCalendar('getView');
-    if(view.name != 'month'){
+    if (view.name != 'month') {
       populateDesktopDropdown('Desktop', event.target.value);
     } else {
-      if(first.value != 0){
+      if (first.value != 0) {
         const el = $('#Desktop');
-        el.prepend( $(`<option value="0">-- Select -- </option>`))
+        el.prepend($(`<option value="0">-- Select -- </option>`))
         el.val(0).trigger('change');
       }
     }
-    event.target.value == 0 ? dtopSelect.disabled = true : dtopSelect.disabled = false;
-    redisplay();
+    $('#calendar').fullCalendar('rerenderEvents');
   })
 
   /**
@@ -103,7 +102,7 @@ $(document).ready(function () {
    * Event handler for desktop filter
    */
   $('#Desktop').change((event) => {
-    setDesktop()
+    $('#calendar').fullCalendar('rerenderEvents');
   })
 });
 
@@ -112,7 +111,16 @@ function colorPrimeRows() {
   const rows = document.querySelectorAll('.fc-time');
   rows.forEach((row) => {
     const text = row.innerHTML;
-    pat.test(text) ? row.style = "background-color: gold" : false;
+    pat.test(text) ? row.style = "background-color: #cccc0040" : false;
+  })
+}
+
+function colorRegularRows() {
+  const pat = /6am|6pm|9pm/;
+  const rows = document.querySelectorAll('.fc-time');
+  rows.forEach((row) => {
+    const text = row.innerHTML;
+    pat.test(text) ? row.style = "background-color: #ffffff40" : false;
   })
 }
 
@@ -130,9 +138,9 @@ function redisplay() {
  * @param {HTMLFormElement} form The form submitted by the Desktop drop-down
  */
 function checkForDesktop(form) {
-    if (form.Desktop.value == "") {
-      alert("You must select a desktop");
-    }
+  if (form.Desktop.value == "") {
+    alert("You must select a desktop");
+  }
 }
 
 /**
@@ -143,7 +151,6 @@ function checkForDesktop(form) {
  * @param {String} username The current users username
  */
 function populateDropdowns(username) {
-  
   fetch('../api/get_installations.php', {
     method: "POST",
     headers: {
@@ -159,8 +166,8 @@ function populateDropdowns(username) {
       const dialogDtopSel = document.getElementById('desktopForm');
       const dialogBuildSel = document.getElementById('buildForm');
       // Select boxes for the filter
-      const builds = document.getElementById("Build");
-      const desktops = document.getElementById("Desktop");
+      const builds = $('#Build');
+      const desktops = $('#Desktop');
       // Make placholder options and then hydrate with response data
       builds.innerHTML = '';
       desktops.innerHTML = '';
@@ -168,21 +175,23 @@ function populateDropdowns(username) {
       dialogDtopSel.innerHTML = '';
       let option;
       data.forEach(function (row) {
-        if ($("#Build option[value='" + row.bID + "']").length < 1) {
+        if ($("#Build > option[value='" + row.bID + "']").length < 1) {
           option = document.createElement('option');
           option.text = row.buildName;
           option.value = row.bID;
-          builds.add(option);
+          builds.append(option);
+          console.log(option)
           dialogBuildSel.add(option.cloneNode(true));
         }
-        builds.value = option.value;
-        dialogBuildSel.value = option.value;
+        if ($("#Desktop > option[value='" + row.dtopID + "']").length < 1) {
+          option = document.createElement('option');
+          option.text = row.dtopName;
+          option.value = row.dtopID;
+          desktops.append(option);
+          console.log(option)
+          dialogDtopSel.add(option.cloneNode(true));
+        }
       });
-      // Set the default value to the placeholders
-      $('#Build').trigger('change');
-      $('#Desktop').trigger('change');
-      $('#buildForm').trigger('change');
-      $('#desktopForm').trigger('change');
     });
   });
 }
@@ -195,13 +204,10 @@ function populateDropdowns(username) {
  */
 function populateDesktopDropdown(selector, b_num) {
   const dropdown = document.getElementById(selector);
-  if(selector === 'Desktop') {
-
-  }
   dropdown.innerHTML = '';
   installationData.forEach(function (row) {
     const option = document.createElement('option');
-    if (b_num == row.bID) {
+    if (b_num == row.bID || b_num == 0) {
       option.text = row.dtopName;
       option.value = row.dtopID;
       dropdown.add(option);
@@ -286,7 +292,7 @@ function checkForAdmin() {
   if (auth == 2) { // If admin
     window.location.href = "../Views/adminPage.php";
   }
-  else if(auth == 1) { // If manager
+  else if (auth == 1) { // If manager
     window.location.href = "../Views/managerPage.php";
   }
   else { // If user
@@ -373,12 +379,12 @@ function releaseSlot() {
     $("#dialog-confirm").dialog("close"); // Koala
     alert("You cannot release a timeslot which you don't have reserved.");
   }
-  else if(eventType === ''){
+  else if (eventType === '') {
     $("#dialog-confirm").dialog("close"); // Koala
     alert('Cannot release a reservation that has already begun');
   }
-    //if the current user has the timeslot requested, release.php will be executed and the request
-    // will be removed from the queue table in the database
+  //if the current user has the timeslot requested, release.php will be executed and the request
+  // will be removed from the queue table in the database
   else {
     $.ajax({
       type: 'post',
@@ -424,7 +430,7 @@ function submitFunction() {
  * @param {Moment object} end The end time of the time-slot that was clicked on
  */
 function checkForInfoDisplay(start, end) {
-  if(userData.admin == 2) {
+  if (userData.admin == 2) {
     fetch('../api/get_users.php', {
       method: "POST",
       headers: {
@@ -438,10 +444,10 @@ function checkForInfoDisplay(start, end) {
         const userSelect = document.getElementById("user");
         userSelect.innerHTML = '';
         data.forEach(function (row) {
-            const option = document.createElement('option');
-            option.text = row.username;
-            option.value = row.user_num;
-            userSelect.add(option);
+          const option = document.createElement('option');
+          option.text = row.username;
+          option.value = row.user_num;
+          userSelect.add(option);
         });
         userSelect.options.selectedIndex = -1;
         userSelect.parentNode.style = "display: block";
@@ -455,7 +461,7 @@ function checkForInfoDisplay(start, end) {
     el.add(option);
     el.options.selectedIndex = 0;
   }
-  
+
   const startDateTime = start.format().split('T');
   const endDateTime = end.format().split('T');
   // hydrate the dialog elements
@@ -479,7 +485,7 @@ function populateUserSelect(uNames, uIds) {
   el.parentNode.style = "display: block"
   // Clear the options list and populate with new data
   el.innerHTML = '';
-  for(let i = 0; i < names.length; i++) {
+  for (let i = 0; i < names.length; i++) {
     const option = document.createElement('option');
     option.text = names[i];
     option.value = ids[i];
@@ -493,199 +499,201 @@ function populateUserSelect(uNames, uIds) {
  * Creates the calendar display and the popup modal for requesting / releasing
  */
 function BuildCalendar() {
-    // The calendar
-    $('#calendar').fullCalendar({
-        eventSources: [{
-            url: '../api/get_requests',
-            type: 'GET',
-            color: 'pink', // Other Users' Requested
-            borderColor: 'black',
-            textColor: 'black',
-            success: function (data) {
-                // console.log('requests loaded');
-                $('#calendar').fullCalendar('rerenderEvents');
-            },
-            error: function (data) {
-                console.log(data);
-            },
-            failure: function (data) {
-                console.log(data);
-            }
-        },
-        {
-            url: '../api/get_reservations',
-            type: 'GET',
-            color: 'darkred', // Other Users' Finalized
-            borderColor: 'black',
-            textColor: 'white',
-            className: ["reservation"],
-            success: function (data) {
-                // console.log('reservations loaded');
-                $('#calendar').fullCalendar('rerenderEvents');
-            },
-            error: function (data) {
-                console.log(data);
-            },
-            failure: function (data) {
-                console.log(data);
-            }
-        },
-        {
-          url: '../api/get_blocklist',
-          type: 'GET',
-          color: 'black', // Other Users' Finalized
-          borderColor: 'black',
-          textColor: 'white',
-          className: ["blocked"],
-          success: function (data) {
+  // The calendar
+  $('#calendar').fullCalendar({
+    eventSources: [{
+      url: '../api/get_requests',
+      type: 'GET',
+      color: 'pink', // Other Users' Requested
+      borderColor: 'black',
+      textColor: 'black',
+      success: function (data) {
+        // console.log('requests loaded');
+        $('#calendar').fullCalendar('rerenderEvents');
+      },
+      error: function (data) {
+        console.log(data);
+      },
+      failure: function (data) {
+        console.log(data);
+      }
+    },
+    {
+      url: '../api/get_reservations',
+      type: 'GET',
+      color: 'darkred', // Other Users' Finalized
+      borderColor: 'black',
+      textColor: 'white',
+      className: ["reservation"],
+      success: function (data) {
+        // console.log('reservations loaded');
+        $('#calendar').fullCalendar('rerenderEvents');
+      },
+      error: function (data) {
+        console.log(data);
+      },
+      failure: function (data) {
+        console.log(data);
+      }
+    },
+    {
+      url: '../api/get_blocklist',
+      type: 'GET',
+      color: 'black', // Other Users' Finalized
+      borderColor: 'black',
+      textColor: 'white',
+      className: ["blocked"],
+      success: function (data) {
 
-            $('#calendar').fullCalendar('rerenderEvents');
-          },
-          error: function (data) {
-            console.log(data);
-          },
-          failure: function (data) {
-            console.log(data);
-          }
-        }],
-        minTime: "06:00:00",
-        maxTime: "24:00:00",
-        firstHour: "06:00:00",
-        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        timezone: false,
-        defaultView: 'agendaWeek',
-        navLinks: true, // can click day/week names to navigate views
-        unselectAuto: false,
-        selectable: true,
-        selectHelper: false,
-        editable: false,
-        eventLimit: true, // allow "more" link when too many events
-        allDaySlot: false,
-        slotDuration: "03:00:00",
-        contentHeight: 'auto',
-        eventDurationEditable: false, //prevents event from being resize
-        agendaEventMinHeight: "10px",
-        slotEventOverlap: false,
-        firstDay: 1,
-        header: {
-            left: 'prev,next,today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
-        },
-        defaultDate: moment().format('YYYY-MM-DD'),
-        selectAllow: function (selectInfo) {
-          var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
-          if (duration.asHours() > 3) {
-              $('#calendar').fullCalendar('unselect');
-              return false;
-          }
-          return true;
-        }, // TO-DO: merge logic for this and eventclick into a single function call
-        select: function (start, end, _ , view) {
-          $('#buildForm').parent().show();
-          const startOfWeek = moment().startOf('week');
-          const endOfNextWeek = moment().endOf('week').add(2, 'weeks');
-          const activeStart = moment(view.start);
-          const activeEnd = moment(view.end);
-          const now = moment().utc(-5)  // The time right now using UTC -5hours.
-          // Calendar slots are non-responsive if the current date range in view is outside
-          // of the normal Request or Free-For-All periods unless the current user is an Admin.
-          if ((userData.admin == 2) || (now < start && activeStart >= startOfWeek && activeEnd <= endOfNextWeek)) {
-            checkForInfoDisplay(start, end);
-            $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-          }
-        },
-        eventClick: function (event, element) {
-          document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
-          document.getElementById('date').value = event.date;
-          document.getElementById('time').value = event.time;
-          // document.getElementById('dtopID').value = event.id;
-          if(event.title != 'BLOCKED') {
-            if (event.className[0] != 'request' && userData.admin != 2 && !event.user.includes(userData.user_num)) {
-              return false;
-            }
-            $('#buildForm').val(event.buildID).trigger('change');
-            $('#desktopForm').val(event.id).trigger('change');
-            if (userData.admin == 2) {
-              (event.names) ? populateUserSelect(event.names, event.user) : populateUserSelect(event.title, event.user);
-            }
-            //BEGIN : Koala modifications 
-            $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
-            //END : Koala modifications
-          }
-        },
-        eventRender: function (event, element, view) {
-          // Set size of font depending upon the view
-          if(view.name === 'month'){
-            element.css("font-size", "0.85em")
-          } else {
-            element.css("font-size", "1em");
-          } 
-          // Style blocked slots
-          if (event.title === 'BLOCKED') {
-            element.css("cursor", "not-allowed");
-            element.css("border-color", "black")
-            view.name === 'month' ? false : element.css("height", "5.4em");
-          }         
-          // Color the events differently if it belongs to the current user
-          if (event.className[0] === 'request') {
-            if (event.usernames.includes(userData.username)) {
-                element.css("background-color", "lightgreen") // Your Request
-                element.css("border-color", "black")
-                element.css("cursor", "pointer")
-            }
-          } else {
-            // view.name === 'month' ? false : element.css("height", "5.4em");
-            if (event.username === userData.username) {
-                element.css("background-color", "green") // Your Final
-                element.css("color", "white")
-                element.css("border-color", "black")
-                element.css("cursor", "pointer")
-            }
-          }
-          // Filter the results based on the value of the drop-downs
-          const desktop = document.getElementById('Desktop').value;
-          const build = document.getElementById('Build').value;
-            if (desktop > 1 && build > 1) {
-              return ((desktop == event.id && event.buildID.includes(build)) || 
-                (desktop == event.id && event.title === 'BLOCKED')) ? element : false;
-            }
-            else if (desktop > 1 && build < 1) {
-              return (desktop == event.id) ? element : false;
-            }
-            else if (!desktop < 1 && build > 1) {
-              return (event.buildID.includes(build)) ? element : false;
-            }
-            else {
-              return element;
-            }
-        },
-        // Callback for any time the view is changed. Here it is used to conditionally change filter capabilities
-        viewRender: function(view){
-          colorPrimeRows(); // Highlight "Prime Time" row headers. (9am-3pm)
-          const buildSelect = $('#Build');
-          const buildPlaceholder = $('#Build > option[value="0"]');
-          const dtopSelect = $('Desktop');
-          const dtopPlaceholder = $('#Desktop > option[value="0"]');
-          if(view.name === 'month'){
-            if (buildPlaceholder.length == 0){
-              buildSelect.prepend('<option value="0">-- Select --</option>');
-              buildSelect.val(0).trigger('change');
-            }
-            if (dtopPlaceholder.length == 0) {
-              dtopSelect.prepend('<option value="0">-- Select --</option>');
-              dtopSelect.val(0).trigger('change');
-            }
-          } else {
-            if (buildPlaceholder.length != 0){
-              buildSelect.find('option:first').remove();
-              buildSelect.trigger('change');
-            }
-            if (dtopPlaceholder.length != 0) {
-              dtopSelect.find('option:first').remove();
-              dtopSelect.trigger('change');
-            }
-          }
+        $('#calendar').fullCalendar('rerenderEvents');
+      },
+      error: function (data) {
+        console.log(data);
+      },
+      failure: function (data) {
+        console.log(data);
+      }
+    }],
+    minTime: "06:00:00",
+    maxTime: "24:00:00",
+    firstHour: "06:00:00",
+    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+    timezone: false,
+    defaultView: 'agendaWeek',
+    navLinks: true, // can click day/week names to navigate views
+    unselectAuto: false,
+    selectable: true,
+    selectHelper: false,
+    editable: false,
+    eventLimit: true, // allow "more" link when too many events
+    allDaySlot: false,
+    slotDuration: "03:00:00",
+    contentHeight: 'auto',
+    eventDurationEditable: false, //prevents event from being resize
+    agendaEventMinHeight: "10px",
+    slotEventOverlap: false,
+    firstDay: 1,
+    header: {
+      left: 'prev,next,today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    defaultDate: moment().format('YYYY-MM-DD'),
+    selectAllow: function (selectInfo) {
+      var duration = moment.duration(selectInfo.end.diff(selectInfo.start));
+      console.log(selectInfo.start.format() + ":::" + selectInfo.end.format());
+      if (duration.asHours() > 3) {
+        $('#calendar').fullCalendar('unselect');
+        return false;
+      }
+      return true;
+    }, // TO-DO: merge logic for this and eventclick into a single function call
+    select: function (start, end, _, view) {
+      $('#buildForm').parent().show();
+      const startOfWeek = moment().startOf('week');
+      const endOfNextWeek = moment().endOf('week').add(2, 'weeks');
+      const activeStart = moment(view.start);
+      const activeEnd = moment(view.end);
+      const now = moment().utc(-5)  // The time right now using UTC -5hours.
+      // Calendar slots are non-responsive if the current date range in view is outside
+      // of the normal Request or Free-For-All periods unless the current user is an Admin.
+      if ((userData.admin == 2) || (now < start && activeStart >= startOfWeek && activeEnd <= endOfNextWeek)) {
+        checkForInfoDisplay(start, end);
+        $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+      }
+    },
+    eventClick: function (event, element) {
+      document.getElementById('reservedBy').value = (event.className == 'request') ? '' : event.title;
+      document.getElementById('date').value = event.date;
+      document.getElementById('time').value = event.time;
+      // document.getElementById('dtopID').value = event.id;
+      if (event.title != 'BLOCKED') {
+        if (event.className[0] != 'request' && userData.admin != 2 && !event.user.includes(userData.user_num)) {
+          return false;
         }
-      });
+        $('#buildForm').val(event.buildID).trigger('change');
+        $('#desktopForm').val(event.id).trigger('change');
+        if (userData.admin == 2) {
+          (event.names) ? populateUserSelect(event.names, event.user) : populateUserSelect(event.title, event.user);
+        }
+        //BEGIN : Koala modifications 
+        $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
+        //END : Koala modifications
+      }
+    },
+    eventRender: function (event, element, view) {
+      // Set size of font depending upon the view
+      if (view.name === 'month') {
+        element.css("font-size", "0.85em")
+      } else {
+        element.css("font-size", "1em");
+      }
+      // Style blocked slots
+      if (event.title === 'BLOCKED') {
+        element.css("cursor", "not-allowed");
+        element.css("border-color", "black")
+        view.name === 'month' ? false : element.css("height", "5.4em");
+      }
+      // Color the events differently if it belongs to the current user
+      if (event.className[0] === 'request') {
+        if (event.usernames.includes(userData.username)) {
+          element.css("background-color", "lightgreen") // Your Request
+          element.css("border-color", "black")
+          element.css("cursor", "pointer")
+        }
+      } else {
+        // view.name === 'month' ? false : element.css("height", "5.4em");
+        if (event.username === userData.username) {
+          element.css("background-color", "green") // Your Final
+          element.css("color", "white")
+          element.css("border-color", "black")
+          element.css("cursor", "pointer")
+        }
+      }
+      // Filter the results based on the value of the drop-downs
+      const desktop = document.getElementById('Desktop').value;
+      const build = document.getElementById('Build').value;
+      if (desktop > 1 && build > 1) {
+        return ((desktop == event.id && event.buildID.includes(build)) ||
+          (desktop == event.id && event.title === 'BLOCKED')) ? element : false;
+      }
+      else if (desktop > 1 && build < 1) {
+        return (desktop == event.id) ? element : false;
+      }
+      else if (!desktop < 1 && build > 1) {
+        return (event.buildID.includes(build)) ? element : false;
+      }
+      else {
+        return element;
+      }
+    },
+    // Callback for any time the view is changed. Here it is used to conditionally change filter capabilities
+    viewRender: function (view) {
+      colorPrimeRows(); // Highlight "Prime Time" row headers. (9am-3pm)
+      colorRegularRows(); // Highlight "Non Prime Time" row headers. (6am, 6pm-9pm)
+      const buildSelect = $('#Build');
+      const buildPlaceholder = $('#Build > option[value="0"]');
+      const dtopSelect = $('Desktop');
+      const dtopPlaceholder = $('#Desktop > option[value="0"]');
+      if (view.name === 'month') {
+        if (buildPlaceholder.length == 0) {
+          buildSelect.prepend('<option value="0">-- Select --</option>');
+          buildSelect.val(0).trigger('change');
+        }
+        if (dtopPlaceholder.length == 0) {
+          dtopSelect.prepend('<option value="0">-- Select --</option>');
+          dtopSelect.val(0).trigger('change');
+        }
+      } else {
+        if (buildPlaceholder.length != 0) {
+          buildSelect.find('option:first').remove();
+          buildSelect.trigger('change');
+        }
+        if (dtopPlaceholder.length != 0) {
+          dtopSelect.find('option:first').remove();
+          dtopSelect.trigger('change');
+        }
+      }
+    }
+  });
 } // BuildCalendar

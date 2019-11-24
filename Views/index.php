@@ -71,7 +71,7 @@ Authors: Team Elephants, Team Sloths-->
                 <select id="Build" name="Builds">
                 </select>
                 <p class="MultiTextBoxForm">Desktop:</p>
-                <select id="Desktop" name="Desktop" disabled></select>
+                <select id="Desktop" name="Desktop" ></select>
                 <br>
                 <br>
                 <button style="display: none" id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
