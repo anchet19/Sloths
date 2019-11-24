@@ -145,7 +145,8 @@ $dbh2 = ConnectDB();
         $mail->WordWrap   = 80;
         $content = "<b>This e-mail is a notification that you have been selected for testing time slot(s) for the upcoming week.</b>"; 
         $mail->MsgHTML($content);
-        $mail->IsHTML(true);        
+        $mail->IsHTML(true);
+        $mail->send();
     }
  } */ #******************************************************************************************
     # Sets users with < 0 points to 0
