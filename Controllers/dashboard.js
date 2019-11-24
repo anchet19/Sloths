@@ -77,7 +77,6 @@ function hydrateTable() {
       document.getElementById('table-head').innerHTML = headerMarkup;
       // Generate the markup for the table body
       data.forEach((row) => {
-        const maxlength = 100;
         const rowArray = Object.entries(row);;
         const tr = document.createElement('tr');
         rowArray.forEach(([key, value]) => {
