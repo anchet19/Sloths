@@ -653,19 +653,23 @@ function BuildCalendar() {
       // Filter the results based on the value of the drop-downs
       const desktop = document.getElementById('Desktop').value;
       const build = document.getElementById('Build').value;
-      if (desktop > 1 && build > 1) {
-        return ((desktop == event.id && event.buildID.includes(build)) ||
-          (desktop == event.id && event.title === 'BLOCKED')) ? element : false;
-      }
-      else if (desktop > 1 && build < 1) {
-        return (desktop == event.id) ? element : false;
-      }
-      else if (!desktop < 1 && build > 1) {
-        return (event.buildID.includes(build)) ? element : false;
-      }
-      else {
-        return element;
-      }
+      if(view.name === 'month') {
+        if (desktop > 1 && build > 1) {
+          return ((desktop == event.id && event.buildID.includes(build)) ||
+            (desktop == event.id && event.title === 'BLOCKED')) ? element : false;
+        }
+        else if (desktop > 1 && build < 1) {
+          return (desktop == event.id) ? element : false;
+        }
+        else if (!desktop < 1 && build > 1) {
+          return (event.buildID.includes(build)) ? element : false;
+        }
+        else {
+          return element;
+        }
+      } else {
+        return  (event.id == desktop) ? element : false;
+      } 
     },
     // Callback for any time the view is changed. Here it is used to conditionally change filter capabilities
     viewRender: function (view) {
