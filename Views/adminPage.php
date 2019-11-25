@@ -270,15 +270,19 @@ if(!isset($_SESSION['username'])){
 
         <div id="insertDesktop" style="display: none">
           <form>
-            <div class="form-group row justify-content-center">
-              <div class="col-md-5">
+            <div class="form-row justify-content-center">
+              <div class="form-group">
                 <label for="desktop">Insert Desktops</label>
                 <input class="form-control" placeholder="Desktop Name" type="text" id="desktop" name="desktop"></input>
+                <label for="dtopColor">Choose Color</label>
+                <input class="form-control" id="dtopColor" name="color" type="color" style="height: 3em; padding: 4">
+                <label>&nbsp;
+                  <button class="form-control btn btn-success" type="button" onclick="doInsertDesktop(this.form)">Insert Desktop</button>
+                </label>
               </div>
             </div>
             <div class="form-group row justify-content-center">
               <div class="col-md-5">
-                <button class="form-control btn btn-success" type="button" onclick="doInsertDesktop(this.form)">Insert Desktop</button>
               </div>
             </div>
           </form>

@@ -240,9 +240,10 @@ function retrieveUser(username) {
           uid: data.user_num,
           department: data.department_id
         }
+        // Dynamically alter button for admin / manager page based on current users credentials
+        const el = document.getElementById('admin-button');
         if (userData.admin > 0) {
-          const el = document.getElementById('admin-button');
-          el.firstChild.innerHTML = userData.admin < 2 ? 'Manager' : 'Admin';
+          el.firstChild.textContent = userData.admin < 2 ? 'Manager' : 'Admin';
           el.style = "display: block";
         }
         sessionStorage.setItem('userData', JSON.stringify(user))
@@ -673,8 +674,6 @@ function BuildCalendar() {
     },
     // Callback for any time the view is changed. Here it is used to conditionally change filter capabilities
     viewRender: function (view) {
-      colorPrimeRows(); // Highlight "Prime Time" row headers. (9am-3pm)
-      colorRegularRows(); // Highlight "Non Prime Time" row headers. (6am, 6pm-9pm)
       const buildSelect = $('#Build');
       const buildPlaceholder = $('#Build > option[value="0"]');
       const dtopSelect = $('Desktop');

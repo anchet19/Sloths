@@ -430,7 +430,8 @@ function doInsertDesktop(form) {
     },
     body: $.param({
       "username": username,
-      "desktop": form.desktop.value
+      "desktop": form.desktop.value,
+      "color": form.color.value
     })
 
   }).then(function (response) {
