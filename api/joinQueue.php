@@ -6,16 +6,30 @@
           die('error finding connect file');
   }
   $dbh = ConnectDB();
+
+  $requestLimit = 3;
+  if($xml=simplexml_load_file("../Utils/configuration.xml")){
+    $requestLimit = $xml->requestlimit;
+  }
   
 	$actualWait = 0; #hardcoded to skirt outdated use
 	$curr = $_POST['curr'];
 	$date = $_POST['date'];
 	$time = $_POST['time'];
 	$build = $_POST['build'];
-	$desktop = $_POST['desktop'];
+  $desktop = $_POST['desktop']; 
   
   if($curr <= 0){
     echo "You must select a user to make a request.";
+    die();
+  }
+
+  $sql = "SELECT num_requests from user where user_num = '$curr' ";
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+  $userRequests = $stmt->fetch();
+  if ($userRequests['num_requests'] >= $requestLimit){
+    echo "This user already has ".$requestLimit." requests.";
     die();
   }
   if($build == 0 || $desktop == 0) {
@@ -50,7 +64,7 @@
           $stmt = $dbh->prepare($sql);
           $stmt->execute();
         
-          $sql = "CALL set_last_request($curr);";
+          $sql = "CALL set_last_request($curr);"; #sets user last_request datetime in the db
           $stmt = $dbh->prepare($sql);
           $stmt->execute();
           $row  = "You have joined the queue for desktop " . $desktop . " at " . $time . " on " . $date;
