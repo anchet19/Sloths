@@ -573,7 +573,8 @@ function BuildCalendar() {
     eventDurationEditable: false, //prevents event from being resize
     agendaEventMinHeight: "10px",
     slotEventOverlap: false,
-    firstDay: 1,
+    firstDay: 1, // Monday
+    fixedWeekCount: false,
     header: {
       left: 'prev,next,today',
       center: 'title',

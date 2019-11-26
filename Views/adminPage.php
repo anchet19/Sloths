@@ -470,7 +470,6 @@ if(!isset($_SESSION['username'])){
           <form method="post" action="../api/get_outcome_metrics.php" name="outcomeMetricsForm" id="outcomeMetricsForm">
             <div class="form-row justify-content-center">
               <div id="outcome-group">
-              
                 <div class="form-group">
                   <fieldset id="filter">                  
                     <input type="radio" name="filter" id="filter" value="desktop"> By Desktop </input>
@@ -492,10 +491,10 @@ if(!isset($_SESSION['username'])){
                   </div>
                 </div>
               </div>
+              <div class="col" id="outcomeMetricsTable"></div> <!-- End outcome metrics -->
+              </form>
             </div>
-          </form>
-          <div class="col" id="outcomeMetricsTable">
-          </div> <!-- End outcome metrics -->
+          
           <div id="blockDesktops" style="display: none">
             <div class="row justify-content-center">
               <form id="block-desktops" action="adminPage.php" method="post">
