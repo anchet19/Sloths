@@ -1,16 +1,12 @@
 <?php
-
 #a table showing all of the reservations and their user_num, slot_id, and dtop_id
 #database implemented in mySQL by Rico Rivera then transpired to the elvis server via puTTy
 #IOW: Shows who has which desktop reserved and on what time and date
 #author: Cassandra Bailey
-
-
         session_start();						//calls open&read session and saves the handlers
         if  (!include('../Utils/connect.php')) {					//checks to see if the system is connected to the database
                 die('error finding connect file');			//error message that displays if not
         }
-
         $dbh = ConnectDB();						//connects to mySQL	
 									//beow is the set up of an html webpage
 ?>
@@ -23,15 +19,16 @@
 
 <body class="background" background="../Images/Background.png">	
 <div class="header">View Reservations</div>										
+
 <table>
   <thead>
     <tr>
-      <th scope="col">Desktop Name</th>
-      <th scope="col">Monday</th>
-      <th scope="col">Tuesday</th>
-      <th scope="col">Wednesday</th>
-      <th scope="col">Thursday</th>
-      <th scope="col">Friday</th>
+      <th scope="col">Desktop</th>
+      <th scope="col" style="width:20%">Monday</th>
+      <th scope="col" style="width:20%">Tuesday</th>
+      <th scope="col" style="width:20%">Wednesday</th>
+      <th scope="col"style="width:20%">Thursday</th>
+      <th scope="col" style="width:20%">Friday</th>
       <!-- <th scope="col">Saturday</th>
       <th scope="col">Sunday</th> -->
     </tr>
@@ -59,8 +56,7 @@
       $sql .= "INNER JOIN timeslot ON ";
       $sql .= "reservation.slot_id = timeslot.slot_id ";
       $sql .= "WHERE timeslot.date BETWEEN '$start' AND '$end' ";
-      $sql .= "ORDER BY desktop.dtop_id, timeslot.date, timeslot.start_time";
-
+      $sql .= "ORDER BY desktop.dtop_id, timeslot.date, timeslot.start_time";						
       $result = $dbh->query($sql)->fetchAll(PDO::FETCH_ASSOC);
       $newResult = [];
       
@@ -78,7 +74,7 @@
       foreach($newResult as $dtop => $data) {
         $markup = sprintf('<tr style=" background-color: %s"><th style="color: %s"><h2>%s</h2></th>', $data[0], $data[0], $dtop);
         for($i = 0; $i < 5; $i++){
-          $markup .= '<td>';
+          $markup .= '<td style="padding: 0">';
           foreach(array_slice($data, 1) as $key => $value) {
             $day = new DateTime($key);
             $diff = date_diff($day, $dt_min)->d;
@@ -87,8 +83,7 @@
               for($k = 0; $k < count($value); $k++ )
               {
                 $time = new DateTime($value[$k]['reserveTime']);
-                $markup .= sprintf('<tr><td>%s</td><td>%s</td></tr>',
-                            /* $value[$k]['reserveTime']*/$time->format('g a'), $value[$k]['name']);
+                $markup .= sprintf('<tr><td style="width: 25%%">%s</td><td style="width: 10px">%s</td></tr>', $time->format('g a'), $value[$k]['name']);
               }
               $markup .= '</table>';
             }
@@ -98,10 +93,9 @@
         $markup .= '</tr>';
         echo $markup;
       }
-      
-    }catch(Exception $e){}
+    }
+    catch(Exception $e){}
   ?>
-  </tbody>
 </table>											
 </body>												
-</html>												
+</html>		

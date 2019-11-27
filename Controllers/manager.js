@@ -8,33 +8,7 @@ const departmentNum = a['department'];
 let lastVisible = undefined;
 $(document).ready(function () {
 
-  /**
-   * Creates the feedback dialog box using the dialog div in dashboard.php
-   */
-  $("#feedback-dialog").dialog({
-    position: { my: "center", at: "center", of: window},
-    resizable: false,
-    height: "auto",
-    width: 400,
-    autoOpen: false,
-    modal: true,
-    closeOnEscape: true,
-    buttons: [{
-      id: "btnSubmit",
-      text: "Submit",
-      name: "feedback-submit",
-      type: "submit",
-      click: function () {
-        handleSubmitFeedback();
-        $(this).dialog("close");
-      }
-    }]
-  });
 
-  $("newPwd-form").submit((event) => {
-    makeVisible('change-pwd');
-    event.preventDefault();
-  })
 });
 
 /**
@@ -46,7 +20,7 @@ function makeVisible(id) {
   if (curr) {
     curr.style.display = "none";
   }
-  next = document.getElementById(id).style.display = "block";
+  document.getElementById(id).style.display = "block";
   lastVisible = id;
 }
 

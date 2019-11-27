@@ -34,53 +34,40 @@ if(!isset($_SESSION['username'])){
     <title>Manager Options</title>
 </head>
 
-<body class="background" background="../Images/Background.png">
-    <div class="header">Manager Options</div>
-    <div class="topnav">
-        <ul class="top">
-            <li><a href="index">Calendar</a><a id="metricsButton" onclick="makeVisible('metrics-container')">Metrics</a></li>
-            <li><a class="logout" onclick="logout()">Logout</a></li>
-        </ul>
-    </div>
-
-    <!-- Delete this when we start working on this page. -->
-    <div>
-    <!-- insert hidden div -->
-        <div class="col" id="metrics-container" style="display: none">
-        <form method="post" name="managerUserForm" id="managerUserForm">
-            <div class="form-row justify-content-center">
-              <div id="outcome-group">              
-                <div class="form-group">          
-                  <br>                          
-                    <input type="radio" name="filter" id="filter" value="userTotals"> User Totals </input>
-                    <br>
-                    <br>
-                    <input type="radio" name="filter" id="filter" value="Build"> By Build </input> <br>                  
-                    <br>
-                    <br>
-                    <label class="form-label MultiTextBoxForm" for="startDate">Start date:</label>
-                  <br>
-                  <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
-                  <br>
-                  <br>
-                  <label class="form-label MultiTextBoxForm" id= endDateLabel for="endDate">End date:</label>
-                  <br>
-                  <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
-                  <br>
-                  <div class="col offset-md-1">
-                    <label>&nbsp;</label> <!-- Alligns button with form input fields -->
-                    <br>
-                    <input type="submit" name="submit" value="Submit" id="managerUserSubmit" onclick="handleUserMetricsSubmit()">
-                    </div>
-                  </div>
-                </div>
-              </div>
+<body>
+  <div class="header">Manager Options</div>
+  <div class="topnav">
+      <ul class="top">
+          <li><a href="index">Calendar</a><a id="metricsButton" onclick="makeVisible('metrics-container')">Metrics</a></li>
+          <li><a class="logout" onclick="logout()">Logout</a></li>
+      </ul>
+  </div>
+  <!-- insert hidden div -->
+  <div class="container" id="metrics-container" style="display: none">
+    <div class="row row-center form-container">
+      <form method="post" name="managerUserForm" id="managerUserForm">
+          <div class="form-row">
+            <div class="form-group">        
+              <input type="radio" name="filter" id="filter" value="userTotals"> User Totals </input>
+              <input type="radio" name="filter" id="filter" value="Build"> By Build </input>
             </div>
-          </form>
-          <div class="col" id="managerUserMetricsTable">
-          </div>
-        </div>        
+            <div class="form-group">        
+              <label class="form-label MultiTextBoxForm" for="startDate">Start date:</label>
+              <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+            </div>
+            <div class="form-group">        
+              <label class="form-label MultiTextBoxForm" id= endDateLabel for="endDate">End date:</label>
+              <input class="form-control-sm" type="date" id="endDate" name="endDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+            </div>
+            <div class="form-group">        
+              <input type="button" name="submit" value="Submit" id="managerUserSubmit" onclick="handleUserMetricsSubmit()">
+            </div>
+          </div>         
+        </form>
     </div>
+    <br>
+    <div class="row" id="managerUserMetricsTable"></div>
+  </div>
 </body>
 
 </html>
