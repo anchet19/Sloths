@@ -24,24 +24,6 @@ $(document).ready(function () {
     event.preventDefault();
     handleChangeUserPassword();
   });
-
-  $('#block-desktops').submit((event) => {
-    event.preventDefault();
-    const fd = new FormData(event.target)
-    // Display the key/value pairs
-    for (var pair of fd.keys()) {
-      console.log(pair);
-    }
-    fetch('../api/block_desktops.php', {
-      method: 'POST',
-      body: fd
-    }).then((response) => {
-      response.text().then((result) => {
-        alert(result);
-        document.getElementById('block-desktops').reset();
-      })
-    })
-  })
   
   //converts user-dropdown classes to select2 format
   $('.user-dropdown').select2({
@@ -49,7 +31,6 @@ $(document).ready(function () {
     theme: 'classic',
     width: 'resolve'
   });
-
   // occurs when user is selected from the select2 dropdown
   $('.user-dropdown').on('select2:select', function (e) {
     var data = e.params.data;
@@ -90,7 +71,6 @@ $(document).ready(function () {
           
           privileges.append(checkbox);
           privileges.append(label);
-          // append("<br>");
   
         });
         if(!$('#privbut').length){
@@ -103,8 +83,7 @@ $(document).ready(function () {
         privButton.append(newButton);
         }
       });
-    });  
-    // append("<br>");  
+    });    
 });
   
 })
@@ -246,7 +225,7 @@ function fetchDropdownValues() {
     },
   }).then((response) => {
     response.json().then((data) => {
-      desktopSelects = document.querySelectorAll('[name^=desktop-select]')
+      desktopSelects = document.getElementsByName('desktop-select');
       data.forEach((row) => {
         desktopSelects.forEach((element) => {
           const option = document.createElement('option');
@@ -277,6 +256,28 @@ function fetchDropdownValues() {
           const option = document.createElement('option');
           option.text = row.username;
           option.value = row.user_num;
+          element.add(option);
+        });
+      });
+    });
+  });
+
+  /**
+   * Populate all the department select dropdowns
+   */
+  fetch('../api/get_departments.php', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }).then((response) => {
+    response.json().then((data) => {
+      departmentSelects = document.getElementsByName('department-select');
+      data.forEach((row) => {
+        departmentSelects.forEach((element) => {
+          const option = document.createElement('option');
+          option.text = row.name;
+          option.value = row.department_id;
           element.add(option);
         });
       });
@@ -432,8 +433,7 @@ function doInsertDesktop(form) {
     },
     body: $.param({
       "username": username,
-      "desktop": form.desktop.value,
-      "color": form.color.value
+      "desktop": form.desktop.value
     })
 
   }).then(function (response) {
@@ -488,7 +488,8 @@ function doInsertUser(form) {
       "firstName": form.firstName.value,
       "lastName": form.lastName.value,
       "email": form.email.value,
-      "admin": form.newAdmin.value
+      "admin": form.newAdmin.value,
+      "department": form.departmentSelect.value
     })
   }).then(function (response) {
     response.json().then(function (data) {

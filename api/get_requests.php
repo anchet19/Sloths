@@ -50,7 +50,7 @@ try {
             $out .= '"title":"Requests: '.$row['slotcount'].'",';
             $out .= '"start":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-04:00'.'",';
             $out .= '"end":"'.$row['reserveDate'].'T'.$row['reserveTime'].'-1:00'.'",';
-            $out .= '"user":"'.$row['userIDs'].'",';
+            $out .= '"users":"'.$row['userIDs'].'",';
             $out .= '"buildID":"'.$row['build_num'].'",';
             $out .= '"names":"'.$row['names'].'",';
             $out .= '"usernames":"'.$row['users'].'",';
