@@ -50,12 +50,18 @@ if(!isset($_SESSION['username'])){
         <form method="post" name="managerUserForm" id="managerUserForm">
             <div class="form-row justify-content-center">
               <div id="outcome-group">              
-                <div class="form-group">                                    
+                <div class="form-group">          
+                  <br>                          
                     <input type="radio" name="filter" id="filter" value="userTotals"> User Totals </input>
+                    <br>
+                    <br>
                     <input type="radio" name="filter" id="filter" value="Build"> By Build </input> <br>                  
-                  <label class="form-label MultiTextBoxForm" for="startDate">Start date:</label>
+                    <br>
+                    <br>
+                    <label class="form-label MultiTextBoxForm" for="startDate">Start date:</label>
                   <br>
                   <input class="form-control-sm" type="date" id="startDate" name="startDate" placeholder="yyyy-mm-dd" value="<?php echo date('Y-m-d')?>" >
+                  <br>
                   <br>
                   <label class="form-label MultiTextBoxForm" id= endDateLabel for="endDate">End date:</label>
                   <br>
@@ -64,7 +70,7 @@ if(!isset($_SESSION['username'])){
                   <div class="col offset-md-1">
                     <label>&nbsp;</label> <!-- Alligns button with form input fields -->
                     <br>
-                    <input class="btn btn-sm form-control btn-success " type="button" name="button" value="Submit" id="managerUserSubmit" onclick="handleUserMetricsSubmit()">
+                    <input type="submit" name="submit" value="Submit" id="managerUserSubmit" onclick="handleUserMetricsSubmit()">
                     </div>
                   </div>
                 </div>
