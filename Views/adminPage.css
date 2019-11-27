@@ -1,0 +1,144 @@
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+#menu-button {
+  background-color: #00000000;
+  color: white;
+  outline: none;
+  border: none;
+}
+
+/* The color of the headers for each tab. */
+.bg-dark {
+  background-color: #2e398f !important;
+}
+
+/* Override the menu item sizes, so they all appear the same size. */
+.dropdown-item {
+  font-size: 16px !important;
+  padding: 10px !important;
+}
+
+/* Override the border of the drop down of a menu item. */
+.card-body {
+  border: 5px solid #2e398f !important;
+}
+
+/* Override the submit button's non-selected properties. */
+.btn-primary {
+  background-color: #00c000 !important;
+  color: white !important;
+  font-weight: bold !important;
+  border: 2px solid white !important;
+  padding: 15px;
+  font-size: 16px;
+}
+
+/* The color of the headers for each tab. */
+.bg-dark {
+  background-color: #2e398f !important;
+}
+
+/* Override the menu item sizes, so they all appear the same size. */
+.dropdown-item {
+  font-size: 16px !important;
+  padding: 10px !important;
+}
+
+/* Override the border of the drop down of a menu item. */
+.card-body {
+  border: 5px solid #2e398f !important;
+}
+
+/* Override the submit button's non-selected properties. */
+.btn-primary {
+  background-color: #00c000 !important;
+  color: white !important;
+  font-weight: bold !important;
+  border: 2px solid white !important;
+  padding: 15px;
+  font-size: 16px;
+}
+
+form {
+  font-size: 1.2em;
+  margin-top: 25px;
+  text-align: center;
+  color: #2e398f;
+}
+
+/* .form-group {
+  max-width: 500px !important;
+  align-content: center;
+} */
+/* 
+.col {
+  flex-basis: 0 !important;
+} */
+
+/* Override the properties for the text boxes in the forms. */
+/* .form-control {
+  padding: 20px !important;
+  border: 2px solid #2e398f !important;
+  font-family: verdana !important;
+  cursor: text;
+  min-width: 300px; 
+} */
+
+/* Override the properties of the "Insert" button on forms. */
+.btn-success {
+  border: 2px solid #2e398f !important;
+  background-color: #00c000 !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  max-width: 200px;
+}
+
+/* Override the properties of the "Delete" button on forms. */
+.btn-danger {
+  border: 2px solid #2e398f !important;
+  background-color: #c00000 !important;
+  font-size: 16px;
+  max-width: 200px;
+}
+
+/* Properties of the "Update" button on forms. */
+.btn-update {
+  border: 2px solid #2e398f;
+  background-color: yellow;
+  font-size: 16px;
+  color: black;
+}
+
+/* Override the border of the form when it is opened. */
+.row {
+  padding: 25px !important;
+}
+
+#filter{
+  padding: 25px !important;
+  margin-left: 25px;
+}
+
+#outcome-group{
+  margin-left: 25px;
+  margin-right: 70px;
+}
+
+#endDateLabel{
+  margin-left: 15px !important;  
+}
+
+#outcomeSubmit{
+  margin-right: 25%;
+  margin-left: 10%;
+}
+
+.privilegesCheckbox {
+  /* left: 0% !important;
+  max-width: 50px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important; */
+}

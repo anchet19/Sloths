@@ -1,0 +1,31 @@
+/* Extra CSS for the date fields. */
+input[type="date"] {
+  width: 300px;
+  font-size: 32px;
+}
+
+/* CSS specifically for the Submit button for 
+this page (since it is named differently than others) */
+input#managerUserSubmit {
+  border: outset;
+  color: white;
+  border-color: #273076;
+  background: #2e398f;
+  padding: 14px 40px;
+  outline: none;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+div.form-group {
+  border: 5px solid #2e398f;
+  padding: 25px;
+/*width:200px; 
+  height:200px; 
+  position: fixed; 
+  top: 40%; 
+  left: 50%; 
+  margin-top: -100px; 
+  margin-left: -100px; */
+}
+
