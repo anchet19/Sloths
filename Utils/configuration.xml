@@ -3,39 +3,39 @@
 
     <!-- SMTP Settings -->
 
-    <smtp_mode>tls</smtp_mode>
-    <smtp_port>587</smtp_port>
-    <smtp_username>asrcscheduler@gmail.com</smtp_username>
-    <stmp_password>!QAZ1qazlizard</stmp_password>
-    <stmp_host>smtp.gmail.com</stmp_host>
-    <stmp_type>smtp</stmp_type>
-    <stmp_outgoing_name>Schedule Genie</stmp_outgoing_name>
-    <stmp_subject>New Schedule Has Been Finalized</stmp_subject>
-    <stmp_content><b>This e-mail is a 
-    notification that you have been selected for testing time slot(s) for the upcoming week.</b></stmp_content>
+    <smtp_mode> tls </smtp_mode>
+    <smtp_port> 587 </smtp_port>
+    <smtp_username> asrcscheduler@gmail.com </smtp_username>
+    <stmp_password> !QAZ1qazlizard </stmp_password>
+    <stmp_host> smtp.gmail.com </stmp_host>
+    <stmp_type> smtp </stmp_type>
+    <stmp_outgoing_name> Schedule Genie </stmp_outgoing_name>
+    <stmp_subject> New Schedule Has Been Finalized </stmp_subject>
+    <stmp_content> <b> This e-mail is a 
+    notification that you have been selected for testing time slot(s) for the upcoming week.</b> </stmp_content>
     
 
-    <requestlimit>5</requestlimit> <!-- Number of allowed requests -->
+    <requestlimit> 3 </requestlimit> <!-- Number of allowed requests -->
 
     <!-- Note: Below values are added. Please use negative values for subtraction. -->
 
-    <primemod>5</primemod> <!-- Point value for winning a prime time slot -->
-    <nonprime>-1</nonprime> <!-- Point value for winning a non prime slot -->
-    <consolation>-2</consolation> <!-- Point value awarded for not receiving a slot -->
-    <idle_user>-3</idle_user> <!-- Point value deducted from users who have not made a recent request-->
-    <days_to_idle>7</days_to_idle> <!-- # of days until a user is considered idle to receive point deduction-->
+    <primemod> 5 </primemod> <!-- Point value for winning a prime time slot -->
+    <nonprime> -1 </nonprime> <!-- Point value for winning a non prime slot -->
+    <consolation> -2 </consolation> <!-- Point value awarded for not receiving a slot -->
+    <idle_user> -3 </idle_user> <!-- Point value deducted from users who have not made a recent request-->
+    <days_to_idle> 7 </days_to_idle> <!-- # of days until a user is considered idle to receive point deduction-->
 
     <!-- Point values for additional modification to user points when releasing a reservation
          By default:
           nonprime release - <nonprime>+<-nonprime>
           prime release - <primemod> - (<primemod> / 2) Integer division
     -->
-    <release_nonprime>0</release_nonprime> 
-    <release_prime>0</release_prime>
+    <release_nonprime> 0 </release_nonprime> 
+    <release_prime> 0 </release_prime>
 
     <!-- Values for what dictates prime time hours in String format (HH-MM-SS) -->
-    <prime_start>09:00:00</prime_start>
-    <prime_end>14:00:00</prime_end>
+    <prime_start> 09:00:00 </prime_start>
+    <prime_end> 14:00:00 </prime_end>
 
 </configuration>
 

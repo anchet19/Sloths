@@ -134,11 +134,11 @@ if (isset($_POST['new_password'])) {
   if (count($errors) == 0) {
     // Get the email address where the temp_password matches the token in password_reset table
     $sql = "SELECT email FROM password_reset WHERE token='$temp_pass' LIMIT 1";
-    $result = $db->query($sql)->fetch();
+    $result = $db->query($sql);
     $email = $result['email'];
 
     $sql = "SELECT username FROM user WHERE email = '$email'";
-    $result = $db->query($sql)->fetch();
+    $result = $db->query($sql);
     $username = $result['username'];
 
     if ($email) {

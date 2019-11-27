@@ -11,7 +11,8 @@ include_once("./get_user_func.php");
 try{
   $dbh = ConnectDB();
   if(isset($_POST['newUsername']) && isset($_POST['newPassword']) && isset($_POST['firstName']) 
-    && isset($_POST['lastName']) && isset($_POST['email']) && isset($_POST['admin']) && isset($_POST['username'])){
+    && isset($_POST['lastName']) && isset($_POST['email']) && isset($_POST['admin']) 
+    && isset($_POST['username']) && isset($_POST['department']) ){
 
     $username = $_POST['username'];
     $newUsername = $_POST['newUsername'];
@@ -20,6 +21,7 @@ try{
     $lastName = $_POST['lastName'];
     $email = $_POST['email'];
     $admin = $_POST['admin'];
+    $department = $_POST['department'];
 
     #checks to make sure email entered is in email format        
     if(filter_var($email, FILTER_VALIDATE_EMAIL)){
@@ -49,9 +51,9 @@ try{
         }
         else{
           $sql = "INSERT INTO user ";
-          $sql .= "(username, first_name, last_name, email, password, admin)";
+          $sql .= "(username, first_name, last_name, email, password, admin, department_id)";
           $sql .= " VALUES ";
-          $sql .= "('$newUsername', '$firstName', '$lastName', '$email', '$hashed_pwd', '$admin')";
+          $sql .= "('$newUsername', '$firstName', '$lastName', '$email', '$hashed_pwd', '$admin', '$department')";
                 
           $stmt = $dbh->prepare($sql);
           $stmt->execute();   
