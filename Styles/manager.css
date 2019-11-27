@@ -1,7 +1,7 @@
 /* Extra CSS for the date fields. */
 input[type="date"] {
-  width: 300px;
-  font-size: 32px;
+  width: 100px;
+  font-size: 12px;
 }
 
 /* CSS specifically for the Submit button for 
@@ -20,7 +20,7 @@ input#managerUserSubmit {
 div.form-group {
   border: 5px solid #2e398f;
   padding: 25px;
-/*width:200px; 
+  /*width:200px; 
   height:200px; 
   position: fixed; 
   top: 40%; 
@@ -28,4 +28,3 @@ div.form-group {
   margin-top: -100px; 
   margin-left: -100px; */
 }
-
