@@ -26,12 +26,12 @@
 <table>
   <thead>
     <tr>
-      <th scope="col">Desktop Name</th>
-      <th scope="col">Monday</th>
-      <th scope="col">Tuesday</th>
-      <th scope="col">Wednesday</th>
-      <th scope="col">Thursday</th>
-      <th scope="col">Friday</th>
+      <th scope="col">Desktop</th>
+      <th scope="col" style="width:20%">Monday</th>
+      <th scope="col" style="width:20%">Tuesday</th>
+      <th scope="col" style="width:20%">Wednesday</th>
+      <th scope="col"style="width:20%">Thursday</th>
+      <th scope="col" style="width:20%">Friday</th>
       <!-- <th scope="col">Saturday</th>
       <th scope="col">Sunday</th> -->
     </tr>
@@ -78,7 +78,7 @@
       foreach($newResult as $dtop => $data) {
         $markup = sprintf('<tr style=" background-color: %s"><th style="color: %s"><h2>%s</h2></th>', $data[0], $data[0], $dtop);
         for($i = 0; $i < 5; $i++){
-          $markup .= '<td>';
+          $markup .= '<td style="padding: 0">';
           foreach(array_slice($data, 1) as $key => $value) {
             $day = new DateTime($key);
             $diff = date_diff($day, $dt_min)->d;
@@ -87,7 +87,7 @@
               for($k = 0; $k < count($value); $k++ )
               {
                 $time = new DateTime($value[$k]['reserveTime']);
-                $markup .= sprintf('<tr><td>%s</td><td>%s</td></tr>',
+                $markup .= sprintf('<tr><td style="width: 25%%">%s</td><td style="width: 10px">%s</td></tr>',
                             /* $value[$k]['reserveTime']*/$time->format('g a'), $value[$k]['name']);
               }
               $markup .= '</table>';
