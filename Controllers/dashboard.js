@@ -13,7 +13,7 @@ $(document).ready(function () {
    * Creates the feedback dialog box using the dialog div in dashboard.php
    */
   $("#feedback-dialog").dialog({
-    position: { my: "center", at: "center", of: window},
+    position: { my: "center", at: "top", of: window},
     resizable: false,
     height: "auto",
     width: 400,

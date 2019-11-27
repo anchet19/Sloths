@@ -1,7 +1,8 @@
 /* Extra CSS for the date fields. */
 input[type="date"] {
-  width: 100px;
-  font-size: 12px;
+  width: 150px;
+  height: 10px;
+  font-size: 14px;
 }
 
 /* CSS specifically for the Submit button for 
@@ -11,15 +12,24 @@ input#managerUserSubmit {
   color: white;
   border-color: #273076;
   background: #2e398f;
-  padding: 14px 40px;
+  padding: 10px 40px;
   outline: none;
   border-radius: 24px;
   cursor: pointer;
 }
 
-div.form-group {
+form {
+  display: table;
+}
+.form-container {
   border: 5px solid #2e398f;
-  padding: 25px;
+  padding: 12px;
+  display: flex;
+  align-content: center;
+}
+div.form-group {
+  display: table-cell;
+  padding: 8px;
   /*width:200px; 
   height:200px; 
   position: fixed; 
@@ -27,4 +37,12 @@ div.form-group {
   left: 50%; 
   margin-top: -100px; 
   margin-left: -100px; */
+}
+
+form.form-row {
+  display: table-row-group;
+}
+
+.col-center {
+  justify-content: center;
 }

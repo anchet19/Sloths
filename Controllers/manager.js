@@ -8,10 +8,6 @@ const departmentNum = a['department'];
 let lastVisible = undefined;
 $(document).ready(function () {
 
-  $("managerUserForm").submit((event) => {
-    makeVisible('metrics-container');
-    event.preventDefault();
-  })
 
 });
 
