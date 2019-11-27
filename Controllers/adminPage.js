@@ -282,6 +282,28 @@ function fetchDropdownValues() {
       });
     });
   });
+
+  /**
+ * Populate all the department select dropdowns
+ */
+  fetch('../api/get_departments.php', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }).then((response) => {
+    response.json().then((data) => {
+      departmentSelects = document.getElementsByName('department-select');
+      data.forEach((row) => {
+        departmentSelects.forEach((element) => {
+          const option = document.createElement('option');
+          option.text = row.name;
+          option.value = row.department_id;
+          element.add(option);
+        });
+      });
+    });
+  });
 }
 
 /**
@@ -488,7 +510,8 @@ function doInsertUser(form) {
       "firstName": form.firstName.value,
       "lastName": form.lastName.value,
       "email": form.email.value,
-      "admin": form.newAdmin.value
+      "admin": form.newAdmin.value,
+      "department": form.departmentSelect.value
     })
   }).then(function (response) {
     response.json().then(function (data) {
