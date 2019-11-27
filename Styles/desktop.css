@@ -135,6 +135,8 @@ input[type="password"],
 input[type="new-pwd"],
 input[type="new-pwd-c"],
 input[type="search"],
+input[type="date"],
+/* span[role="textbox"], */
 select,
 textarea {
   width: 100%;
@@ -144,8 +146,6 @@ textarea {
   resize: vertical;
   cursor: pointer;
 }
-
-/* CSS for checkboxes */
 
 /* Custom checkbox, unselected. */
 input[type="checkbox"],
@@ -157,6 +157,7 @@ input[type="radio"] {
   background-color: transparent;
   border-radius: 5px;
   border: 2px solid #2e398f;
+  font-size: 24px;
 }
 
 /* Custom checkbox, selected. */
@@ -173,6 +174,11 @@ input[type="checkbox"]::after {
   -ms-transform: rotate(0deg) scale(0);
   transform: rotate(0deg) scale(0);
   opacity: 1;
+}
+
+/* Fixes the line on the left of the checkbox. */
+input[type="checkbox"] {
+  font-size: 100% !important;
 }
 
 .box input[type="submit"] {
