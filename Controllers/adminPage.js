@@ -90,6 +90,7 @@ $(document).ready(function () {
           
           privileges.append(checkbox);
           privileges.append(label);
+          // append("<br>");
   
         });
         if(!$('#privbut').length){
@@ -102,7 +103,8 @@ $(document).ready(function () {
         privButton.append(newButton);
         }
       });
-    });    
+    });  
+    // append("<br>");  
 });
   
 })
