@@ -313,6 +313,12 @@ if(!isset($_SESSION['username'])){
                   <input class="form-control" type="password" name="password" id="password" placeholder="Password"/>
                 </div>
                 <div class="form-group">
+                  <label for="departmentSelect">Select Department</label>
+                  <select id="departmentSelect" class="form-control" type="text" name="department-select"/>
+                    <option></option>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label for="newAdmin">Authorization Level</label>
                   <select class="form-control-sm" id="newAdmin">
                     <option value="0">User</option>
