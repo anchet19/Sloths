@@ -17,9 +17,17 @@ Authors: Team Elephants, Team Sloths-->
 
     <!-- Highest level of CSS, applies to all pages of the software. -->
     <link rel="stylesheet" href="../Styles/desktop.css">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css' />
-        <!-- CSS specifically for this page. -->
+
+    <!-- CSS specifically for this page. -->
     <link rel="stylesheet" type="text/css" href="../Styles/mystyle.css">
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css' />
+    <style>
+        .fc-time-grid .fc-slats td {
+            height: 5.5em;
+            border-bottom: 0
+        }
+    </style>
 
     <!-- BEGIN: KOALA MODIFICATIONS -->
     <link rel='stylesheet'
@@ -48,7 +56,7 @@ Authors: Team Elephants, Team Sloths-->
     <div class="header">ASRC Federal Desktop Scheduler</div>
     <div class="topnav">
         <ul>
-            <li id="admin-button" style="display: none"><a onclick="checkForAdmin();"></a></li>
+            <li id="admin-button"><a onclick="checkForAdmin();">My Options</a></li>
             <li><a href="dashboard.php">My Dashboard</a></li>
             <li><a href="legend.html">Legend</a></li>
             <li><a class="helppage" href="helppage.html">Help Page</a></li>
@@ -60,21 +68,19 @@ Authors: Team Elephants, Team Sloths-->
             <form>
                 <div id="welcome"></div>
                 <br>
-                <br>
-              <div style="display: none"> 
+                <br> 
                 <p class="MultiTextBoxForm">Currently Displayed Schedule:</p>
                 <hidden type="text" id="demo" name="demo" disabled> </hidden>
                 <input class="currDesk" type="text" id="currDesktop" disabled></input>
-              </div>
                 <p class="MultiTextBoxForm">Build:</p>
 
                 <select id="Build" name="Builds">
                 </select>
                 <p class="MultiTextBoxForm">Desktop:</p>
-                <select id="Desktop" name="Desktop" ></select>
+                <select id="Desktop" name="Desktop" disabled></select>
                 <br>
                 <br>
-                <button style="display: none" id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
+                <button id="changeDesktop" type="button" onclick="setDesktop(); submitFunction();">Change Displayed Schedule </button>
             </form>
         </div>
 
@@ -98,16 +104,13 @@ Authors: Team Elephants, Team Sloths-->
     <div align="left" id="dialog-confirm" title="Time Reservation" style="display:none">
         <label>Date : <input type="text" id="date" disabled></label>
         <label>Time : <input type="text" id="time" name="time" disabled></label>
-        <label>Build : <select type="text" id="buildForm" name="build" required></select></label>
-        <label>Desktop : <select type="text" id="desktopForm" name="desktop" required disabled></select></label>
+        <label>Build : <select type="text" id="buildForm" name="build" ></select></label>
+        <label>Desktop : <select type="text" id="desktopForm" name="desktop" disabled></select></label>
         <!-- <input type="text" id="dtopID" style="display: none" disabled> -->
         <label for="reservedBy" style="display: none">Reserved by : <input type="text" id="reservedBy" name="reservedBy" disabled></label>
-        <label for="user" style="display: none">User : <select class="user-dropdown" id="user" type="text" required></select></label>
+        <label for="user" style="display: none">User : <select class="user-dropdown" id="user" type="text" ></select></label>
         <!-- <p><span class="ui-icon ui-icon-info" style="float:left; margin:12px 12px 20px 0;"></span>What would you like to do with this time?</p> -->
     </div>
     <!-- END: KOALA MODIFICATIONS -->
-    <div id="tooltip" title="Info Display" style="display: none">
-      <table><thead><tr><th>User</th><th>Desktop</th><th>Build</th></tr></thead></table>
-    </div>
 </body>
 </html>

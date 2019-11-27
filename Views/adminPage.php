@@ -15,7 +15,7 @@ if(!isset($_SESSION['username'])){
   <title>Admin Panel </title>
   <script src="../Utils/docCookies.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!-- <script src="../Controllers/index.js"></script> -->
+  <script src="../Controllers/index.js"></script>
   <script src="../Controllers/adminPage.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -94,8 +94,6 @@ if(!isset($_SESSION['username'])){
                 <a class="dropdown-item btn" href="viewdesktops.php">View Desktops</a>
                 <a class="dropdown-item btn" onclick="makeVisible('insertDesktop')" data-toggle="collapse" href="#collapseTwo">Insert Desktop</a>
                 <a class="dropdown-item btn" onclick="makeVisible('deleteDesktop')" data-toggle="collapse" href="#collapseTwo">Delete Desktop</a>
-                <a class="dropdown-item btn" onclick="makeVisible('blockDesktops')" data-toggle="collapse" href="#collapseTwo">Block Desktops</a>
-
               </div>
             </div>
           </div>
@@ -270,19 +268,15 @@ if(!isset($_SESSION['username'])){
 
         <div id="insertDesktop" style="display: none">
           <form>
-            <div class="form-row justify-content-center">
-              <div class="form-group">
+            <div class="form-group row justify-content-center">
+              <div class="col-md-5">
                 <label for="desktop">Insert Desktops</label>
                 <input class="form-control" placeholder="Desktop Name" type="text" id="desktop" name="desktop"></input>
-                <label for="dtopColor">Choose Color</label>
-                <input class="form-control" id="dtopColor" name="color" type="color" style="height: 3em; padding: 4">
-                <label>&nbsp;
-                  <button class="form-control btn btn-success" type="button" onclick="doInsertDesktop(this.form)">Insert Desktop</button>
-                </label>
               </div>
             </div>
             <div class="form-group row justify-content-center">
               <div class="col-md-5">
+                <button class="form-control btn btn-success" type="button" onclick="doInsertDesktop(this.form)">Insert Desktop</button>
               </div>
             </div>
           </form>
@@ -311,6 +305,12 @@ if(!isset($_SESSION['username'])){
                 <div class="form-group">
                   <label for="password">Password</label>
                   <input class="form-control" type="password" name="password" id="password" placeholder="Password"/>
+                </div>
+                <div class="form-group">
+                  <label for="departmentSelect">Select Department</label>
+                  <select id="departmentSelect" class="form-control" type="text" name="department-select"/>
+                    <option></option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="newAdmin">Authorization Level</label>
@@ -395,7 +395,7 @@ if(!isset($_SESSION['username'])){
               </form>
             </div>
           </div>
-        </div> <!-- end change password -->
+        </div>
         <div id="userPermissions" style="display: none">
           <div class="row justify-content-center">
             <div class="col-md-4">
@@ -410,7 +410,7 @@ if(!isset($_SESSION['username'])){
               <div id="privSubmit" class="col offset-md-1"></div>
             </div>              
           </div>
-        </div> <!-- end userPermissions -->
+        </div>
 
         <div id="desktopMetrics" style="display: none">
           <form method="post" action="../api/get_desktop_metrics.php" name="desktopMetricsForm" id="desktopMetricsForm">
@@ -435,8 +435,8 @@ if(!isset($_SESSION['username'])){
           </form>
           <div class="col" id="desktopMetricsTable">
           </div>
-        </div> <!-- end desktopMetrics -->
-        <!-- Start buildMetrics -->
+        </div> 
+
         <div id="buildMetrics" style="display: none">
           <form method="post" action="./adminPage.php" name="buildMetricsForm" id="buildMetricsForm">
             <div class="form-row justify-content-center">
@@ -464,12 +464,14 @@ if(!isset($_SESSION['username'])){
           </form>
           <div class="col" id="buildMetricsTable">
           </div>
-        </div> <!-- End buildMetrics -->
-        <!-- Start outcome metrics -->
+        </div>
+  
+
         <div id="outcomeMetrics" style="display: none">
           <form method="post" action="../api/get_outcome_metrics.php" name="outcomeMetricsForm" id="outcomeMetricsForm">
             <div class="form-row justify-content-center">
               <div id="outcome-group">
+              
                 <div class="form-group">
                   <fieldset id="filter">                  
                     <input type="radio" name="filter" id="filter" value="desktop"> By Desktop </input>
@@ -491,45 +493,11 @@ if(!isset($_SESSION['username'])){
                   </div>
                 </div>
               </div>
-              <div class="col" id="outcomeMetricsTable"></div> <!-- End outcome metrics -->
-              </form>
             </div>
-          
-          <div id="blockDesktops" style="display: none">
-            <div class="row justify-content-center">
-              <form id="block-desktops" action="adminPage.php" method="post">
-                <div class="form-row justify-content-center">
-                  <label class="form-label" for="date-select" >Date:</label>
-                  <input class="form-control" id="date-select" name="date-select" type="date" 
-                    value="<?php echo date('Y-m-d')?>" pattern="\d{4}-\d{2}-\d{2}" style="text-align: center" required>
-                </div>
-                <div class="form-row">
-                  <label class="form-label" for="startTime-select" >Start:
-                    <input class="form-control" id="startTime-select" name="startTime-select" type="time" 
-                      value="06:00:00" min="06:00:00" max="21:00:00" step="10800" required>
-                  </label>
-                  <label class="form-label" for="endTime-select" >End:
-                    <input class="form-control" id="endTime-select" name="endTime-select" type="time" 
-                      value="20:59:59" min="05:59:59" max="20:59:59" step="10800" required>
-                  </label>
-                </div>
-                <div class="form-row justify-content-center">
-                  <label>Desktops:</label>
-                  <select class="form-control-sm" id="dtop-select" name="desktop-select[]" multiple="true" 
-                    size="auto" style="text-align: center" required></select>
-                </div>
-                <div class="form-row justify-content-center">
-                  <label>Comment:</label>
-                  <textarea class="form-control-sm" id="comment" name="comment" rows="4" maxLength="200" style="cursor: text"></textarea>
-                </div>
-                <br><br>
-                <input class="btn btn-sm form-control btn-success" name="blockDtop-submit" value="submit" type="submit">
-              </form>
-            </div>
+          </form>
+          <div class="col" id="outcomeMetricsTable">
           </div>
-        </div> <!-- End container for form display -->
-
-        
+        </div>
 
   <script language="javascript">
     sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')

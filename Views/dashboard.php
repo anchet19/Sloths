@@ -87,7 +87,7 @@ include_once('./changepwd.php');
         <select class="dialog-select" id="outcome-select" name="outcome">
         </select>
         <b><label for="comment-field">Comment</label></b>
-        <textarea name="comment" id="comment-field" cols="30" rows="5" maxlength="200" style="cursor: text"></textarea>
+        <textarea name="comment" id="comment-field" cols="30" rows="5" maxlength="200"></textarea>
         <input id="reservation" type="text" name="reservation" style="display: none"></input>
       </form>
     </div>

@@ -12,6 +12,8 @@
         }
 
         $dbh = ConnectDB();						//connects to mySQL	
+
+
 									//beow is the set up of an html webpage
 ?>
 <html>
@@ -23,6 +25,7 @@
 
 <body class="background" background="../Images/Background.png">	
 <div class="header">View Reservations</div>										
+
 <table>
   <thead>
     <tr>
@@ -46,20 +49,23 @@
     $start = $dt_min->format('Y-m-d');
     $end = $dt_max->format('Y-m-d');
     try{
-      $sql  = "SELECT desktop.name AS dtopName, ";
-      $sql .= "timeslot.date AS reserveDate, ";
-      $sql .= "timeslot.start_time AS reserveTime, ";
-      $sql .= "CONCAT(user.first_name, ' ', user.last_name) AS name, ";
-      $sql .= "desktop.color AS dtopColor ";
-      $sql .= "FROM reservation ";
-      $sql .= "INNER JOIN user ON ";
-      $sql .= "reservation.user_num = user.user_num ";
-      $sql .= "INNER JOIN desktop ON ";
-      $sql .= "reservation.dtop_id = desktop.dtop_id ";
-      $sql .= "INNER JOIN timeslot ON ";
-      $sql .= "reservation.slot_id = timeslot.slot_id ";
-      $sql .= "WHERE timeslot.date BETWEEN '$start' AND '$end' ";
-      $sql .= "ORDER BY desktop.dtop_id, timeslot.date, timeslot.start_time";
+      	$sql  = "SELECT reservation.reserve_id AS reserveID, ";					
+	$sql .= "reservation.slot_id AS slotID, ";						
+      	$sql .= "timeslot.date AS reserveDate, ";						
+	$sql .= "timeslot.start_time AS reserveTime, ";						
+	$sql .= "desktop.name AS dtopName, ";							
+	$sql .= "reservation.dtop_id AS dtop_num, ";						
+	$sql .= "reservation.user_num AS userID, ";						
+	$sql .= "user.first_name AS firstName, ";						
+	$sql .= "user.last_name AS lastName ";							
+	$sql .= "FROM reservation ";								
+	$sql .= "INNER JOIN user ON ";								
+	$sql .= "reservation.user_num = user.user_num ";					
+	$sql .= "INNER JOIN desktop ON ";
+	$sql .= "reservation.dtop_id = desktop.dtop_id ";					
+	$sql .= "INNER JOIN timeslot ON ";
+	$sql .= "reservation.slot_id = timeslot.slot_id ";					
+	$sql .= "ORDER BY timeslot.date";							
 
       $result = $dbh->query($sql)->fetchAll(PDO::FETCH_ASSOC);
       $newResult = [];
@@ -98,10 +104,9 @@
         $markup .= '</tr>';
         echo $markup;
       }
-      
-    }catch(Exception $e){}
+    }
+    catch(Exception $e){}
   ?>
-  </tbody>
 </table>											
 </body>												
 </html>												
