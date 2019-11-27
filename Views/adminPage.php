@@ -405,7 +405,8 @@ if(!isset($_SESSION['username'])){
                     <select class="user-dropdown" id="users" name="user-select" placeholder="Enter a Username" style="width: 100%"><option></option></select>
                   </label>
               </div>
-                  <div id="privilegesCheckbox" class="col offset-md-1"></div>        
+                  <div id="privilegesCheckbox" input="dropdown" class="privilegesCheckbox col offset-md-1"></div>  
+                  <br>      
                 </form>
               <div id="privSubmit" class="col offset-md-1"></div>
             </div>              
