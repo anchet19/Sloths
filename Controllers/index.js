@@ -180,7 +180,6 @@ function populateDropdowns(username) {
           option.text = row.buildName;
           option.value = row.bID;
           builds.append(option);
-          console.log(option)
           dialogBuildSel.add(option.cloneNode(true));
         }
         if ($("#Desktop > option[value='" + row.dtopID + "']").length < 1) {
@@ -188,7 +187,6 @@ function populateDropdowns(username) {
           option.text = row.dtopName;
           option.value = row.dtopID;
           desktops.append(option);
-          console.log(option)
           dialogDtopSel.add(option.cloneNode(true));
         }
       });
@@ -363,6 +361,7 @@ function releaseSlot() {
   const reservedBy = $('#reservedBy').val();
   const dateTime = moment(date + " " + time);
   const now = moment();
+  console.log(user);
   // Check to see what type of event has been selected
   let eventType = '';
   if (reservedBy === '') {
@@ -483,7 +482,6 @@ function populateUserSelect(uNames, uIds) {
   const names = uNames.split(',');
   const ids = uIds.split(',');
   const el = document.getElementById("user");
-  el.parentNode.style = "display: block"
   // Clear the options list and populate with new data
   el.innerHTML = '';
   for (let i = 0; i < names.length; i++) {
@@ -617,6 +615,10 @@ function BuildCalendar() {
         $('#desktopForm').val(event.id).trigger('change');
         if (userData.admin == 2) {
           (event.names) ? populateUserSelect(event.names, event.user) : populateUserSelect(event.title, event.user);
+        } else {
+          if (event.user.includes(userData.user_num)) {
+            populateUserSelect(userData.username, userData.user_num);
+          }
         }
         //BEGIN : Koala modifications 
         $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
