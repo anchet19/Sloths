@@ -42,6 +42,17 @@ body {
   cursor: text;
 }
 
+.reservation {
+  font-weight: bold;
+  color: #2e398f;
+  background-color: #2e398f40;
+  padding: 5px;
+  width: 100%;
+  border-radius: 25px;
+  font-size: 18px;
+  border: 2px dashed #2e398f;
+}
+
 font {
   font-weight: bold;
   color: #2e398f;
