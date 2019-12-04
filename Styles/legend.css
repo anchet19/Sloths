@@ -39,3 +39,12 @@
   padding: 15px;
   width: 40%;
 }
+
+.Blocked {
+  background-color: black;
+  color: white !important;
+  border: 2px solid black;
+  border-radius: 25px;
+  padding: 15px;
+  width: 40%;
+}
