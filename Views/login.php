@@ -42,6 +42,7 @@ modified: Chris Ancheta, Kyle Kaminski -->
       <br>
         <input type="submit" name="login_user" class="login-btn" />
       <p><a href="enter_email.php">Forgot your password?</a></p>
+      <p class="Reservation">Don't want to Login? <a href="../Views/viewreservations.php">View This Week's Schedule</a> here.</p>
     </form>
   </body>
 </html>
