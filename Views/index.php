@@ -16,10 +16,14 @@ Authors: Team Elephants, Team Sloths-->
     <title>ASRC Federal Desktop Scheduler</title>
 
     <!-- Highest level of CSS, applies to all pages of the software. -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../Styles/desktop.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css' />
         <!-- CSS specifically for this page. -->
     <link rel="stylesheet" type="text/css" href="../Styles/mystyle.css">
+
+    
 
     <!-- BEGIN: KOALA MODIFICATIONS -->
     <link rel='stylesheet'
@@ -38,8 +42,19 @@ Authors: Team Elephants, Team Sloths-->
     <script src='https://momentjs.com/downloads/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar-scheduler/1.9.4/scheduler.min.js'></script>
-      <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Select2 select boxes -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+    
+    
 
     <script src="../Controllers/index.js"></script>
 </head>
@@ -49,10 +64,10 @@ Authors: Team Elephants, Team Sloths-->
     <div class="topnav">
         <ul>
             <li id="admin-button" style="display: none"><a onclick="checkForAdmin();"></a></li>
-            <li><a href="dashboard.php">My Dashboard</a></li>
-            <li><a href="legend.html">Legend</a></li>
-            <li><a class="helppage" href="helppage.html">Help Page</a></li>
-            <li><a class="logout" onclick="logout()">Logout</a></li>
+            <li><a class="nav-btn" href="dashboard.php">My Dashboard</a></li>
+            <li><a class="nav-btn" href="legend.html">Legend</a></li>
+            <li><a class="helppage nav-btn" href="helppage.html">Help Page</a></li>
+            <li><a class="logout nav-btn" onclick="logout()">Logout</a></li>
         </ul>
     </div>
         <div class="row">
