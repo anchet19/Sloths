@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 25, 2019 at 05:11 PM
+-- Generation Time: Dec 06, 2019 at 11:21 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -574,18 +574,18 @@ CREATE TABLE IF NOT EXISTS `desktop` (
   `active_bit` bit(1) DEFAULT b'1',
   PRIMARY KEY (`dtop_id`),
   UNIQUE KEY `desktop_id_UNIQUE` (`dtop_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `desktop`
 --
 
 INSERT INTO `desktop` (`dtop_id`, `name`, `color`, `active_bit`) VALUES
-(14, 'DT1', '#ffffff', b'0'),
-(15, 'DT2', '#ffffff', b'0'),
-(16, 'DT3', '#ffffff', b'1'),
-(17, 'DT4', '#ffffff', b'1'),
-(18, 'MES1', '#ffffff', b'1'),
+(14, 'DT1', '#f0f0f0', b'0'),
+(15, 'DT2', '#88ffb1', b'0'),
+(16, 'DT3', '#ffae5e', b'1'),
+(17, 'DT4', '#88ffb1', b'1'),
+(18, 'MES1', '#c48aff', b'1'),
 (19, 'MES2', '#ffffff', b'1'),
 (20, 'MES3', '#ffffff', b'1'),
 (21, 'MES4', '#ffffff', b'1'),
@@ -606,7 +606,7 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   `comment` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`feedback_id`),
   KEY `fk_reservation_idx` (`reserve_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -623,7 +623,7 @@ CREATE TABLE IF NOT EXISTS `installation` (
   UNIQUE KEY `unique_dtop_build` (`dtop_id`,`b_num`),
   UNIQUE KEY `bnum_dtop` (`dtop_id`,`b_num`),
   KEY `fk_b` (`b_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `installation`
@@ -632,8 +632,17 @@ CREATE TABLE IF NOT EXISTS `installation` (
 INSERT INTO `installation` (`install_id`, `dtop_id`, `b_num`) VALUES
 (60, 16, 10),
 (65, 16, 18),
+(73, 17, 10),
 (62, 17, 11),
-(66, 17, 18);
+(66, 17, 18),
+(67, 18, 10),
+(74, 18, 11),
+(68, 19, 10),
+(75, 19, 11),
+(69, 20, 10),
+(70, 21, 10),
+(71, 22, 10),
+(72, 23, 10);
 
 -- --------------------------------------------------------
 
@@ -651,7 +660,7 @@ CREATE TABLE IF NOT EXISTS `leftover` (
   `b_num` int(11) DEFAULT NULL,
   `activeBit` bit(1) DEFAULT b'1',
   PRIMARY KEY (`leftover_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -666,7 +675,15 @@ CREATE TABLE IF NOT EXISTS `maintenance` (
   `slot_id` int(11) DEFAULT NULL,
   `comment` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`maintenance_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `maintenance`
+--
+
+INSERT INTO `maintenance` (`maintenance_id`, `dtop_id`, `slot_id`, `comment`) VALUES
+(1, 16, 1417, NULL),
+(2, 16, 1418, NULL);
 
 -- --------------------------------------------------------
 
@@ -694,22 +711,22 @@ CREATE TABLE IF NOT EXISTS `privilege` (
   `dtop_id` int(11) NOT NULL,
   `user_num` int(11) NOT NULL,
   PRIMARY KEY (`privilege_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=121 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=151 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `privilege`
 --
 
 INSERT INTO `privilege` (`privilege_id`, `dtop_id`, `user_num`) VALUES
-(97, 20, 30),
-(96, 19, 30),
-(95, 18, 30),
+(130, 23, 30),
+(129, 22, 30),
+(128, 21, 30),
 (48, 6, 13),
 (47, 5, 13),
-(94, 17, 30),
-(93, 16, 30),
-(92, 15, 30),
-(91, 14, 30),
+(127, 20, 30),
+(126, 19, 30),
+(125, 18, 30),
+(124, 17, 30),
 (46, 3, 13),
 (107, 20, 32),
 (106, 19, 32),
@@ -719,9 +736,9 @@ INSERT INTO `privilege` (`privilege_id`, `dtop_id`, `user_num`) VALUES
 (103, 16, 32),
 (102, 15, 32),
 (101, 14, 32),
-(98, 21, 30),
-(99, 22, 30),
-(100, 23, 30),
+(123, 16, 30),
+(122, 15, 30),
+(121, 14, 30),
 (108, 21, 32),
 (109, 22, 32),
 (110, 23, 32),
@@ -734,7 +751,17 @@ INSERT INTO `privilege` (`privilege_id`, `dtop_id`, `user_num`) VALUES
 (117, 20, 33),
 (118, 21, 33),
 (119, 22, 33),
-(120, 23, 33);
+(120, 23, 33),
+(150, 23, 35),
+(149, 22, 35),
+(148, 21, 35),
+(147, 20, 35),
+(146, 19, 35),
+(145, 18, 35),
+(144, 17, 35),
+(143, 16, 35),
+(142, 15, 35),
+(141, 14, 35);
 
 -- --------------------------------------------------------
 
@@ -756,7 +783,20 @@ CREATE TABLE IF NOT EXISTS `queue` (
   KEY `slot_id` (`slot_id`),
   KEY `user_num` (`user_num`),
   KEY `queue_ibfk_4` (`b_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `queue`
+--
+
+INSERT INTO `queue` (`qid`, `dtop_id`, `slot_id`, `wait_position`, `user_num`, `request_time`, `b_num`) VALUES
+(10, 16, 1400, 0, 35, '2019-11-27 13:11:38', 10),
+(14, 16, 1400, 0, 16, '2019-11-27 13:15:33', 10),
+(15, 16, 1406, 0, 30, '2019-11-27 13:25:32', 10),
+(16, 16, 1400, 0, 32, '2019-11-27 14:05:46', 10),
+(17, 16, 1401, 0, 35, '2019-11-27 16:12:08', 10),
+(18, 16, 1407, 0, 30, '2019-11-27 16:14:54', 10),
+(19, 16, 1454, 0, 32, '2019-12-06 10:57:28', 10);
 
 -- --------------------------------------------------------
 
@@ -776,7 +816,15 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   UNIQUE KEY `dtop_slot_unique` (`dtop_id`,`slot_id`),
   KEY `fk_slot` (`slot_id`),
   KEY `fk_b2` (`b_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`reserve_id`, `user_num`, `slot_id`, `dtop_id`, `b_num`) VALUES
+(1, 35, 1412, 16, 10),
+(2, 35, 1448, 16, 10);
 
 -- --------------------------------------------------------
 
@@ -2198,24 +2246,24 @@ INSERT INTO `timeslot` (`slot_id`, `date`, `start_time`, `state`) VALUES
 (1396, '2019-11-25', '15:00:00', 1),
 (1397, '2019-11-25', '18:00:00', 1),
 (1398, '2019-11-25', '21:00:00', 1),
-(1399, '2019-11-26', '06:00:00', 1),
-(1400, '2019-11-26', '09:00:00', 1),
-(1401, '2019-11-26', '12:00:00', 1),
-(1402, '2019-11-26', '15:00:00', 1),
-(1403, '2019-11-26', '18:00:00', 1),
-(1404, '2019-11-26', '21:00:00', 1),
+(1399, '2019-11-26', '06:00:00', 0),
+(1400, '2019-11-26', '09:00:00', 0),
+(1401, '2019-11-26', '12:00:00', 0),
+(1402, '2019-11-26', '15:00:00', 0),
+(1403, '2019-11-26', '18:00:00', 0),
+(1404, '2019-11-26', '21:00:00', 0),
 (1405, '2019-11-27', '06:00:00', 1),
 (1406, '2019-11-27', '09:00:00', 1),
 (1407, '2019-11-27', '12:00:00', 1),
 (1408, '2019-11-27', '15:00:00', 1),
 (1409, '2019-11-27', '18:00:00', 1),
 (1410, '2019-11-27', '21:00:00', 1),
-(1411, '2019-11-28', '06:00:00', 1),
-(1412, '2019-11-28', '09:00:00', 1),
-(1413, '2019-11-28', '12:00:00', 1),
-(1414, '2019-11-28', '15:00:00', 1),
-(1415, '2019-11-28', '18:00:00', 1),
-(1416, '2019-11-28', '21:00:00', 1),
+(1411, '2019-11-28', '06:00:00', 2),
+(1412, '2019-11-28', '09:00:00', 2),
+(1413, '2019-11-28', '12:00:00', 2),
+(1414, '2019-11-28', '15:00:00', 2),
+(1415, '2019-11-28', '18:00:00', 2),
+(1416, '2019-11-28', '21:00:00', 2),
 (1417, '2019-11-29', '06:00:00', 1),
 (1418, '2019-11-29', '09:00:00', 1),
 (1419, '2019-11-29', '12:00:00', 1),
@@ -60858,6 +60906,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `username` varchar(20) NOT NULL,
   `email` varchar(40) NOT NULL,
   `password` varchar(256) DEFAULT NULL,
+  `tel` varchar(13) DEFAULT NULL,
   `admin` int(1) DEFAULT NULL,
   `user_points` int(3) NOT NULL DEFAULT '100',
   `last_request` datetime DEFAULT NULL,
@@ -60869,25 +60918,28 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username_unique` (`username`),
   UNIQUE KEY `email_unique` (`email`),
   KEY `fk_department_idx` (`department_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_num`, `first_name`, `last_name`, `username`, `email`, `password`, `admin`, `user_points`, `last_request`, `num_requests`, `department_id`, `login_attempts`) VALUES
-(13, 'Jacky', 'Patel', 'patelr1', 'riddhipatel26@yahoo.com', '$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq', 1, 100, NULL, 0, NULL, 0),
-(14, 'William', 'Geary', 'gearyw68', 'grearyw68@students.rowan.edu', '$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S', NULL, 100, NULL, 0, NULL, 0),
-(16, 'bob', 'bob', 'bob', 'bob', '$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2', 1, 89, '2019-11-19 12:35:01', 0, NULL, 0),
-(18, 'Riddhi', 'Patel', 'patelr0', 'riddhip01@yahoo.com', '$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86', NULL, 103, '2019-11-21 11:28:29', 0, NULL, 0),
-(20, 'Shrek', 'Ogre', 'shrek1', 'shrek@swamp.com', '$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO', 1, 100, NULL, 0, NULL, 0),
-(24, 'Cassandra', 'Bailey', 'itscasserole', 'cass@gmail.com', '$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na', NULL, 108, '2019-11-21 10:58:33', 0, 1, 0),
-(28, 'Russia', 'Commander', 'russiagirl', 'russiagirl@yahoo.com', '$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO', 1, 103, '2019-11-19 13:02:41', 0, 1, 0),
-(29, 'Rishi', 'Parikh', 'parish30', 'rishiparikh@gmail.com', '$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q', NULL, 100, NULL, 0, NULL, 0),
-(30, 'bill', 'bill', 'bill', 'bill@bill.bill', '$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.', 2, 244, '2019-11-24 17:25:25', 2, 2, 0),
-(31, 'David', 'Serrano', 'frenchfrylord', 'serranod7@students.rowan.edu', '$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02', NULL, 94, '2019-11-19 12:39:56', 0, NULL, 0),
-(32, 'Alex', 'Cross', 'across', 'crossa95@students.rowan.edu', '$2y$10$8PeDXfKG6Y1kqVfpAsCyw.SnDmjf7UdA4bO0E1ubRyzkIpdfa0Uqq', 1, 194, '2019-11-21 11:28:05', 0, 1, 0),
-(33, 'jane', 'jane', 'jane', 'jane@jane.jane', '$2y$10$l8p5bFQd8G/Z4Xm8NfqyQOV6J2lht/3Gb9t2bjddqeQRBpLLhoQhm', 1, 107, '2019-11-21 11:28:18', 0, 1, 0);
+INSERT INTO `user` (`user_num`, `first_name`, `last_name`, `username`, `email`, `password`, `tel`, `admin`, `user_points`, `last_request`, `num_requests`, `department_id`, `login_attempts`) VALUES
+(13, 'Jacky', 'Patel', 'patelr1', 'riddhipatel26@yahoo.com', '$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq', NULL, 0, 100, NULL, 0, 2, 0),
+(14, 'William', 'Geary', 'gearyw68', 'grearyw68@students.rowan.edu', '$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S', NULL, 0, 100, NULL, 0, 2, 0),
+(16, 'bob', 'bob', 'bob', 'bob', '$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2', NULL, 0, 100, '2019-11-27 16:15:16', 0, 1, 0),
+(18, 'Riddhi', 'Patel', 'patelr0', 'riddhip01@yahoo.com', '$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86', NULL, 0, 100, '2019-11-21 11:28:29', 0, 2, 0),
+(20, 'Shrek', 'Ogre', 'shrek1', 'shrek@swamp.com', '$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO', NULL, 0, 100, NULL, 0, 2, 0),
+(24, 'Cassandra', 'Bailey', 'itscasserole', 'cass@gmail.com', '$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na', NULL, 0, 100, '2019-11-21 10:58:33', 0, 1, 0),
+(28, 'Russia', 'Commander', 'russiagirl', 'russiagirl@yahoo.com', '$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO', NULL, 0, 100, '2019-11-19 13:02:41', 0, 1, 0),
+(29, 'Rishi', 'Parikh', 'parish30', 'rishiparikh@gmail.com', '$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q', NULL, 0, 100, NULL, 0, 2, 0),
+(30, 'bill', 'bill', 'bill', 'bill@bill.bill', '$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.', NULL, 2, 100, '2019-11-27 16:14:54', 0, 2, 0),
+(31, 'David', 'Serrano', 'frenchfrylord', 'serranod7@students.rowan.edu', '$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02', NULL, 0, 100, '2019-11-19 12:39:56', 0, 2, 0),
+(32, 'Alex', 'Cross', 'across', 'crossa95@students.rowan.edu', '$2y$10$8PeDXfKG6Y1kqVfpAsCyw.SnDmjf7UdA4bO0E1ubRyzkIpdfa0Uqq', NULL, 1, 101, '2019-12-06 10:57:28', 1, 1, 0),
+(33, 'jane', 'jane', 'jane', 'jane@jane.jane', '$2y$10$l8p5bFQd8G/Z4Xm8NfqyQOV6J2lht/3Gb9t2bjddqeQRBpLLhoQhm', NULL, 0, 100, '2019-11-21 11:28:18', 0, 1, 0),
+(35, 'Chris', 'Ancheta', 'anchet', 'anchet19@students.rowan.edu', '$2y$10$Qnu/sW7GLXIm78s0cYoPW.p08JvEuRLEGCo68Nsx2CZXOSAhoxTVW', NULL, 0, 98, '2019-11-27 16:12:08', 0, 3, 0),
+(36, 'Kool', 'Aid', 'Mr. Kool', 'ka@juice.com', '$2y$10$hebG13FLKF7bW6cKzN9wsuOZaq9QfqQQpJR6Za6Dwa0EUJ/1ZCHbW', NULL, 0, 100, NULL, 0, 4, 0),
+(37, 'aaa', 'aaa', 'aaa', 'aaa@a.net', '$2y$10$NDTM6Wpt9cryRciTRbSgW.kkBFAs9hByKyYs9fR3PHNpFxlDYve0O', '333-4444x5555', 1, 100, NULL, 0, 4, 0);
 
 -- --------------------------------------------------------
 

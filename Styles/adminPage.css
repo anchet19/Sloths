@@ -117,23 +117,29 @@ form {
   padding: 25px !important;
 }
 
-#filter{
+#filter {
   padding: 25px !important;
   margin-left: 25px;
 }
 
-#outcome-group{
+#outcome-group {
   margin-left: 25px;
   margin-right: 70px;
 }
 
-#endDateLabel{
-  margin-left: 15px !important;  
+#endDateLabel {
+  margin-left: 15px !important;
 }
 
-#outcomeSubmit{
+#outcomeSubmit {
   margin-right: 25%;
   margin-left: 10%;
+}
+
+.form-control,
+form-control-lg,
+form-control-sm {
+  text-align: center;
 }
 
 .privilegesCheckbox {
