@@ -1,6 +1,7 @@
 var lastVisible = "initialFormView";
 const username = sessionStorage.getItem('username');
 fetchDropdownValues();
+getSpecialRequests();
 
 $(document).ready(function () {
 
@@ -580,7 +581,6 @@ function savePrivileges(form) {
     })
 
   }).then(function (response) {
-
     response.json().then(function (data) {
       if (data.result) {
         alert("User Privileges Saved");        
@@ -591,3 +591,48 @@ function savePrivileges(form) {
     });
   });
 }
+
+async function getSpecialRequests(){
+  const response = await fetch('../api/get_special_requests.php', {
+    method: 'GET'    
+  });
+  const data = await response.text();
+  document.getElementById("initialFormView").innerHTML = data; 
+  const a = document.getElementsByClassName('accReq');
+  const d = document.getElementsByClassName('denReq');
+  console.log(document.getElementById("initialFormView").children);
+  for(i = 0; i < a.length; i++){
+    console.log(d[i].parentElement.previousElementSibling.innerHTML);
+    const aid = a[i].parentElement.previousElementSibling.innerHTML;
+    const removeAi = a[i].parentNode; // td
+    const did = d[i].parentElement.previousElementSibling.innerHTML;
+    const removeDi = d[i].parentNode; //td
+  a[i].addEventListener('click', (event) => {
+    removeAi.parentNode.parentNode.removeChild(removeAi.parentNode);
+    handleSpecialRequests(aid, true);    
+  });
+  d[i].addEventListener('click', (event) => {
+    removeDi.parentNode.parentNode.removeChild(removeDi.parentNode);
+    handleSpecialRequests(did, false);
+  });
+}
+  
+  
+}
+
+function handleSpecialRequests(id, isAccepted){
+ fetch('../api/handle_special_requests.php', {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  body: $.param({
+    "id": id,
+    "approved": isAccepted
+  })
+    })/* .then((response) => {
+      location = "../Views/adminPage.php"
+    }) */
+      }   
+
+

@@ -44,10 +44,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `archiveLeftover` ()  BEGIN
         SET activeBit = 0 where leftover_id = temp_id;
 	END LOOP loopLabel;
         close lo_cursor;
-END$$
-
-DROP PROCEDURE IF EXISTS `check_last_requests`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `check_last_requests` (IN `idleInterval` INT, IN `points_deducted` INT)  begin
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `check_last_requests` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_last_requests`(IN `idleInterval` INT, IN `points_deducted` INT)
+begin
 	
 	DECLARE finished integer default 0; -- Loop End
     DECLARE temp_id int(11) default 0; -- Takes on user_num in cursor
@@ -67,17 +81,45 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `check_last_requests` (IN `idleInter
 	END LOOP loopLabel;
         close user_cursor;
         
-end$$
-
-DROP PROCEDURE IF EXISTS `clear`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clear` ()  begin
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `clear` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clear`()
+begin
 	truncate queue;
     call clear_reservations;
     truncate leftover;
-end$$
-
-DROP PROCEDURE IF EXISTS `clear_reservations`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clear_reservations` ()  BEGIN
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `clear_reservations` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clear_reservations`()
+BEGIN
 	DECLARE finished integer default 0;
     DECLARE temp_id int(11) default 0;
 	DECLARE user_cursor cursor for select reserve_id from reservation;
@@ -93,16 +135,44 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `clear_reservations` ()  BEGIN
         DELETE FROM reservation where reserve_id = temp_id;
 	END LOOP loopLabel;
         close user_cursor;
-END$$
-
-DROP PROCEDURE IF EXISTS `create_user_privilege`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `create_user_privilege` (IN `dtopName` VARCHAR(100), IN `userNum` INT)  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `create_user_privilege` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_user_privilege`(IN `dtopName` VARCHAR(100), IN `userNum` INT)
+BEGIN
 	INSERT INTO privilege (dtop_id, user_num)
     VALUES ((SELECT dtop_id from desktop where name = dtopName), userNum);
-END$$
-
-DROP PROCEDURE IF EXISTS `delete_user_privileges`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user_privileges` (IN `userNum` INT)  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_user_privileges` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user_privileges`(IN `userNum` INT)
+BEGIN
 	DECLARE finished integer default 0;
     DECLARE temp_id int(11) default 0;
 	DECLARE priv_cursor cursor for select privilege_id from privilege where user_num = userNum;
@@ -118,10 +188,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user_privileges` (IN `userNu
         DELETE FROM privilege where privilege_id = temp_id;        
 	END LOOP loopLabel;
         close priv_cursor;
-END$$
-
-DROP PROCEDURE IF EXISTS `findMinPoints`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `findMinPoints` (IN `dtop` INT(11), IN `slot` INT(11))  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `findMinPoints` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findMinPoints`(IN `dtop` INT(11), IN `slot` INT(11))
+BEGIN
     select @minpoints := min(user_points) as m from queue join user using (user_num)
     where dtop_id = dtop and slot_id = slot;
     
@@ -131,10 +215,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `findMinPoints` (IN `dtop` INT(11), 
 	select dtop_id, slot_id, @minpoints, @count
 	from queue join user using (user_num)
     where dtop_id = dtop and slot_id = slot and user_points = @minpoints limit 1;
-END$$
-
-DROP PROCEDURE IF EXISTS `fix_points`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `fix_points` ()  begin
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `fix_points` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `fix_points`()
+begin
 	DECLARE finished integer default 0;
     DECLARE temp_id int(11) default 0;
 	DECLARE user_cursor cursor for select user_num from baileyc5.user where user_points < 0;
@@ -152,10 +250,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `fix_points` ()  begin
 	END LOOP loopLabel;
         close user_cursor;
         
-end$$
-
-DROP PROCEDURE IF EXISTS `getDesktopMetrics`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getDesktopMetrics` (IN `startDate` DATE, IN `endDate` DATE)  BEGIN
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getDesktopMetrics` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getDesktopMetrics`(IN `startDate` DATE, IN `endDate` DATE)
+BEGIN
 select f_name as name, hours_fulfilled as time_used,
 sum(hours_fulfilled + hours_unfulfilled) as time_requested 
 from (select * from ((select desktop.name as f_name, count(*)*3 as hours_fulfilled from reservation
@@ -169,17 +281,45 @@ left join (select desktop.name as uf_name, count(*)*3 as hours_unfulfilled from 
 where timeslot.date between startDate and endDate
 group by desktop.name) as requests on reserved.f_name = requests.uf_name)) as desktop_metrics
 group by name;
-END$$
-
-DROP PROCEDURE IF EXISTS `getQueue`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getQueue` ()  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getQueue` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getQueue`()
+BEGIN
 	select distinct dtop_id, slot_id from queue
 	join user using (user_num)
 	ORDER BY slot_id;
-END$$
-
-DROP PROCEDURE IF EXISTS `GetRequests`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRequests` ()  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetRequests` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRequests`()
+BEGIN
 	SELECT COUNT(queue.qid) AS count, 
 	queue.slot_id AS slotID, 
 	timeslot.date AS reserveDate, 
@@ -226,17 +366,45 @@ select u.name, u.b_name, (select count(*)*3 from user_request_data where receive
 from user_request_data u
 where department_id = departID and date BETWEEN startDate and endDate
 GROUP BY u.name, u.b_name;
-END$$
-
-DROP PROCEDURE IF EXISTS `managerUserTotal`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `managerUserTotal` (IN `startDate` DATE, IN `endDate` DATE, IN `departID` INT)  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `managerUserTotal` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `managerUserTotal`(IN `startDate` DATE, IN `endDate` DATE, IN `departID` INT)
+BEGIN
 	select distinct u.name, (select count(*)*3 from user_request_data where name = u.name and received = 1) as reserved,
 	(select count(*)*3 from user_request_data where name = u.name and received = 0) as requested
  from user_request_data u WHERE date BETWEEN startDate AND endDate and department_id = departID;
-END$$
-
-DROP PROCEDURE IF EXISTS `moveToReservation`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `moveToReservation` (IN `userpoints` INT(3), IN `dtop` INT(11), IN `slotnum` INT(11))  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `moveToReservation` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `moveToReservation`(IN `userpoints` INT(3), IN `dtop` INT(11), IN `slotnum` INT(11))
+BEGIN
 	
    
 	INSERT INTO baileyc5.reservation(user_num,slot_id,dtop_id)
@@ -335,17 +503,45 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `mtrTest` (IN `userNum` INT(11), IN 
     WHERE dtop_id = dtop AND slot_id = slotnum and b_num = bnum;
     
 
-END$$
-
-DROP PROCEDURE IF EXISTS `multitest`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `multitest` ()  begin
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `multitest` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `multitest`()
+begin
 	call clear();
     call reset_points();
     call testrun();
-end$$
-
-DROP PROCEDURE IF EXISTS `POSTBuildMetrics`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTBuildMetrics` (IN `startDate` DATE, IN `endDate` DATE)  BEGIN
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `POSTBuildMetrics` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTBuildMetrics`(IN `startDate` DATE, IN `endDate` DATE)
+BEGIN
 select f_name as name, hours_fulfilled as time_used,
 sum(hours_fulfilled + IFNULL(hours_unfulfilled, 0)) as time_requested
 from (select * from ((select build.name as f_name, count(*)*3 as hours_fulfilled from reservation
@@ -359,10 +555,24 @@ left join (select build.name as uf_name, count(*)*3 as hours_unfulfilled from le
 where timeslot.date between startDate and endDate
 group by build.name) as requests on reserved.f_name = requests.uf_name)) as build_metrics
 group by name;
-END$$
-
-DROP PROCEDURE IF EXISTS `POSTDesktopMetrics`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTDesktopMetrics` (IN `startDate` DATE, IN `endDate` DATE)  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `POSTDesktopMetrics` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTDesktopMetrics`(IN `startDate` DATE, IN `endDate` DATE)
+BEGIN
 select f_name as name, hours_fulfilled as time_used,
 sum(hours_fulfilled + IFNULL(hours_unfulfilled, 0)) as time_requested
 from (select * from ((select desktop.name as f_name, count(*)*3 as hours_fulfilled from reservation
@@ -376,10 +586,24 @@ left join (select desktop.name as uf_name, count(*)*3 as hours_unfulfilled from 
 where timeslot.date between startDate and endDate
 group by desktop.name) as requests on reserved.f_name = requests.uf_name)) as desktop_metrics
 group by name;
-END$$
-
-DROP PROCEDURE IF EXISTS `POSToutcomeDep`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `POSToutcomeDep` (IN `startDate` DATE, IN `EndDate` DATE)  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `POSToutcomeDep` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `POSToutcomeDep`(IN `startDate` DATE, IN `EndDate` DATE)
+BEGIN
 	select coalesce(d.name, 'All Departments') as Department, coalesce(f.outcome, 'Total') as Outcome, count(*)*3 as Hours
 	from reservation r
     join timeslot t using (slot_id)
@@ -401,10 +625,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `POSToutcomeDep` (IN `startDate` DAT
 	join department d2 using (department_id)
 	WHERE f2.outcome != 'success' and t2.date BETWEEN startDate and endDate
 	GROUP BY d2.name;
-END$$
-
-DROP PROCEDURE IF EXISTS `POSTOutcomeMetrics`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTOutcomeMetrics` (IN `startDate` DATE, IN `endDate` DATE)  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `POSTOutcomeMetrics` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTOutcomeMetrics`(IN `startDate` DATE, IN `endDate` DATE)
+BEGIN
 	select coalesce(d.name, 'All Desktops') as Desktop, coalesce(f.outcome, 'Total') as Outcome, count(*)*3 as Hours
 	from reservation r
     join timeslot t using (slot_id)
@@ -424,18 +662,46 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `POSTOutcomeMetrics` (IN `startDate`
     join timeslot t3 using (slot_id)
 	join feedback f3 using (reserve_id)
 	WHERE f3.outcome != 'success' and t3.date BETWEEN startDate and endDate;
-END$$
-
-DROP PROCEDURE IF EXISTS `reset_points`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reset_points` ()  begin
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `reset_points` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reset_points`()
+begin
 set sql_safe_updates = 0;
 UPDATE user
 SET user_points = 100;
 set sql_safe_updates = 1;
-end$$
-
-DROP PROCEDURE IF EXISTS `reset_requests`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reset_requests` ()  BEGIN
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `reset_requests` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reset_requests`()
+BEGIN
 	DECLARE finished integer default 0;
     DECLARE temp_id int(11) default 0;
 	DECLARE user_cursor cursor for select user_num from baileyc5.user where num_requests > 0;
@@ -452,19 +718,47 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `reset_requests` ()  BEGIN
         SET num_requests = 0 where user_num = temp_id;
 	END LOOP loopLabel;
         close user_cursor;
-END$$
-
-DROP PROCEDURE IF EXISTS `set_last_request`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `set_last_request` (IN `userID` INT(11))  begin
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `set_last_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `set_last_request`(IN `userID` INT(11))
+begin
 	UPDATE baileyc5.user
     SET last_request = (select now()), 
         user_points = user_points + 1,
         num_requests = num_requests + 1 where user_num = userID;
     
-end$$
-
-DROP PROCEDURE IF EXISTS `state0to1`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `state0to1` ()  BEGIN
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `state0to1` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `state0to1`()
+BEGIN
 	DECLARE finished integer default 0;
     DECLARE temp int(11) default 0;
 	DECLARE slot_cursor cursor for select slot_id from timeslot
@@ -484,10 +778,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `state0to1` ()  BEGIN
         SET state = 1 where slot_id = temp;
 	END LOOP loopLabel;
         close slot_cursor;
-END$$
-
-DROP PROCEDURE IF EXISTS `state1to2`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `state1to2` ()  BEGIN
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `state1to2` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `state1to2`()
+BEGIN
 	DECLARE finished integer default 0;
     DECLARE temp int(11) default 0;
 	DECLARE slot_cursor cursor for select slot_id from timeslot
@@ -507,10 +815,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `state1to2` ()  BEGIN
         SET state = 2 where slot_id = temp;
 	END LOOP loopLabel;
         close slot_cursor;
-END$$
-
-DROP PROCEDURE IF EXISTS `testrun`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `testrun` ()  begin
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `testrun` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `testrun`()
+begin
 
 INSERT INTO queue (dtop_id, slot_id, user_num, request_time)
 VALUES (8, 1274, 32, (select now()));
