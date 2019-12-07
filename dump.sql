@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 06, 2019 at 11:21 PM
+-- Generation Time: Dec 07, 2019 at 09:03 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -200,6 +200,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRequests` ()  BEGIN
 	GROUP BY slotID;
 END$$
 
+DROP PROCEDURE IF EXISTS `handleSpecialRequests`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `handleSpecialRequests` (IN `srid` INT, IN `approved` BOOLEAN)  BEGIN
+IF approved = true THEN
+ SELECT @newDTOP := dtop_id, @slot := slot_id, @newUSERNUM := user_num, @newBNUM := b_num 
+	from special_requests 
+	where sr_id = srid; -- get the new reservation info 
+ SELECT @oldID := reserve_id 
+	from reservation 
+    where slot_id = @slot and dtop_id = @newDTOP; -- find the key for the old reservation ** need for deletion **
+ DELETE FROM `baileyc5`.`reservation` 
+	WHERE reserve_id = @oldID; -- deletes old reservation
+INSERT INTO `baileyc5`.`reservation`
+	(`user_num`,`slot_id`,`dtop_id`,`b_num`) -- insert new reservation information
+	VALUES(@newUSERNUM,@slot,@newDTOP,@newBNUM);
+END IF;
+	DELETE FROM `baileyc5`.`special_requests` -- delete the special request
+	WHERE sr_id = srid  ;
+END$$
+
 DROP PROCEDURE IF EXISTS `managerUserBuildTotal`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `managerUserBuildTotal` (IN `startDate` DATE, IN `endDate` DATE, IN `departID` INT)  BEGIN
 select u.name, u.b_name, (select count(*)*3 from user_request_data where received = 1 and name = u.name and u.b_name = b_name) as reserved,
@@ -274,12 +293,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `moveToReservation` (IN `userpoints`
 END$$
 
 DROP PROCEDURE IF EXISTS `mtrTest`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mtrTest` (IN `userNum` INT(11), IN `dtop` INT(11), IN `slotnum` INT(11), IN `primeMod` INT, IN `nonPrimeMod` INT, IN `consolationMod` INT, IN `bnum` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mtrTest` (IN `userNum` INT(11), IN `dtop` INT(11), IN `slotnum` INT(11), IN `primeMod` INT, IN `nonPrimeMod` INT, IN `consolationMod` INT, IN `bnum` INT, IN `note` VARCHAR(100) CHARSET utf8)  BEGIN
 	call archiveLeftover; -- "deactivates" old requests,
     -- activeBit of 1 implies the user can make second round picks.
    
-	INSERT INTO baileyc5.reservation(user_num,slot_id,dtop_id,b_num)
-    SELECT userNum, slotnum, dtop, bnum; -- insert winner
+	INSERT INTO baileyc5.reservation(user_num,slot_id,dtop_id,b_num,note)
+    SELECT userNum, slotnum, dtop, bnum, note; -- insert winner
     
 	SELECT start_time
     into @starttime
@@ -660,7 +679,16 @@ CREATE TABLE IF NOT EXISTS `leftover` (
   `b_num` int(11) DEFAULT NULL,
   `activeBit` bit(1) DEFAULT b'1',
   PRIMARY KEY (`leftover_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `leftover`
+--
+
+INSERT INTO `leftover` (`leftover_id`, `dtop_id`, `slot_id`, `user_num`, `request_time`, `b_num`, `activeBit`) VALUES
+(1, 16, 1400, 35, '2019-11-27 13:11:38', 10, b'0'),
+(2, 16, 1400, 32, '2019-11-27 14:05:46', 10, b'0'),
+(4, 16, 1454, 35, '2019-12-07 14:06:00', 10, b'1');
 
 -- --------------------------------------------------------
 
@@ -778,25 +806,13 @@ CREATE TABLE IF NOT EXISTS `queue` (
   `user_num` int(11) NOT NULL,
   `request_time` datetime DEFAULT NULL,
   `b_num` int(11) NOT NULL,
+  `note` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`qid`),
   KEY `dtop_id` (`dtop_id`),
   KEY `slot_id` (`slot_id`),
   KEY `user_num` (`user_num`),
   KEY `queue_ibfk_4` (`b_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `queue`
---
-
-INSERT INTO `queue` (`qid`, `dtop_id`, `slot_id`, `wait_position`, `user_num`, `request_time`, `b_num`) VALUES
-(10, 16, 1400, 0, 35, '2019-11-27 13:11:38', 10),
-(14, 16, 1400, 0, 16, '2019-11-27 13:15:33', 10),
-(15, 16, 1406, 0, 30, '2019-11-27 13:25:32', 10),
-(16, 16, 1400, 0, 32, '2019-11-27 14:05:46', 10),
-(17, 16, 1401, 0, 35, '2019-11-27 16:12:08', 10),
-(18, 16, 1407, 0, 30, '2019-11-27 16:14:54', 10),
-(19, 16, 1454, 0, 32, '2019-12-06 10:57:28', 10);
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -811,20 +827,44 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   `slot_id` int(11) NOT NULL,
   `dtop_id` int(11) NOT NULL,
   `b_num` int(11) NOT NULL,
+  `note` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`reserve_id`),
   UNIQUE KEY `user_slot_unique` (`user_num`,`slot_id`),
   UNIQUE KEY `dtop_slot_unique` (`dtop_id`,`slot_id`),
   KEY `fk_slot` (`slot_id`),
   KEY `fk_b2` (`b_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `reservation`
 --
 
-INSERT INTO `reservation` (`reserve_id`, `user_num`, `slot_id`, `dtop_id`, `b_num`) VALUES
-(1, 35, 1412, 16, 10),
-(2, 35, 1448, 16, 10);
+INSERT INTO `reservation` (`reserve_id`, `user_num`, `slot_id`, `dtop_id`, `b_num`, `note`) VALUES
+(1, 35, 1412, 16, 10, NULL),
+(2, 35, 1448, 16, 10, NULL),
+(5, 35, 1456, 16, 10, 'testing'),
+(6, 16, 1400, 16, 10, ''),
+(7, 35, 1401, 16, 10, ''),
+(8, 30, 1406, 16, 10, ''),
+(9, 30, 1407, 16, 10, ''),
+(10, 32, 1454, 16, 10, 'testing3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `special_requests`
+--
+
+DROP TABLE IF EXISTS `special_requests`;
+CREATE TABLE IF NOT EXISTS `special_requests` (
+  `sr_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dtop_id` int(11) NOT NULL,
+  `slot_id` int(11) NOT NULL,
+  `user_num` int(11) NOT NULL,
+  `b_num` int(11) NOT NULL,
+  `manager_id` int(11) NOT NULL,
+  PRIMARY KEY (`sr_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -60927,17 +60967,17 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`user_num`, `first_name`, `last_name`, `username`, `email`, `password`, `tel`, `admin`, `user_points`, `last_request`, `num_requests`, `department_id`, `login_attempts`) VALUES
 (13, 'Jacky', 'Patel', 'patelr1', 'riddhipatel26@yahoo.com', '$2y$10$fKM/UQ8U7QarRXliQLvxh.6stjaWmMbCWR3X3HgqowNGtXlIIFCgq', NULL, 0, 100, NULL, 0, 2, 0),
 (14, 'William', 'Geary', 'gearyw68', 'grearyw68@students.rowan.edu', '$2y$10$1XbrERz3okaRvcoQkGWF1uddeH5uOe4wT4hHtXT65kLB20Mzbrt1S', NULL, 0, 100, NULL, 0, 2, 0),
-(16, 'bob', 'bob', 'bob', 'bob', '$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2', NULL, 0, 100, '2019-11-27 16:15:16', 0, 1, 0),
-(18, 'Riddhi', 'Patel', 'patelr0', 'riddhip01@yahoo.com', '$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86', NULL, 0, 100, '2019-11-21 11:28:29', 0, 2, 0),
+(16, 'bob', 'bob', 'bob', 'bob', '$2y$10$ewPkgg6Ynm5FfNTKf8qW9.1iJDcLIZvU4MbCvtirvav2VwlyVSvn2', NULL, 0, 57, '2019-11-27 16:15:16', 0, 1, 0),
+(18, 'Riddhi', 'Patel', 'patelr0', 'riddhip01@yahoo.com', '$2y$10$NEA9NXOMrgtb0v6osZEcnO4Kx38wwPZrRYrJtpX0iBzeGLHUWGH86', NULL, 0, 52, '2019-11-21 11:28:29', 0, 2, 0),
 (20, 'Shrek', 'Ogre', 'shrek1', 'shrek@swamp.com', '$2y$10$VW7d57zVG5bGc1BxzURY8.jFzVyktxOPvd61AVFQvW75t8d7MQpzO', NULL, 0, 100, NULL, 0, 2, 0),
-(24, 'Cassandra', 'Bailey', 'itscasserole', 'cass@gmail.com', '$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na', NULL, 0, 100, '2019-11-21 10:58:33', 0, 1, 0),
-(28, 'Russia', 'Commander', 'russiagirl', 'russiagirl@yahoo.com', '$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO', NULL, 0, 100, '2019-11-19 13:02:41', 0, 1, 0),
+(24, 'Cassandra', 'Bailey', 'itscasserole', 'cass@gmail.com', '$2y$10$3T3oGcOjJJCfNu6m6Vi9Lu61Psj9FGP7d7tx1e2DEM1bp8oy5s8Na', NULL, 0, 52, '2019-11-21 10:58:33', 0, 1, 0),
+(28, 'Russia', 'Commander', 'russiagirl', 'russiagirl@yahoo.com', '$2y$10$cXwgc8r4DwRoKw0s3zPe7.ejyaJjO2MUdo2zRpKQvNqKHlRjDJhdO', NULL, 0, 52, '2019-11-19 13:02:41', 0, 1, 0),
 (29, 'Rishi', 'Parikh', 'parish30', 'rishiparikh@gmail.com', '$2y$10$Aa/VT2Sst1wsKBGKyEkYlu4w5axEVMneUx/bI1n/YHwi.qyNNy.4q', NULL, 0, 100, NULL, 0, 2, 0),
-(30, 'bill', 'bill', 'bill', 'bill@bill.bill', '$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.', NULL, 2, 100, '2019-11-27 16:14:54', 0, 2, 0),
-(31, 'David', 'Serrano', 'frenchfrylord', 'serranod7@students.rowan.edu', '$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02', NULL, 0, 100, '2019-11-19 12:39:56', 0, 2, 0),
-(32, 'Alex', 'Cross', 'across', 'crossa95@students.rowan.edu', '$2y$10$8PeDXfKG6Y1kqVfpAsCyw.SnDmjf7UdA4bO0E1ubRyzkIpdfa0Uqq', NULL, 1, 101, '2019-12-06 10:57:28', 1, 1, 0),
-(33, 'jane', 'jane', 'jane', 'jane@jane.jane', '$2y$10$l8p5bFQd8G/Z4Xm8NfqyQOV6J2lht/3Gb9t2bjddqeQRBpLLhoQhm', NULL, 0, 100, '2019-11-21 11:28:18', 0, 1, 0),
-(35, 'Chris', 'Ancheta', 'anchet', 'anchet19@students.rowan.edu', '$2y$10$Qnu/sW7GLXIm78s0cYoPW.p08JvEuRLEGCo68Nsx2CZXOSAhoxTVW', NULL, 0, 98, '2019-11-27 16:12:08', 0, 3, 0),
+(30, 'bill', 'bill', 'bill', 'bill@bill.bill', '$2y$10$TjBfPAjGFlEn7bEn3kWNYOoCrO9t5DHA1GlWE5cWISb1rkpxobzL.', NULL, 2, 62, '2019-11-27 16:14:54', 0, 2, 0),
+(31, 'David', 'Serrano', 'frenchfrylord', 'serranod7@students.rowan.edu', '$2y$10$vSqmFTneAmtb3bjKlNvn7ORS2y/YoUBn6a2kB6.Ke94c18jtD9P02', NULL, 0, 52, '2019-11-19 12:39:56', 0, 2, 0),
+(32, 'Alex', 'Cross', 'across', 'crossa95@students.rowan.edu', '$2y$10$8PeDXfKG6Y1kqVfpAsCyw.SnDmjf7UdA4bO0E1ubRyzkIpdfa0Uqq', NULL, 1, 105, '2019-12-06 10:57:28', 0, 1, 0),
+(33, 'jane', 'jane', 'jane', 'jane@jane.jane', '$2y$10$l8p5bFQd8G/Z4Xm8NfqyQOV6J2lht/3Gb9t2bjddqeQRBpLLhoQhm', NULL, 0, 52, '2019-11-21 11:28:18', 0, 1, 0),
+(35, 'Chris', 'Ancheta', 'anchet', 'anchet19@students.rowan.edu', '$2y$10$Qnu/sW7GLXIm78s0cYoPW.p08JvEuRLEGCo68Nsx2CZXOSAhoxTVW', NULL, 0, 106, '2019-12-07 14:32:35', 0, 3, 0),
 (36, 'Kool', 'Aid', 'Mr. Kool', 'ka@juice.com', '$2y$10$hebG13FLKF7bW6cKzN9wsuOZaq9QfqQQpJR6Za6Dwa0EUJ/1ZCHbW', NULL, 0, 100, NULL, 0, 4, 0),
 (37, 'aaa', 'aaa', 'aaa', 'aaa@a.net', '$2y$10$NDTM6Wpt9cryRciTRbSgW.kkBFAs9hByKyYs9fR3PHNpFxlDYve0O', '333-4444x5555', 1, 100, NULL, 0, 4, 0);
 
