@@ -17,7 +17,8 @@
 	$date = $_POST['date'];
 	$time = $_POST['time'];
 	$build = $_POST['build'];
-  $desktop = $_POST['desktop']; 
+  $desktop = $_POST['desktop'];
+  $note = $_POST['note'];
   
   if($curr <= 0){
     echo "You must select a user to make a request.";
@@ -59,8 +60,8 @@
       if($currPos[0] == 0){
         if($slot[1] == 0){ #First state check
         #inserts the request into the queue				
-          $sql  = "INSERT INTO queue (dtop_id, b_num, slot_id, wait_position, user_num, request_time) ";
-          $sql .= "VALUES ('$desktop', '$build', '$slot[0]', '$actualWait', '$curr',(select now()))";
+          $sql  = "INSERT INTO queue (dtop_id, b_num, slot_id, wait_position, user_num, request_time, note) ";
+          $sql .= "VALUES ('$desktop', '$build', '$slot[0]', '$actualWait', '$curr',(select now()), '$note')";
           $stmt = $dbh->prepare($sql);
           $stmt->execute();
         

@@ -13,12 +13,14 @@ try{
     if (TRUE){
         $sql  = "SELECT reservation.reserve_id AS reserveID, ";
         $sql .= "reservation.slot_id AS slotID, ";
+        $sql .= "reservation.note, ";
         $sql .= "timeslot.date AS reserveDate, ";
         $sql .= "timeslot.start_time AS reserveTime, ";
         $sql .= "desktop.name AS dtopName, ";
         $sql .= "reservation.dtop_id AS dtop_num, ";
         $sql .= "reservation.user_num AS userID, ";
         $sql .= "user.username AS username, ";
+        $sql .= "user.tel AS userTel, ";
         $sql .= "build.name AS buildName, ";
         $sql .= "reservation.b_num AS build_num,";
         $sql .= "user.first_name AS firstName, ";
@@ -50,15 +52,15 @@ try{
             $out .= '"buildID":"'.$row['build_num'].'",';
             $out .= '"date":"'.$row['reserveDate'].'",';
             $out .= '"time":"'.$row['reserveTime'].'",';
-            $out .= '"username":"'.$row['username'].'"},';
-        }
-            
+            $out .= '"username":"'.$row['username'].'",';
+            $out .= '"note":"'.$row['note'].'",';
+            $out .= '"userTel":"'.$row['userTel'].'",';
+            $out .= '"className":"reservation"},'; 
+        }      
         echo '['.substr($out, 0, -1).']' ;
     }
 }
 catch(Exception $e){
     die($e);
 }
-
-
 ?>

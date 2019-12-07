@@ -76,7 +76,7 @@ $dbh2 = ConnectDB();
     echo "count: " .$count."\n";
             
     
-    $min = "SELECT user_num, q.b_num from user join queue q using (user_num) ";
+    $min = "SELECT user_num, q.b_num, q.note from user join queue q using (user_num) ";
     $min .= "where dtop_id = $desktop and slot_id = $slot and user_points = $minpoints order by user_num";
     $stmt2 = $dbh2->prepare($min);
     $stmt2->execute();
@@ -90,17 +90,21 @@ $dbh2 = ConnectDB();
                 }
             $userNum = $row['user_num'];
             $build = $row['b_num'];
+            $note = $row['note'];
+            echo $note;
         }
     else
         {
             $row = $stmt2->fetch();
             $userNum = $row['user_num'];
             $build = $row['b_num'];
+            $note = $row['note'];
+            echo "$note";
         }       
             
             //SQL Procedure: Copies entry from Queue -> Reservation, then removes the entry from Queue
             $move = "CALL mtrTest(".$userNum.",".$desktop.",".$slot.",". $primeMod . ",
-                ".$nonPrimeMod.",".$consolation.",".$build.");";
+                ".$nonPrimeMod.",".$consolation.",".$build.",\"".$note."\");";
             $stmt2 = $dbh2->prepare($move);
             $stmt2->execute();          
 }

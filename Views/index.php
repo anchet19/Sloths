@@ -139,7 +139,7 @@ Authors: Team Elephants, Team Sloths-->
           <input type="text" id="reservedBy" name="reservedBy" disabled>
         </div>
       </div>
-      <div class="form-group row" style="display: none">
+      <div class="form-group row">
          <label for="user" class="col-sm-2 col-form-label">User:</label>
         <div class="col-sm-10">
           <select class="user-dropdown" id="user" type="text" required></select>
