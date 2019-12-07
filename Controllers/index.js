@@ -511,7 +511,7 @@ function populateUserSelect(uNames, uIds) {
     el.add(option);
   }
   // Default select the first option
-  el.value = userData.user_num;
+  el.selectedIndex = 0;
 }
 
 /**
