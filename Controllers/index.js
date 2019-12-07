@@ -15,7 +15,7 @@ $(document).ready(function () {
   // Transform user dropdown into a Select2 style dropdown
   $('.user-dropdown').select2({
     placeholder: 'Select User',
-    width: '75%',
+    width: '100%',
     theme: 'classic'
   })
 
@@ -247,6 +247,7 @@ function joinQueue() {
   const desktop = $('#desktopForm').val();
   const build = $('#buildForm').val();
   const user = $('#user').val();
+  const note = $('#notes').val().trim();
   $.ajax({
     type: 'post',
     url: '../api/joinQueue.php',
@@ -255,7 +256,8 @@ function joinQueue() {
       time: time,
       date: date,
       desktop: desktop,
-      build: build
+      build: build,
+      note: note
     },
     success: function (response) {
       redisplay();
@@ -466,7 +468,6 @@ function checkForInfoDisplay(start, end) {
           userSelect.add(option);
         });
         userSelect.value = userData.user_num;
-        userSelect.parentNode.style = "display: block";
       });
     });
     if (userData.admin == 1) {
@@ -514,6 +515,18 @@ function populateUserSelect(uNames, uIds) {
   el.selectedIndex = 0;
 }
 
+function makeTooltip(event, element) {
+  const content = `
+    <p>
+      <b>Desktop: </b> ${event.dtopName} 
+      <br><b>Build: </b> ${event.buildName} 
+      <br><b>Phone: </b> ${event.userTel} 
+      <br><b>Note: </b>${event.note}
+    </p>
+  `;
+  return element.popover({ html: true, trigger: 'hover', content: content, placement: 'right', container: 'body' });
+}
+
 /**
  * Creates the calendar display and the popup modal for requesting / releasing
  */
@@ -522,7 +535,7 @@ function BuildCalendar() {
   $('#calendar').fullCalendar({
     eventSources: [{
       url: '../api/get_requests',
-      type: 'GET',
+      type: 'POST',
       color: 'pink', // Other Users' Requested
       borderColor: 'black',
       textColor: 'black',
@@ -539,11 +552,10 @@ function BuildCalendar() {
     },
     {
       url: '../api/get_reservations',
-      type: 'GET',
+      type: 'POST',
       color: 'darkred', // Other Users' Finalized
       borderColor: 'black',
       textColor: 'white',
-      className: ["reservation"],
       success: function (data) {
         // console.log('reservations loaded');
         $('#calendar').fullCalendar('rerenderEvents');
@@ -557,11 +569,10 @@ function BuildCalendar() {
     },
     {
       url: '../api/get_blocklist',
-      type: 'GET',
+      type: 'POST',
       color: 'black', // Other Users' Finalized
       borderColor: 'black',
       textColor: 'white',
-      className: ["blocked"],
       success: function (data) {
 
         $('#calendar').fullCalendar('rerenderEvents');
@@ -646,7 +657,6 @@ function BuildCalendar() {
       }
     },
     eventRender: function (event, element, view) {
-      const result = element.popover({ html: true, title: event.date, trigger: 'hover',content: '<p><b>Phone:</b> 5567 <br><b>Note:</b> Working on project X test Y. Should only take about 30-45 minutes<p>', placement: 'right', container: 'body' })
       // Set size of font depending upon the view
       if (view.name === 'month') {
         element.css("font-size", "0.85em")
@@ -675,22 +685,23 @@ function BuildCalendar() {
           element.css("cursor", "pointer")
         }
       }
+      const result = event.className[0] === "reservation" ? makeTooltip(event, element) : element;
       // Filter the results based on the value of the drop-downs
       const desktop = document.getElementById('Desktop').value;
       const build = document.getElementById('Build').value;
       if(view.name === 'month') {
         if (desktop > 1 && build > 1) {
           return ((desktop == event.id && event.buildID.includes(build)) ||
-            (desktop == event.id && event.title === 'BLOCKED')) ? element : false;
+            (desktop == event.id && event.title === 'BLOCKED')) ? result : false;
         }
         else if (desktop > 1 && build < 1) {
-          return (desktop == event.id) ? element : false;
+          return (desktop == event.id) ? result : false;
         }
         else if (!desktop < 1 && build > 1) {
-          return (event.buildID.includes(build)) ? element : false;
+          return (event.buildID.includes(build)) ? result : false;
         }
         else {
-          return element;
+          return result;
         }
       } else {
         return  (event.id == desktop) ? result : false;

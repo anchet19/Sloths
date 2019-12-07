@@ -111,13 +111,47 @@ Authors: Team Elephants, Team Sloths-->
 
     <!-- BEGIN: KOALA MODIFICATIONS -->
     <div align="left" id="dialog-confirm" title="Time Reservation" style="display:none">
-        <label>Date : <input type="text" id="date" disabled></label>
-        <label>Time : <input type="text" id="time" name="time" disabled></label>
-        <label>Build : <select type="text" id="buildForm" name="build" required></select></label>
-        <label>Desktop : <select type="text" id="desktopForm" name="desktop" required disabled></select></label>
+      <div class="form-group row">
+        <label for="date" class="col-sm-2 col-form-label">Date:</label>
+        <div class="col-sm-10">
+          <input type="text" id="date" disabled>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="time" class="col-sm-2 col-form-label">Time:</label>
+        <div class="col-sm-10">
+          <input type="text" id="time" name="time" disabled>
+        </div>
+      </div>
+      <div class="form-group row">
+          <label for="buildForm" class="col-sm-2 col-form-label">Build:</label>
+          <div class="col-sm-4">
+            <select type="text" id="buildForm" name="build" required></select>
+          </div>
+          <label for="desktopForm" class="col-sm-2 col-form-label" style="padding-left: 0">Desktop:</label>
+          <div class="col-sm-4">
+            <select type="text" id="desktopForm" name="desktop" required disabled></select>
+          </div>
+      </div>
+      <div class="form-group row" style="display: none">
+        <label for="reservedBy" class="col-sm-2 col-form-label">Reserved by:</label>
+        <div class="col-sm-10">
+          <input type="text" id="reservedBy" name="reservedBy" disabled>
+        </div>
+      </div>
+      <div class="form-group row">
+         <label for="user" class="col-sm-2 col-form-label">User:</label>
+        <div class="col-sm-10">
+          <select class="user-dropdown" id="user" type="text" required></select>
+        </div>
+      </div>
+      <div class="form-group row">
+         <label for="notes" class="col-sm-2 col-form-label">Notes:</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" id="notes" rows="3" maxLength="100" style="cursor: text; resize: none;" fixed ></textarea>
+        </div>
+      </div>
         <!-- <input type="text" id="dtopID" style="display: none" disabled> -->
-        <label for="reservedBy" style="display: none">Reserved by : <input type="text" id="reservedBy" name="reservedBy" disabled></label>
-        <label for="user" style="display: none">User : <select class="user-dropdown" id="user" type="text" required></select></label>
         <!-- <p><span class="ui-icon ui-icon-info" style="float:left; margin:12px 12px 20px 0;"></span>What would you like to do with this time?</p> -->
     </div>
     <!-- END: KOALA MODIFICATIONS -->
