@@ -35,7 +35,7 @@ $(document).ready(function () {
   $("#dialog-confirm").dialog({
     resizable: false,
     height: "auto",
-    width: 400,
+    width: 420,
     autoOpen: false,
     modal: true,
     focus: false,
@@ -44,7 +44,11 @@ $(document).ready(function () {
       text: "Reserve",
       icon: "ui-icon-plus",
       click: function () {
+        if (userData.admin == 2){
         reserveSlot();
+        } else {
+          makeSpecialRequest();
+        }
         $(this).dialog("close");
       }
     },
@@ -345,6 +349,35 @@ function reserveSlot() {
   });
 }
 
+function makeSpecialRequest() {
+  const user = $('#user').val();
+  const desktop = $('#desktopForm').val();
+  const build = $('#buildForm').val();
+  const time = $('#time').val();
+  const date = $('#date').val();
+  $.ajax({
+    type: 'post',
+    url: '../api/special_request.php',
+    data: {
+      curr: user,
+      time: time,
+      date: date,
+      desktop: desktop,
+      build: build,
+      manager: userData.user_num,    
+    },
+    success: function (result) {
+      alert(result);
+    },
+    error: function (result) {
+      console.log(result); //Koala
+    },
+    failure: function (result) {
+      console.log(result);
+    }
+  });
+}
+
 /**
  * Allows the user to release a request or a reservation belonging to them
  * Reservations can only be released if current time < start time of reservation
@@ -430,14 +463,16 @@ function submitFunction() {
  * @param {Moment object} end The end time of the time-slot that was clicked on
  */
 function checkForInfoDisplay(start, end) {
-  if (userData.admin == 2) {
+  if (userData.admin > 0) {
+    console.log(userData.user_num);
     fetch('../api/get_users.php', {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: $.param({
-        "username": sessionStorage.username
+        "username": sessionStorage.username,
+        "department": userData.department_id
       })
     }).then(function (response) {
       response.json().then(function (data) {
@@ -449,17 +484,21 @@ function checkForInfoDisplay(start, end) {
           option.value = row.user_num;
           userSelect.add(option);
         });
-        userSelect.options.selectedIndex = -1;
+        userSelect.value = userData.user_num;
         userSelect.parentNode.style = "display: block";
       });
     });
+    if (userData.admin == 1) {
+      console.log(document.getElementById("btnReserve").innerText);
+      document.getElementById("btnReserve").innerText = "Sp. Request";
+    }
   } else {
     document.getElementById('btnReserve').style = "display: none";
     const el = document.getElementById("user")
     const option = document.createElement("option");
     option.value = userData.user_num;
     el.add(option);
-    el.options.selectedIndex = 0;
+    el.value = userData.user_num;
   }
 
   const startDateTime = start.format().split('T');
@@ -491,7 +530,7 @@ function populateUserSelect(uNames, uIds) {
     el.add(option);
   }
   // Default select the first option
-  el.options.selectedIndex = 0;
+  el.value = userData.user_num;
 }
 
 /**
@@ -613,7 +652,7 @@ function BuildCalendar() {
         }
         $('#buildForm').val(event.buildID).trigger('change');
         $('#desktopForm').val(event.id).trigger('change');
-        if (userData.admin == 2) {
+        if (userData.admin > 0) {
           (event.names) ? populateUserSelect(event.names, event.user) : populateUserSelect(event.title, event.user);
         } else {
           if (event.user.includes(userData.user_num)) {

@@ -179,7 +179,10 @@ if(!isset($_SESSION['username'])){
       <!-- Container for the Form Display-->
       <div class="col-md-8 offset-md-1 border border-dark">
         <!-- Empty for initial display-->
-        <div id="initialFormView" style="display: block"></div>
+        <!-- Initial View May be Special Requests-->
+        <div id="initialFormView" style="display: block">
+        </div>
+        
         <!--specifies which Build an admin would like to delete -->
         <div display="none" id="deleteBuild" style="display: none">
           <form>
