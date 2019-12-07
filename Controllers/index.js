@@ -1,12 +1,10 @@
-/*
-  Needs proper license disclaimer https://fullcalendar.io/license
-  
-*/
+/**
+ * This file handles all user interaction and dynamic rendering for the index.php page.
+ * Needs proper license disclaimer https://fullcalendar.io/license
+ */
 
-var startTime, endTime, currDesktop;
+var currDesktop;
 var submitted = 0;
-var date;
-var time;
 var installationData = {};
 var userData = {};
 
@@ -35,10 +33,11 @@ $(document).ready(function () {
   $("#dialog-confirm").dialog({
     resizable: false,
     height: "auto",
-    width: 420,
+    width: "450",
     autoOpen: false,
     modal: true,
     focus: false,
+    clostText: 'hide',
     buttons: [{
       id: "btnReserve",
       text: "Reserve",
@@ -110,24 +109,6 @@ $(document).ready(function () {
   })
 });
 
-function colorPrimeRows() {
-  const pat = /9am|12pm|3pm/;
-  const rows = document.querySelectorAll('.fc-time');
-  rows.forEach((row) => {
-    const text = row.innerHTML;
-    pat.test(text) ? row.style = "background-color: #cccc0040" : false;
-  })
-}
-
-function colorRegularRows() {
-  const pat = /6am|6pm|9pm/;
-  const rows = document.querySelectorAll('.fc-time');
-  rows.forEach((row) => {
-    const text = row.innerHTML;
-    pat.test(text) ? row.style = "background-color: #ffffff40" : false;
-  })
-}
-
 /**
  * Refreshes the calendar to keep the displayed information persistent with the rest api 
  */
@@ -139,7 +120,7 @@ function redisplay() {
  * Checks to see if a desktop has been selected in the dropdown form on index.html
  * if it hasn't, the user will be alerted to choose one
  * Author: Cassandra Bailey
- * @param {HTMLFormElement} form The form submitted by the Desktop drop-down
+ * @param {HTMLFormElement} The form submitted by the Desktop drop-down
  */
 function checkForDesktop(form) {
   if (form.Desktop.value == "") {
@@ -152,7 +133,7 @@ function checkForDesktop(form) {
  * retrieves installation data using rest request.
  * then the data is used to link the build and desktop dropdowns.
  * Author: David Serrano (serranod7)
- * @param {String} username The current users username
+ * @param {String} The current users username
  */
 function populateDropdowns(username) {
   fetch('../api/get_installations.php', {
@@ -202,7 +183,7 @@ function populateDropdowns(username) {
 /**
  * Updates the desktop dropdown for a given build id.
  * Author: David Serrano (serranod7)
- * @param {Int} b_num The unique id of the build in the build table
+ * @param {Int} The unique id of the build in the build table
  */
 function populateDesktopDropdown(selector, b_num) {
   const dropdown = document.getElementById(selector);
@@ -220,7 +201,7 @@ function populateDesktopDropdown(selector, b_num) {
 /**
  * Retrieves user data using rest api
  * Author: David Serrano (serranod7)
- * @param {String} username The current user
+ * @param {String}The current users username
  */
 function retrieveUser(username) {
   fetch('../api/get_user.php', {
@@ -459,8 +440,8 @@ function submitFunction() {
 /**
  * Not totally sure what's going on here. Needs a deeper dive and maybe a refactor...
  * 
- * @param {Moment object} start The start time of the time-slot that was clicked on
- * @param {Moment object} end The end time of the time-slot that was clicked on
+ * @param {Moment Object} The start time of the time-slot that was clicked on
+ * @param {Moment object} The end time of the time-slot that was clicked on
  */
 function checkForInfoDisplay(start, end) {
   if (userData.admin > 0) {
@@ -659,12 +640,13 @@ function BuildCalendar() {
             populateUserSelect(userData.username, userData.user_num);
           }
         }
-        //BEGIN : Koala modifications 
+        //BEGIN : Koala modifications
         $("#dialog-confirm").dialog("open"); // Shows the Reservation Dialog Box
         //END : Koala modifications
       }
     },
     eventRender: function (event, element, view) {
+      const result = element.popover({ html: true, title: event.date, trigger: 'hover',content: '<p><b>Phone:</b> 5567 <br><b>Note:</b> Working on project X test Y. Should only take about 30-45 minutes<p>', placement: 'right', container: 'body' })
       // Set size of font depending upon the view
       if (view.name === 'month') {
         element.css("font-size", "0.85em")
@@ -711,7 +693,7 @@ function BuildCalendar() {
           return element;
         }
       } else {
-        return  (event.id == desktop) ? element : false;
+        return  (event.id == desktop) ? result : false;
       } 
     },
     // Callback for any time the view is changed. Here it is used to conditionally change filter capabilities

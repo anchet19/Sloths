@@ -512,7 +512,8 @@ function doInsertUser(form) {
       "lastName": form.lastName.value,
       "email": form.email.value,
       "admin": form.newAdmin.value,
-      "department": form.departmentSelect.value
+      "department": form.departmentSelect.value,
+      "tel": form.usrTel.value
     })
   }).then(function (response) {
     response.json().then(function (data) {

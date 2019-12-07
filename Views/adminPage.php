@@ -292,47 +292,40 @@ if(!isset($_SESSION['username'])){
         </div>
 
         <div id="insertUser" style="display: none">
-          <div class="row justify-content-center">
-            <div class="col-md-6">
-              <form>
-                <div class="form-group">
-                  <label for="firstName">First Name</label>
-                  <input class="form-control" type="text-sm"  name="firstName" id="firstName" placeholder="First Name" />
-                </div>
-                <div class="form-group">
-                  <label for="lastName">Last Name</label>
-                  <input class="form-control" type="text-sm"  name="lastName" id="lastName" placeholder="Last Name" />
-                </div>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input class="form-control" type="email" name="email" id="email" placeholder="Email"/>
-                </div>
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <input class="form-control" type="text-sm" name="username" id="username" placeholder="Username" />
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input class="form-control" type="password" name="password" id="password" placeholder="Password"/>
-                </div>
-                <div class="form-group">
-                  <label for="departmentSelect">Select Department</label>
-                  <select id="departmentSelect" class="form-control" type="text" name="department-select"/>
-                    <option></option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="newAdmin">Authorization Level</label>
-                  <select class="form-control-sm" id="newAdmin">
-                    <option value="0">User</option>
-                    <option value="1">Manager</option>
-                    <option value="2">Admin</option>         
-                  </select>
-                </div>
-                <button class="btn btn-block btn-success" onsubmit="" onclick="doInsertUser(this.form)">Add User</button>
-              </form>
+          <form>
+            <div class="row">
+              <div class="col">
+                <label for="firstName">First Name</label>
+                <input class="form-control" type="text-sm" name="firstName" id="firstName" placeholder="First Name" tabindex="1" autofocus required/>
+                <label for="username">Username</label>
+                <input class="form-control" type="text-sm" name="username" id="username" placeholder="Username" tabindex="3" required/>
+                <label for="email">Email</label>
+                <input class="form-control" type="email" name="email" id="email" placeholder="Email" tabindex="5" required/>
+                <label for="departmentSelect">Select Department</label>
+                <select id="departmentSelect" class="form-control-sm" type="text" name="department-select" tabindex="7" required>
+                  <option></option>
+                </select>
+              </div>
+              <div class="col">
+                <label for="lastName">Last Name</label>
+                <input class="form-control" type="text-sm"  name="lastName" id="lastName" placeholder="Last Name" tabindex="2" required />
+                <label for="password">Password</label>
+                <input class="form-control" type="password" name="password" id="password" placeholder="Password" tabindex="4" required />
+                <label for="phone-number">Phone</label>
+                <input class="form-control" type="tel" name="usr-tel" id="usrTel" pattern="[0-9]{3}-[0-9]{4}x[0-9]{4}" 
+                  placeholder="123-4567x9999" tabindex="6" maxLength="13" required/>
+                <label for="newAdmin">Authorization Level</label>
+                <select class="form-control-sm" id="newAdmin" tabindex="8" required>
+                  <option value="0">User</option>
+                  <option value="1">Manager</option>
+                  <option value="2">Admin</option>         
+                </select>
+              </div>
             </div>
-          </div>
+            <div class="row justify-content-center">
+              <button class="btn btn-block btn-success" onsubmit="" onclick="doInsertUser(this.form)">Add User</button>
+            </div>
+          </form>
         </div>
 
         <div id="insertInstallation" style="display: none">
