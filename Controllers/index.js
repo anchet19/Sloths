@@ -15,7 +15,7 @@ $(document).ready(function () {
   // Transform user dropdown into a Select2 style dropdown
   $('.user-dropdown').select2({
     placeholder: 'Select User',
-    width: '75%',
+    width: '100%',
     theme: 'classic'
   })
 
@@ -243,6 +243,7 @@ function joinQueue() {
   const desktop = $('#desktopForm').val();
   const build = $('#buildForm').val();
   const user = $('#user').val();
+  const note = $('#notes').val().trim();
   $.ajax({
     type: 'post',
     url: '../api/joinQueue.php',
@@ -431,7 +432,7 @@ function checkForInfoDisplay(start, end) {
           userSelect.add(option);
         });
         userSelect.options.selectedIndex = -1;
-        userSelect.parentNode.style = "display: block";
+        userSelect.parentNode.parentNode.style = "display: flex";
       });
     });
   } else {

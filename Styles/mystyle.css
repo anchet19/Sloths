@@ -71,3 +71,9 @@ text box is non-editable. */
   height: 5.5em;
   border-bottom: 0;
 }
+
+.ui-dialog-buttonset {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
