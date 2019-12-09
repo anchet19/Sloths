@@ -11,7 +11,9 @@ try{
   $dbh = ConnectDB();
   if(isset($_POST['username'])){
     $username = $_POST['username'];
-    $department = $_POST['department'];
+    if(isset($_POST['department'])){
+      $department = $_POST['department'];
+    }
     $userData = json_decode(getUser($username));
     
     if($userData->{'admin'} > 0){
