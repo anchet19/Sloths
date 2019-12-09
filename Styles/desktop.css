@@ -49,7 +49,7 @@ ul {
 li a {
   float: left;
   display: block;
-  color: white;
+  color: white !important;
   text-align: center;
   padding: 10px;
   text-decoration: none;
