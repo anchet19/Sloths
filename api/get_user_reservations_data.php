@@ -25,19 +25,20 @@
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
 
-    // Get the column headings for hydration
-    $headings = array();
-    foreach(range(0, $stmt->columnCount() -1) as $col_index){
-      $meta = $stmt->getColumnMeta($col_index);
-      if ($meta['name'] != 'reserve_id'){
-        array_push($headings, strtoupper($meta['name']));
-      }
-    }
+    // Get the column headings for hydration -- no longer used but could be useful again in future
+    // To add this to the response you must add $headings to the $out array
+    // $headings = array();
+    // foreach(range(0, $stmt->columnCount() -1) as $col_index){
+    //   $meta = $stmt->getColumnMeta($col_index);
+    //   if ($meta['name'] != 'reserve_id'){
+    //     array_push($headings, strtoupper($meta['name']));
+    //   }
+    // }
     
     // Prepare the table data
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $out = array("headings" => $headings, "data" => $data);
+    $out = array("data" => $data);
     echo json_encode($out);
   }
   catch(Exception $e){}
