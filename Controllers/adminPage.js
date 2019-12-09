@@ -1,7 +1,8 @@
 var lastVisible = "initialFormView";
 const username = sessionStorage.getItem('username');
-fetchDropdownValues();
-getSpecialRequests();
+
+setTimeout(fetchDropdownValues, 500);
+setTimeout(getSpecialRequests, 500);
 
 $(document).ready(function () {
 
@@ -600,7 +601,6 @@ async function getSpecialRequests(){
   document.getElementById("initialFormView").innerHTML = data; 
   const a = document.getElementsByClassName('accReq');
   const d = document.getElementsByClassName('denReq');
-  console.log(document.getElementById("initialFormView").children);
   for(i = 0; i < a.length; i++){
     console.log(d[i].parentElement.previousElementSibling.innerHTML);
     const aid = a[i].parentElement.previousElementSibling.innerHTML;
