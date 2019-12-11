@@ -32,6 +32,7 @@ include_once('./changepwd.php');
     <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src='https://momentjs.com/downloads/moment.min.js'></script>
     <script src='../Controllers/dashboard.js'></script>
+    <script src='../Utils/logout.js'></script>
     
   </head>
 
@@ -95,15 +96,6 @@ include_once('./changepwd.php');
       <p id="comment-dialog-body" style="word-wrap: break-word"></p>
     </div>
      
-   </div>
-   <div class="footer" disabled>
-      <script language="javascript">
-        sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
-        function logout() {
-            sessionStorage.clear();
-            window.location.href = "login";
-          }
-      </script>
    </div>
   </body>
 </html>

@@ -33,7 +33,7 @@
                $sql = "SELECT column_name ";					
                $sql .= "FROM information_schema.columns ";			
                $sql .= "WHERE table_name = 'user'";
-               $sql .= "AND TABLE_SCHEMA='baileyc5' and column_name != 'password'";				
+               $sql .= "AND TABLE_SCHEMA='baileyc5' AND column_name IN ('user_num', 'first_name', 'last_name', 'username', 'email', 'tel', 'admin', 'user_points')";				
                $stmt = $dbh->prepare($sql);					
                $stmt->execute();						
 
@@ -46,7 +46,7 @@
       </tr>
       <?php
          try{
-	    $sql = "SELECT user_num,first_name,last_name,username,email,admin,user_points ";		
+	    $sql = "SELECT user_num,first_name,last_name,username,email,admin,user_points,tel ";		
 	    $sql .= "FROM user ";								
 												
 	    $stmt = $dbh->prepare($sql);							
@@ -58,14 +58,9 @@
         $row .= "</td><td>" . $user['last_name'];					
         $row .= "</td><td>" . $user['username'];						
         $row .= "</td><td>" . $user['email'];						
-        //$row .= "</td><td>" . $user['password'];
+        $row .= "</td><td>" . $user['tel'];						
         $row .= "</td><td>" . $user['admin'];
         $row .= "</td><td>" . $user['user_points'];
-        $row .= "</td><td>";
-        $row .= "</td><td>";
-        $row .= "</td><td>";
-        $row .= "</td><td>";
-        $row .= "</td></tr>"; //testing
 	       echo $row; 									
                }
 	    $stmt = null;									
