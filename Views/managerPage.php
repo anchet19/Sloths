@@ -30,6 +30,7 @@ if(!isset($_SESSION['username'])){
     <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src='https://momentjs.com/downloads/moment.min.js'></script>
     <script src='../Controllers/manager.js'></script>
+    <script src='../Utils/logout.js'></script>
 
     <title>Manager Options</title>
 </head>

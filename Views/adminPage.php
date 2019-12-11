@@ -13,7 +13,7 @@ if(!isset($_SESSION['username'])){
 
 <head>
   <title>Admin Panel </title>
-  <script src="../Utils/docCookies.js"></script>
+  <script src="../Utils/logout.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- <script src="../Controllers/index.js"></script> -->
   <script src="../Controllers/adminPage.js"></script>
@@ -41,9 +41,6 @@ if(!isset($_SESSION['username'])){
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
 </head>
-<style>
- 
-</style>
 
   <!--specifies a header for the administrator page -->
   <body class="background" >
@@ -531,17 +528,6 @@ if(!isset($_SESSION['username'])){
             </div>
           </div>
         </div> <!-- End container for form display -->
-
-        
-
-  <script language="javascript">
-    sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
-    function logout() {
-      sessionStorage.clear();
-      window.location.href = "login";
-    }
-  </script>
-
 </body>
 
 </html>

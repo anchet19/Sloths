@@ -31,6 +31,7 @@
                $sql = "SELECT column_name ";
                $sql .= "FROM information_schema.columns ";
                $sql .= "WHERE table_name = 'build'";
+               $sql .= "AND TABLE_SCHEMA='baileyc5' AND column_name != 'active_bit'";
                $stmt = $dbh->prepare($sql);
                $stmt->execute();
 

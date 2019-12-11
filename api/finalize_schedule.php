@@ -144,14 +144,7 @@ if($xml=simplexml_load_file("../Utils/configuration.xml"))
     $stmt2 = $dbh2->prepare($move);
     $stmt2->execute();
     
-    # Subtracts points from users without a recent request.
-    $move = "CALL check_last_requests($daysIdle, $idleDeduction)";
-    $stmt3 = $dbh2->prepare($move);
-    $stmt3->execute();
-    # Resets all user requests to 0.
-    $move = "CALL reset_requests()";
-    $stmt3 = $dbh2->prepare($move);
-    $stmt3->execute();
+
     
     $move = "SELECT DAYOFWEEK(now()) ";
     $stmt3 = $dbh2->prepare($move);
@@ -165,6 +158,14 @@ if($xml=simplexml_load_file("../Utils/configuration.xml"))
     if($dayOfWeek[0] == 6){ # if friday, move from state 1 to 2.
         $sql = "CALL state1to2 ";
         $stmt3 = $dbh2->prepare($sql);
+        $stmt3->execute();
+        # Subtracts points from users without a recent request.
+        $move = "CALL check_last_requests($daysIdle, $idleDeduction)";
+        $stmt3 = $dbh2->prepare($move);
+        $stmt3->execute();
+        # Resets all user requests to 0.
+        $move = "CALL reset_requests()";
+        $stmt3 = $dbh2->prepare($move);
         $stmt3->execute();
     }
 ?>

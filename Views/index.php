@@ -54,9 +54,8 @@ Authors: Team Elephants, Team Sloths-->
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
     
-    
-
     <script src="../Controllers/index.js"></script>
+    <script src="../Utils/logout.js"></script>
 </head>
 
 <body class="background">
@@ -101,10 +100,6 @@ Authors: Team Elephants, Team Sloths-->
         <!-- <p>Team Elephants 2019, Team Sloths 2019</p> -->
         <script language="javascript">
           sessionStorage.setItem('username', '<?php echo $_SESSION["username"]?>')
-          function logout() {
-            sessionStorage.clear();
-            window.location.href = "login";
-          }
           retrieveUser(sessionStorage.username);
         </script>
     </div>

@@ -28,7 +28,8 @@
             try{
                $sql = "SELECT column_name ";
                $sql .= "FROM information_schema.columns ";
-               $sql .= "WHERE table_name = 'desktop'";
+               $sql .= "WHERE table_name = 'desktop' ";
+               $sql .= "AND TABLE_SCHEMA='baileyc5' AND column_name != 'active_bit'";
                $stmt = $dbh->prepare($sql);
                $stmt->execute();
 
@@ -41,7 +42,7 @@
       </tr>
       <?php
          try{
-            $sql = "SELECT name, dtop_id ";
+            $sql = "SELECT name, dtop_id, color ";
             $sql .= "FROM desktop ";
 
             $stmt = $dbh->prepare($sql);
@@ -50,6 +51,7 @@
             foreach($stmt->fetchAll() as $dtop) {
                $row =  " <tr><td>" . $dtop['dtop_id'];
                $row .= "</td><td>" . $dtop['name'];
+               $row .= "</td><td>" . $dtop['color'];
                $row .= "</td></tr>";
                echo $row;
                }
