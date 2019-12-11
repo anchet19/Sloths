@@ -108,37 +108,7 @@ $dbh2 = ConnectDB();
             $stmt2 = $dbh2->prepare($move);
             $stmt2->execute();          
 }
-  # Find unique e-mails for blast
-  $email = 'select distinct email from user join reservation using (user_num)';
-  $stmt2 = $dbh2->prepare($email);
-  $stmt2->execute();
-  #******** DO NOT DELETE - COMMENTED OUT SO IT DOESNT SPAM EMAILS DURING TESTING ********
-if($xml=simplexml_load_file("../Utils/configuration.xml"))
- {
-   foreach($stmt2->fetchAll() as $row)
-    {
-        $email = $row['email'];
-        $mail = new PHPMailer();
-        $mail->IsSMTP();
-        $mail->SMTPDebug = 0;
-        $mail->SMTPAuth = TRUE;
-        $mail->SMTPSecure = "tls";
-        $mail->Port = 587;  
-        $mail->Username = "asrcscheduler@gmail.com";
-        $mail->Password = "!QAZ1qazlizard";
-        $mail->Host     = "smtp.gmail.com";
-        $mail->Mailer   = "smtp";
-        $mail->SetFrom("asrcscheduler@gmail.com", "Schedule Genie");
-        $mail->AddReplyTo("No-reply", "PHPPot");
-        $mail->AddAddress($email);
-        $mail->Subject = "New Schedule Has Been Finalized (Do Not Reply)";
-        $mail->WordWrap   = 80;
-        $content = "<b>This e-mail is a notification that you have been selected for testing time slot(s) for the upcoming week.</b>"; 
-        $mail->MsgHTML($content);
-        $mail->IsHTML(true);
-        $mail->send();
-    }
- }
+ 
     # Sets users with < 0 points to 0
     $move = "CALL fix_points();";
     $stmt2 = $dbh2->prepare($move);
@@ -159,7 +129,7 @@ if($xml=simplexml_load_file("../Utils/configuration.xml"))
         $sql = "CALL state1to2 ";
         $stmt3 = $dbh2->prepare($sql);
         $stmt3->execute();
-        # Subtracts points from users without a recent request.
+     # Subtracts points from users without a recent request.
         $move = "CALL check_last_requests($daysIdle, $idleDeduction)";
         $stmt3 = $dbh2->prepare($move);
         $stmt3->execute();
@@ -167,5 +137,36 @@ if($xml=simplexml_load_file("../Utils/configuration.xml"))
         $move = "CALL reset_requests()";
         $stmt3 = $dbh2->prepare($move);
         $stmt3->execute();
+         # Find unique e-mails for blast
+        $email = 'select distinct email from user join reservation r using (user_num) join timeslot t using (slot_id) WHERE date BETWEEN (select DATE(DATE_ADD(now(), INTERVAL 3 DAY))) AND (select DATE(DATE_ADD(now(), INTERVAL 9 DAY)))';
+        $stmt2 = $dbh2->prepare($email);
+        $stmt2->execute();
+  #******** DO NOT DELETE - COMMENTED OUT SO IT DOESNT SPAM EMAILS DURING TESTING ********
+        if($xml=simplexml_load_file("../Utils/configuration.xml"))
+        {
+        foreach($stmt2->fetchAll() as $row)
+            {
+            $email = $row['email'];
+            $mail = new PHPMailer();
+            $mail->IsSMTP();
+            $mail->SMTPDebug = 0;
+            $mail->SMTPAuth = TRUE;
+            $mail->SMTPSecure = "tls";
+            $mail->Port = 587;  
+            $mail->Username = "asrcscheduler@gmail.com";
+            $mail->Password = "!QAZ1qazlizard";
+            $mail->Host     = "smtp.gmail.com";
+            $mail->Mailer   = "smtp";
+            $mail->SetFrom("asrcscheduler@gmail.com", "Schedule Genie");
+            $mail->AddReplyTo("No-reply", "PHPPot");
+            $mail->AddAddress($email);
+            $mail->Subject = "New Schedule Has Been Finalized (Do Not Reply)";
+            $mail->WordWrap   = 80;
+            $content = "<b>This e-mail is a notification that you have been selected for testing time slot(s) for the upcoming week.</b>"; 
+            $mail->MsgHTML($content);
+            $mail->IsHTML(true);
+            $mail->send();
+        }
+ }
     }
 ?>
